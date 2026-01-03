@@ -46,3 +46,6 @@ export 'src/theme/theme.dart';
 // Components
 export 'src/components/components.dart';
 
+// Utilities
+export 'src/utilities/utilities.dart';
+
