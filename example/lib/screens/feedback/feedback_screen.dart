@@ -3,6 +3,7 @@ import 'package:garmisch/garmisch.dart';
 
 import '../../widgets/showcase_widgets.dart';
 import 'alert_toast_screen.dart';
+import 'empty_state_banner_screen.dart';
 
 class FeedbackScreen extends StatelessWidget {
   const FeedbackScreen({
@@ -81,22 +82,57 @@ class FeedbackScreen extends StatelessWidget {
               title: 'Snackbar',
               subtitle: 'Bottom action notifications',
               icon: Icons.announcement_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               color: GColors.green500,
               colors: colors,
               textTheme: textTheme,
-              onTap: () {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => EmptyStateBannerScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Banner',
               subtitle: 'Persistent top notifications',
               icon: Icons.campaign_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               color: GColors.purple500,
               colors: colors,
               textTheme: textTheme,
-              onTap: () {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => EmptyStateBannerScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: GSpacing.sm),
+            _ComponentTile(
+              title: 'Empty State',
+              subtitle: 'No content placeholder',
+              icon: Icons.inbox_outlined,
+              status: _ComponentStatus.ready,
+              color: GColors.teal500,
+              colors: colors,
+              textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => EmptyStateBannerScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.xl2),
           ],

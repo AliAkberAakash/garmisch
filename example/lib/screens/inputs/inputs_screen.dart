@@ -4,6 +4,7 @@ import 'package:garmisch/garmisch.dart';
 import '../../widgets/showcase_widgets.dart';
 import 'button_screen.dart';
 import 'checkbox_radio_switch_screen.dart';
+import 'search_link_screen.dart';
 import 'slider_dropdown_screen.dart';
 import 'text_field_screen.dart';
 
@@ -180,6 +181,42 @@ class InputsScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (_) => SliderDropdownScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: GSpacing.sm),
+            _ComponentTile(
+              title: 'Search Field',
+              subtitle: 'Search input with loading',
+              icon: Icons.search_outlined,
+              status: _ComponentStatus.ready,
+              colors: colors,
+              textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SearchLinkScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: GSpacing.sm),
+            _ComponentTile(
+              title: 'Link',
+              subtitle: 'Navigation text links',
+              icon: Icons.link_outlined,
+              status: _ComponentStatus.ready,
+              colors: colors,
+              textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SearchLinkScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),

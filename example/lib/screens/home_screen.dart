@@ -15,6 +15,7 @@ import 'navigation/navigation_screen.dart';
 import 'layout/layout_screen.dart';
 import 'overlay/overlay_screen.dart';
 import 'theme/theme_screen.dart';
+import 'utilities/utilities_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -350,6 +351,37 @@ class HomeScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (_) => ThemeScreen(
+                        onThemeToggle: onThemeToggle,
+                        isDarkMode: isDarkMode,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              colors: colors,
+              textTheme: textTheme,
+            ),
+            const SizedBox(height: GSpacing.xl),
+
+            // Utilities Section
+            _SectionTitle(
+              title: 'Utilities',
+              subtitle: 'Extensions and helpers',
+              colors: colors,
+              textTheme: textTheme,
+            ),
+            const SizedBox(height: GSpacing.sm),
+            _CategoryGrid(
+              items: [
+                _CategoryItem(
+                  title: 'Extensions',
+                  icon: Icons.extension_outlined,
+                  color: GColors.lime500,
+                  subtitle: 'Context, Widget, Color, etc.',
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => UtilitiesScreen(
                         onThemeToggle: onThemeToggle,
                         isDarkMode: isDarkMode,
                       ),

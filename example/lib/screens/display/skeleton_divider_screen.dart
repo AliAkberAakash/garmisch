@@ -156,6 +156,46 @@ class SkeletonDividerScreen extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: GSpacing.xl),
+
+            // Tooltip
+            const SectionHeader(
+              title: 'Tooltip',
+              subtitle: 'GTooltip component',
+            ),
+            const SizedBox(height: GSpacing.sm),
+            ShowcaseCard(
+              title: 'Basic Tooltip',
+              subtitle: 'Hover or long-press to show',
+              child: Wrap(
+                spacing: GSpacing.lg,
+                runSpacing: GSpacing.md,
+                children: [
+                  GTooltip(
+                    message: 'This is a tooltip',
+                    child: GButton(
+                      label: 'Hover me',
+                      variant: GButtonVariant.outlined,
+                      onPressed: () {},
+                    ),
+                  ),
+                  GTooltip(
+                    message: 'Add a new item',
+                    child: GIconButton(
+                      icon: Icons.add,
+                      onPressed: () {},
+                    ),
+                  ),
+                  GTooltip(
+                    message: 'Delete this item',
+                    child: GIconButton(
+                      icon: Icons.delete_outline,
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: GSpacing.xl2),
           ],
         ),

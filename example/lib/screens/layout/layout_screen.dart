@@ -4,6 +4,7 @@ import 'package:garmisch/garmisch.dart';
 import '../../widgets/showcase_widgets.dart';
 import 'card_dialog_screen.dart';
 import 'list_tile_accordion_screen.dart';
+import 'spacing_responsive_screen.dart';
 
 class LayoutScreen extends StatelessWidget {
   const LayoutScreen({
@@ -114,6 +115,16 @@ class LayoutScreen extends StatelessWidget {
               color: GColors.teal500,
               colors: colors,
               textTheme: textTheme,
+              status: _ComponentStatus.ready,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SpacingResponsiveScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -123,6 +134,16 @@ class LayoutScreen extends StatelessWidget {
               color: GColors.cyan500,
               colors: colors,
               textTheme: textTheme,
+              status: _ComponentStatus.ready,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SpacingResponsiveScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(

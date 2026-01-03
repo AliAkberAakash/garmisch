@@ -5,6 +5,7 @@ import '../../widgets/showcase_widgets.dart';
 import 'avatar_badge_screen.dart';
 import 'chip_progress_screen.dart';
 import 'skeleton_divider_screen.dart';
+import 'text_image_icon_screen.dart';
 
 class DisplayScreen extends StatelessWidget {
   const DisplayScreen({
@@ -156,7 +157,69 @@ class DisplayScreen extends StatelessWidget {
               status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SkeletonDividerScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: GSpacing.sm),
+            _ComponentTile(
+              title: 'Text',
+              subtitle: 'Styled text with tokens',
+              icon: Icons.text_fields_outlined,
+              status: _ComponentStatus.ready,
+              colors: colors,
+              textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => TextImageIconScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: GSpacing.sm),
+            _ComponentTile(
+              title: 'Image',
+              subtitle: 'Images with loading states',
+              icon: Icons.image_outlined,
+              status: _ComponentStatus.ready,
+              colors: colors,
+              textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => TextImageIconScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: GSpacing.sm),
+            _ComponentTile(
+              title: 'Icon',
+              subtitle: 'Themed icon wrapper',
+              icon: Icons.emoji_symbols_outlined,
+              status: _ComponentStatus.ready,
+              colors: colors,
+              textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => TextImageIconScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.xl2),
           ],
