@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:garmisch/garmisch.dart';
 
 import '../../widgets/showcase_widgets.dart';
+import 'button_screen.dart';
+import 'text_field_screen.dart';
+import 'checkbox_radio_switch_screen.dart';
 
 class InputsScreen extends StatelessWidget {
   const InputsScreen({
@@ -43,60 +46,108 @@ class InputsScreen extends StatelessWidget {
               title: 'Button',
               subtitle: 'Primary action triggers',
               icon: Icons.smart_button_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ButtonScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Icon Button',
               subtitle: 'Icon-only actions',
               icon: Icons.radio_button_checked_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ButtonScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Text Field',
               subtitle: 'Text input with validation',
               icon: Icons.text_fields_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => TextFieldScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Checkbox',
               subtitle: 'Multi-selection control',
               icon: Icons.check_box_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => CheckboxRadioSwitchScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Radio',
               subtitle: 'Single-selection control',
               icon: Icons.radio_button_checked,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => CheckboxRadioSwitchScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Switch',
               subtitle: 'Toggle control',
               icon: Icons.toggle_on_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => CheckboxRadioSwitchScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -113,36 +164,6 @@ class InputsScreen extends StatelessWidget {
               title: 'Dropdown',
               subtitle: 'Selection from list',
               icon: Icons.arrow_drop_down_circle_outlined,
-              status: _ComponentStatus.planned,
-              colors: colors,
-              textTheme: textTheme,
-              onTap: () {},
-            ),
-            const SizedBox(height: GSpacing.sm),
-            _ComponentTile(
-              title: 'Search Field',
-              subtitle: 'Search input with icon',
-              icon: Icons.search_outlined,
-              status: _ComponentStatus.planned,
-              colors: colors,
-              textTheme: textTheme,
-              onTap: () {},
-            ),
-            const SizedBox(height: GSpacing.sm),
-            _ComponentTile(
-              title: 'Date Picker',
-              subtitle: 'Date selection',
-              icon: Icons.calendar_today_outlined,
-              status: _ComponentStatus.planned,
-              colors: colors,
-              textTheme: textTheme,
-              onTap: () {},
-            ),
-            const SizedBox(height: GSpacing.sm),
-            _ComponentTile(
-              title: 'Time Picker',
-              subtitle: 'Time selection',
-              icon: Icons.access_time_outlined,
               status: _ComponentStatus.planned,
               colors: colors,
               textTheme: textTheme,

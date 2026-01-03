@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:garmisch/garmisch.dart';
 
 import '../../widgets/showcase_widgets.dart';
+import 'avatar_badge_screen.dart';
+import 'chip_progress_screen.dart';
+import 'skeleton_divider_screen.dart';
 
 class DisplayScreen extends StatelessWidget {
   const DisplayScreen({
@@ -39,102 +42,121 @@ class DisplayScreen extends StatelessWidget {
             const SizedBox(height: GSpacing.xl),
 
             _ComponentTile(
-              title: 'Text',
-              subtitle: 'Styled text component',
-              icon: Icons.text_format_outlined,
-              status: _ComponentStatus.planned,
-              colors: colors,
-              textTheme: textTheme,
-            ),
-            const SizedBox(height: GSpacing.sm),
-            _ComponentTile(
               title: 'Avatar',
               subtitle: 'User/entity representation',
               icon: Icons.account_circle_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => AvatarBadgeScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Badge',
               subtitle: 'Status indicators',
               icon: Icons.verified_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => AvatarBadgeScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Chip',
               subtitle: 'Compact element for info/actions',
               icon: Icons.label_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-            ),
-            const SizedBox(height: GSpacing.sm),
-            _ComponentTile(
-              title: 'Tag',
-              subtitle: 'Simple label element',
-              icon: Icons.sell_outlined,
-              status: _ComponentStatus.planned,
-              colors: colors,
-              textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ChipProgressScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Divider',
               subtitle: 'Content separator',
               icon: Icons.horizontal_rule_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SkeletonDividerScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
-              title: 'Image',
-              subtitle: 'Image with loading states',
-              icon: Icons.image_outlined,
-              status: _ComponentStatus.planned,
-              colors: colors,
-              textTheme: textTheme,
-            ),
-            const SizedBox(height: GSpacing.sm),
-            _ComponentTile(
-              title: 'Progress Bar',
-              subtitle: 'Linear progress indicator',
-              icon: Icons.linear_scale_outlined,
-              status: _ComponentStatus.planned,
-              colors: colors,
-              textTheme: textTheme,
-            ),
-            const SizedBox(height: GSpacing.sm),
-            _ComponentTile(
-              title: 'Progress Circle',
-              subtitle: 'Circular progress indicator',
+              title: 'Progress',
+              subtitle: 'Progress indicators',
               icon: Icons.donut_large_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ChipProgressScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Skeleton',
               subtitle: 'Loading placeholder',
               icon: Icons.rectangle_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SkeletonDividerScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Tooltip',
               subtitle: 'Contextual information',
               icon: Icons.info_outline,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
+              onTap: () {},
             ),
             const SizedBox(height: GSpacing.xl2),
           ],
@@ -154,6 +176,7 @@ class _ComponentTile extends StatelessWidget {
     required this.status,
     required this.colors,
     required this.textTheme,
+    required this.onTap,
   });
 
   final String title;
@@ -162,6 +185,7 @@ class _ComponentTile extends StatelessWidget {
   final _ComponentStatus status;
   final GColorScheme colors;
   final GTextTheme textTheme;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -176,68 +200,75 @@ class _ComponentTile extends StatelessWidget {
       _ComponentStatus.planned => 'Planned',
     };
 
-    return Container(
-      padding: const EdgeInsets.all(GSpacing.md),
-      decoration: BoxDecoration(
-        color: colors.surface,
+    return Material(
+      color: colors.surface,
+      borderRadius: GBorderRadius.allLg,
+      child: InkWell(
+        onTap: status == _ComponentStatus.ready ? onTap : null,
         borderRadius: GBorderRadius.allLg,
-        border: Border.all(
-          color: colors.outline.withValues(alpha: 0.2),
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(GSpacing.sm),
-            decoration: BoxDecoration(
-              color: colors.secondary.withValues(alpha: 0.1),
-              borderRadius: GBorderRadius.allMd,
-            ),
-            child: Icon(
-              icon,
-              color: colors.secondary,
-              size: GSizing.iconLg,
+        child: Container(
+          padding: const EdgeInsets.all(GSpacing.md),
+          decoration: BoxDecoration(
+            borderRadius: GBorderRadius.allLg,
+            border: Border.all(
+              color: colors.outline.withValues(alpha: 0.2),
             ),
           ),
-          const SizedBox(width: GSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: textTheme.titleSmall.copyWith(
-                    color: colors.onSurface,
-                    fontWeight: GTypography.fontWeightSemiBold,
-                  ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(GSpacing.sm),
+                decoration: BoxDecoration(
+                  color: colors.secondary.withValues(alpha: 0.1),
+                  borderRadius: GBorderRadius.allMd,
                 ),
-                Text(
-                  subtitle,
-                  style: textTheme.bodySmall.copyWith(
-                    color: colors.onSurfaceVariant,
-                  ),
+                child: Icon(
+                  icon,
+                  color: colors.secondary,
+                  size: GSizing.iconLg,
                 ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: GSpacing.sm,
-              vertical: GSpacing.xs3,
-            ),
-            decoration: BoxDecoration(
-              color: statusColor.withValues(alpha: 0.1),
-              borderRadius: GBorderRadius.allFull,
-            ),
-            child: Text(
-              statusLabel,
-              style: textTheme.labelSmall.copyWith(
-                color: statusColor,
-                fontWeight: GTypography.fontWeightMedium,
               ),
-            ),
+              const SizedBox(width: GSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: textTheme.titleSmall.copyWith(
+                        color: colors.onSurface,
+                        fontWeight: GTypography.fontWeightSemiBold,
+                      ),
+                    ),
+                    Text(
+                      subtitle,
+                      style: textTheme.bodySmall.copyWith(
+                        color: colors.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: GSpacing.sm,
+                  vertical: GSpacing.xs3,
+                ),
+                decoration: BoxDecoration(
+                  color: statusColor.withValues(alpha: 0.1),
+                  borderRadius: GBorderRadius.allFull,
+                ),
+                child: Text(
+                  statusLabel,
+                  style: textTheme.labelSmall.copyWith(
+                    color: statusColor,
+                    fontWeight: GTypography.fontWeightMedium,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

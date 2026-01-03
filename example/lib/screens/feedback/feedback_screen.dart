@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:garmisch/garmisch.dart';
 
 import '../../widgets/showcase_widgets.dart';
+import 'alert_toast_screen.dart';
 
 class FeedbackScreen extends StatelessWidget {
   const FeedbackScreen({
@@ -42,20 +43,38 @@ class FeedbackScreen extends StatelessWidget {
               title: 'Alert',
               subtitle: 'Inline notification messages',
               icon: Icons.warning_amber_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               color: GColors.amber500,
               colors: colors,
               textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => AlertToastScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Toast',
               subtitle: 'Brief popup notifications',
               icon: Icons.notifications_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               color: GColors.blue500,
               colors: colors,
               textTheme: textTheme,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => AlertToastScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -66,6 +85,7 @@ class FeedbackScreen extends StatelessWidget {
               color: GColors.green500,
               colors: colors,
               textTheme: textTheme,
+              onTap: () {},
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -76,16 +96,7 @@ class FeedbackScreen extends StatelessWidget {
               color: GColors.purple500,
               colors: colors,
               textTheme: textTheme,
-            ),
-            const SizedBox(height: GSpacing.sm),
-            _ComponentTile(
-              title: 'Empty State',
-              subtitle: 'No content placeholder',
-              icon: Icons.inbox_outlined,
-              status: _ComponentStatus.planned,
-              color: GColors.gray500,
-              colors: colors,
-              textTheme: textTheme,
+              onTap: () {},
             ),
             const SizedBox(height: GSpacing.xl2),
           ],
@@ -106,6 +117,7 @@ class _ComponentTile extends StatelessWidget {
     required this.color,
     required this.colors,
     required this.textTheme,
+    required this.onTap,
   });
 
   final String title;
@@ -115,6 +127,7 @@ class _ComponentTile extends StatelessWidget {
   final Color color;
   final GColorScheme colors;
   final GTextTheme textTheme;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -129,68 +142,75 @@ class _ComponentTile extends StatelessWidget {
       _ComponentStatus.planned => 'Planned',
     };
 
-    return Container(
-      padding: const EdgeInsets.all(GSpacing.md),
-      decoration: BoxDecoration(
-        color: colors.surface,
+    return Material(
+      color: colors.surface,
+      borderRadius: GBorderRadius.allLg,
+      child: InkWell(
+        onTap: status == _ComponentStatus.ready ? onTap : null,
         borderRadius: GBorderRadius.allLg,
-        border: Border.all(
-          color: colors.outline.withValues(alpha: 0.2),
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(GSpacing.sm),
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
-              borderRadius: GBorderRadius.allMd,
-            ),
-            child: Icon(
-              icon,
-              color: color,
-              size: GSizing.iconLg,
+        child: Container(
+          padding: const EdgeInsets.all(GSpacing.md),
+          decoration: BoxDecoration(
+            borderRadius: GBorderRadius.allLg,
+            border: Border.all(
+              color: colors.outline.withValues(alpha: 0.2),
             ),
           ),
-          const SizedBox(width: GSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: textTheme.titleSmall.copyWith(
-                    color: colors.onSurface,
-                    fontWeight: GTypography.fontWeightSemiBold,
-                  ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(GSpacing.sm),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.1),
+                  borderRadius: GBorderRadius.allMd,
                 ),
-                Text(
-                  subtitle,
-                  style: textTheme.bodySmall.copyWith(
-                    color: colors.onSurfaceVariant,
-                  ),
+                child: Icon(
+                  icon,
+                  color: color,
+                  size: GSizing.iconLg,
                 ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: GSpacing.sm,
-              vertical: GSpacing.xs3,
-            ),
-            decoration: BoxDecoration(
-              color: statusColor.withValues(alpha: 0.1),
-              borderRadius: GBorderRadius.allFull,
-            ),
-            child: Text(
-              statusLabel,
-              style: textTheme.labelSmall.copyWith(
-                color: statusColor,
-                fontWeight: GTypography.fontWeightMedium,
               ),
-            ),
+              const SizedBox(width: GSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: textTheme.titleSmall.copyWith(
+                        color: colors.onSurface,
+                        fontWeight: GTypography.fontWeightSemiBold,
+                      ),
+                    ),
+                    Text(
+                      subtitle,
+                      style: textTheme.bodySmall.copyWith(
+                        color: colors.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: GSpacing.sm,
+                  vertical: GSpacing.xs3,
+                ),
+                decoration: BoxDecoration(
+                  color: statusColor.withValues(alpha: 0.1),
+                  borderRadius: GBorderRadius.allFull,
+                ),
+                child: Text(
+                  statusLabel,
+                  style: textTheme.labelSmall.copyWith(
+                    color: statusColor,
+                    fontWeight: GTypography.fontWeightMedium,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

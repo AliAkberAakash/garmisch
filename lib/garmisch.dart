@@ -43,3 +43,6 @@ export 'src/foundations/foundations.dart';
 // Theme
 export 'src/theme/theme.dart';
 
+// Components
+export 'src/components/components.dart';
+
