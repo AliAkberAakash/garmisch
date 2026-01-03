@@ -3,8 +3,9 @@ import 'package:garmisch/garmisch.dart';
 
 import '../../widgets/showcase_widgets.dart';
 import 'button_screen.dart';
-import 'text_field_screen.dart';
 import 'checkbox_radio_switch_screen.dart';
+import 'slider_dropdown_screen.dart';
+import 'text_field_screen.dart';
 
 class InputsScreen extends StatelessWidget {
   const InputsScreen({
@@ -154,20 +155,36 @@ class InputsScreen extends StatelessWidget {
               title: 'Slider',
               subtitle: 'Range selection',
               icon: Icons.tune_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SliderDropdownScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Dropdown',
               subtitle: 'Selection from list',
               icon: Icons.arrow_drop_down_circle_outlined,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SliderDropdownScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.xl2),
           ],
