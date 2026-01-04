@@ -3,10 +3,12 @@ import 'package:garmisch/garmisch.dart';
 
 import '../../widgets/showcase_widgets.dart';
 import 'button_screen.dart';
-import 'checkbox_radio_switch_screen.dart';
+import 'checkbox_components_screen.dart';
 import 'dropdown_components_screen.dart';
+import 'radio_components_screen.dart';
 import 'search_link_screen.dart';
 import 'slider_components_screen.dart';
+import 'switch_components_screen.dart';
 import 'text_field_screen.dart';
 
 class InputsScreen extends StatelessWidget {
@@ -109,7 +111,7 @@ class InputsScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => CheckboxRadioSwitchScreen(
+                  builder: (_) => CheckboxComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
@@ -127,7 +129,7 @@ class InputsScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => CheckboxRadioSwitchScreen(
+                  builder: (_) => RadioComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
@@ -145,7 +147,7 @@ class InputsScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => CheckboxRadioSwitchScreen(
+                  builder: (_) => SwitchComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
