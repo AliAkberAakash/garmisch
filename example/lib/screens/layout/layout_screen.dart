@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:garmisch/garmisch.dart';
 
 import '../../widgets/showcase_widgets.dart';
-import 'card_dialog_screen.dart';
+import 'card_components_screen.dart';
+import 'dialog_components_screen.dart';
 import 'list_tile_accordion_screen.dart';
 import 'spacing_responsive_screen.dart';
 
@@ -52,7 +53,7 @@ class LayoutScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => CardDialogScreen(
+                  builder: (_) => CardComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
@@ -71,7 +72,7 @@ class LayoutScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => CardDialogScreen(
+                  builder: (_) => DialogComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
