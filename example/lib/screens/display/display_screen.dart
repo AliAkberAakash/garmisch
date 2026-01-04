@@ -3,7 +3,8 @@ import 'package:garmisch/garmisch.dart';
 
 import '../../widgets/showcase_widgets.dart';
 import 'avatar_badge_screen.dart';
-import 'chip_progress_screen.dart';
+import 'chip_components_screen.dart';
+import 'progress_components_screen.dart';
 import 'skeleton_divider_screen.dart';
 import 'text_image_icon_screen.dart';
 
@@ -88,7 +89,7 @@ class DisplayScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => ChipProgressScreen(
+                  builder: (_) => ChipComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
@@ -124,7 +125,7 @@ class DisplayScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => ChipProgressScreen(
+                  builder: (_) => ProgressComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
