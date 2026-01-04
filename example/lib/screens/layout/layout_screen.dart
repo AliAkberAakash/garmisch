@@ -11,6 +11,7 @@ import 'grid_components_screen.dart';
 import 'list_tile_components_screen.dart';
 import 'responsive_components_screen.dart';
 import 'spacer_components_screen.dart';
+import 'stack_components_screen.dart';
 
 class LayoutScreen extends StatelessWidget {
   const LayoutScreen({
@@ -130,6 +131,16 @@ class LayoutScreen extends StatelessWidget {
               color: GColors.indigo500,
               colors: colors,
               textTheme: textTheme,
+              status: _ComponentStatus.ready,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => StackComponentsScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -168,15 +179,6 @@ class LayoutScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: GSpacing.sm),
-            _ComponentTile(
-              title: 'Scaffold',
-              subtitle: 'Page structure',
-              icon: Icons.web_outlined,
-              color: GColors.green500,
-              colors: colors,
-              textTheme: textTheme,
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -352,4 +354,3 @@ class _ComponentTile extends StatelessWidget {
     );
   }
 }
-
