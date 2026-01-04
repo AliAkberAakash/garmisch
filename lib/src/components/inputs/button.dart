@@ -120,85 +120,99 @@ class _GButtonState extends State<GButton> {
     final buttonColors = _getButtonColors(colors);
     final dimensions = _getDimensions();
 
+    final borderRadius = BorderRadius.circular(dimensions.borderRadius);
+
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       cursor: _isEnabled ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
-      child: GestureDetector(
-        onTapDown: _isEnabled ? (_) => setState(() => _isPressed = true) : null,
-        onTapUp: _isEnabled ? (_) => setState(() => _isPressed = false) : null,
-        onTapCancel: _isEnabled ? () => setState(() => _isPressed = false) : null,
-        onTap: _isEnabled ? widget.onPressed : null,
-        child: AnimatedContainer(
-          duration: GDurations.fast,
-          curve: GEasing.easeOut,
-          width: widget.isFullWidth ? double.infinity : null,
-          height: dimensions.height,
-          padding: EdgeInsets.symmetric(horizontal: dimensions.horizontalPadding),
-          decoration: BoxDecoration(
-            color: _getBackgroundColor(buttonColors),
-            borderRadius: BorderRadius.circular(dimensions.borderRadius),
-            border: buttonColors.borderColor != null
-                ? Border.all(
-                    color: _isEnabled
-                        ? buttonColors.borderColor!
-                        : buttonColors.borderColor!.withValues(alpha: GOpacity.disabled),
-                    width: GBorderWidth.thin,
-                  )
-                : null,
-            boxShadow: _isPressed || !_isEnabled ? null : buttonColors.shadow,
-          ),
-          child: Row(
-            mainAxisSize: widget.isFullWidth ? MainAxisSize.max : MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (widget.isLoading) ...[
-                SizedBox(
-                  width: dimensions.iconSize,
-                  height: dimensions.iconSize,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      buttonColors.foregroundColor,
+      child: AnimatedContainer(
+        duration: GDurations.fast,
+        curve: GEasing.easeOut,
+        width: widget.isFullWidth ? double.infinity : null,
+        height: dimensions.height,
+        decoration: BoxDecoration(
+          color: _getBackgroundColor(buttonColors),
+          borderRadius: borderRadius,
+          border: buttonColors.borderColor != null
+              ? Border.all(
+                  color: _isEnabled
+                      ? buttonColors.borderColor!
+                      : buttonColors.borderColor!.withValues(alpha: GOpacity.disabled),
+                  width: GBorderWidth.thin,
+                )
+              : null,
+          boxShadow: _isPressed || !_isEnabled ? null : buttonColors.shadow,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: _isEnabled ? widget.onPressed : null,
+            onTapDown: _isEnabled ? (_) => setState(() => _isPressed = true) : null,
+            onTapCancel: _isEnabled ? () => setState(() => _isPressed = false) : null,
+            onHighlightChanged: (highlighted) {
+              if (!highlighted && _isPressed) {
+                setState(() => _isPressed = false);
+              }
+            },
+            borderRadius: borderRadius,
+            splashColor: buttonColors.foregroundColor.withValues(alpha: 0.12),
+            highlightColor: buttonColors.foregroundColor.withValues(alpha: 0.08),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: dimensions.horizontalPadding),
+              child: Row(
+                mainAxisSize: widget.isFullWidth ? MainAxisSize.max : MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (widget.isLoading) ...[
+                    SizedBox(
+                      width: dimensions.iconSize,
+                      height: dimensions.iconSize,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          buttonColors.foregroundColor,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                if (widget.label != null || widget.child != null)
-                  SizedBox(width: dimensions.iconSpacing),
-              ] else if (widget.icon != null) ...[
-                Icon(
-                  widget.icon,
-                  size: dimensions.iconSize,
-                  color: _isEnabled
-                      ? buttonColors.foregroundColor
-                      : buttonColors.foregroundColor.withValues(alpha: GOpacity.disabled),
-                ),
-                if (widget.label != null || widget.child != null)
-                  SizedBox(width: dimensions.iconSpacing),
-              ],
-              if (widget.child != null)
-                widget.child!
-              else if (widget.label != null)
-                Text(
-                  widget.label!,
-                  style: dimensions.textStyle.copyWith(
-                    color: _isEnabled
-                        ? buttonColors.foregroundColor
-                        : buttonColors.foregroundColor.withValues(alpha: GOpacity.disabled),
-                  ),
-                ),
-              if (widget.trailingIcon != null && !widget.isLoading) ...[
-                if (widget.label != null || widget.child != null)
-                  SizedBox(width: dimensions.iconSpacing),
-                Icon(
-                  widget.trailingIcon,
-                  size: dimensions.iconSize,
-                  color: _isEnabled
-                      ? buttonColors.foregroundColor
-                      : buttonColors.foregroundColor.withValues(alpha: GOpacity.disabled),
-                ),
-              ],
-            ],
+                    if (widget.label != null || widget.child != null)
+                      SizedBox(width: dimensions.iconSpacing),
+                  ] else if (widget.icon != null) ...[
+                    Icon(
+                      widget.icon,
+                      size: dimensions.iconSize,
+                      color: _isEnabled
+                          ? buttonColors.foregroundColor
+                          : buttonColors.foregroundColor.withValues(alpha: GOpacity.disabled),
+                    ),
+                    if (widget.label != null || widget.child != null)
+                      SizedBox(width: dimensions.iconSpacing),
+                  ],
+                  if (widget.child != null)
+                    widget.child!
+                  else if (widget.label != null)
+                    Text(
+                      widget.label!,
+                      style: dimensions.textStyle.copyWith(
+                        color: _isEnabled
+                            ? buttonColors.foregroundColor
+                            : buttonColors.foregroundColor.withValues(alpha: GOpacity.disabled),
+                      ),
+                    ),
+                  if (widget.trailingIcon != null && !widget.isLoading) ...[
+                    if (widget.label != null || widget.child != null)
+                      SizedBox(width: dimensions.iconSpacing),
+                    Icon(
+                      widget.trailingIcon,
+                      size: dimensions.iconSize,
+                      color: _isEnabled
+                          ? buttonColors.foregroundColor
+                          : buttonColors.foregroundColor.withValues(alpha: GOpacity.disabled),
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ),
         ),
       ),
