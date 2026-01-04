@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:garmisch/garmisch.dart';
 
 import '../../widgets/showcase_widgets.dart';
-import 'alert_toast_screen.dart';
+import 'alert_components_screen.dart';
 import 'empty_state_banner_screen.dart';
+import 'toast_components_screen.dart';
 
 class FeedbackScreen extends StatelessWidget {
   const FeedbackScreen({
@@ -51,7 +52,7 @@ class FeedbackScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => AlertToastScreen(
+                  builder: (_) => AlertComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
@@ -70,7 +71,7 @@ class FeedbackScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => AlertToastScreen(
+                  builder: (_) => ToastComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
