@@ -20,8 +20,8 @@ enum GAppBarSize {
 /// ```dart
 /// GAppBar(
 ///   title: 'Home',
-///   leading: GIconButton(icon: Icons.menu, onPressed: () {}),
-///   actions: [GIconButton(icon: Icons.search, onPressed: () {})],
+///   leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
+///   actions: [IconButton(icon: Icon(Icons.search), onPressed: () {})],
 /// )
 /// ```
 class GAppBar extends StatelessWidget implements PreferredSizeWidget {

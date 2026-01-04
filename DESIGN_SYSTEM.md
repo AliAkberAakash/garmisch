@@ -50,7 +50,6 @@ lib/
     │   ├── inputs/
     │   │   ├── inputs.dart          # Barrel export
     │   │   ├── button.dart          # GButton
-    │   │   ├── icon_button.dart     # GIconButton
     │   │   ├── text_field.dart      # GTextField
     │   │   ├── checkbox.dart        # GCheckbox
     │   │   ├── radio.dart           # GRadio
@@ -539,24 +538,6 @@ Same tokens with inverted/adjusted values for dark theme.
 
 ---
 
-#### GIconButton
-
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `icon` | IconData | required | Button icon |
-| `onPressed` | VoidCallback? | null | Press handler |
-| `variant` | GIconButtonVariant | standard | Button style |
-| `size` | GIconButtonSize | medium | Button size |
-| `isDisabled` | bool | false | Disabled state |
-| `tooltip` | String? | null | Tooltip text |
-
-**GIconButtonVariant Enum:**
-- `standard` — No background
-- `filled` — Solid background
-- `filledTonal` — Tonal background
-- `outlined` — Border only
-
----
 
 #### GTextField
 
@@ -1343,6 +1324,70 @@ widget.focusable()
 
 ---
 
+## Migration Notes
+
+### Removed Components (Use Material Equivalents)
+
+The following components have been removed as they were redundant with Material 3 equivalents:
+
+#### GIconButton → IconButton (Material)
+
+```dart
+// Before
+GIconButton(
+  icon: Icons.edit,
+  variant: GIconButtonVariant.filled,
+  size: GIconButtonSize.sm,
+  onPressed: () {},
+)
+
+// After - Use Material IconButton variants
+IconButton(icon: Icon(Icons.edit), onPressed: () {})           // standard
+IconButton.filled(icon: Icon(Icons.edit), onPressed: () {})    // filled
+IconButton.filledTonal(icon: Icon(Icons.edit), onPressed: () {}) // filledTonal
+IconButton.outlined(icon: Icon(Icons.edit), onPressed: () {})  // outlined
+
+// For size, use iconSize parameter
+IconButton(icon: Icon(Icons.edit), iconSize: 20, onPressed: () {})
+```
+
+#### GStackBadge → Badge (Material)
+
+```dart
+// Before
+GStackBadge(
+  position: GStackBadgePosition.topRight,
+  badge: _NotificationDot(colors.error),
+  child: Icon(Icons.notifications),
+)
+
+// After - Use Material Badge widget
+Badge(
+  child: Icon(Icons.notifications),
+)
+
+// With count
+Badge(
+  label: Text('3'),
+  child: Icon(Icons.mail),
+)
+
+// With positioning
+Badge(
+  alignment: Alignment.bottomRight,
+  backgroundColor: colors.success,
+  child: avatar,
+)
+
+// Conditional visibility
+Badge(
+  isLabelVisible: hasNotifications,
+  child: icon,
+)
+```
+
+---
+
 ## Version History
 
 | Version | Date | Description |
@@ -1352,5 +1397,6 @@ widget.focusable()
 | 0.2.0 | TBD | Display components |
 | 0.3.0 | TBD | Navigation & Layout |
 | 0.4.0 | TBD | Overlay & Feedback |
+| 0.5.0 | 2026-01-04 | Removed redundant components (GIconButton, GStackBadge) |
 | 1.0.0 | TBD | Stable release |
 
