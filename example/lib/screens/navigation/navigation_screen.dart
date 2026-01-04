@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:garmisch/garmisch.dart';
 
 import '../../widgets/showcase_widgets.dart';
-import 'navigation_components_screen.dart';
+import 'appbar_components_screen.dart';
+import 'bottom_nav_components_screen.dart';
+import 'breadcrumb_components_screen.dart';
+import 'drawer_components_screen.dart';
+import 'pagination_components_screen.dart';
+import 'stepper_components_screen.dart';
+import 'tab_bar_components_screen.dart';
 
 class NavigationScreen extends StatelessWidget {
   const NavigationScreen({
@@ -47,7 +53,10 @@ class NavigationScreen extends StatelessWidget {
               status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () => _navigateToComponents(context),
+              onTap: () => _navigateTo(context, AppBarComponentsScreen(
+                onThemeToggle: onThemeToggle,
+                isDarkMode: isDarkMode,
+              )),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -58,7 +67,10 @@ class NavigationScreen extends StatelessWidget {
               status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () => _navigateToComponents(context),
+              onTap: () => _navigateTo(context, BottomNavComponentsScreen(
+                onThemeToggle: onThemeToggle,
+                isDarkMode: isDarkMode,
+              )),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -69,7 +81,10 @@ class NavigationScreen extends StatelessWidget {
               status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () => _navigateToComponents(context),
+              onTap: () => _navigateTo(context, TabBarComponentsScreen(
+                onThemeToggle: onThemeToggle,
+                isDarkMode: isDarkMode,
+              )),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -80,7 +95,10 @@ class NavigationScreen extends StatelessWidget {
               status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () => _navigateToComponents(context),
+              onTap: () => _navigateTo(context, DrawerComponentsScreen(
+                onThemeToggle: onThemeToggle,
+                isDarkMode: isDarkMode,
+              )),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -91,7 +109,10 @@ class NavigationScreen extends StatelessWidget {
               status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () => _navigateToComponents(context),
+              onTap: () => _navigateTo(context, BreadcrumbComponentsScreen(
+                onThemeToggle: onThemeToggle,
+                isDarkMode: isDarkMode,
+              )),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -102,7 +123,10 @@ class NavigationScreen extends StatelessWidget {
               status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () => _navigateToComponents(context),
+              onTap: () => _navigateTo(context, PaginationComponentsScreen(
+                onThemeToggle: onThemeToggle,
+                isDarkMode: isDarkMode,
+              )),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -113,7 +137,10 @@ class NavigationScreen extends StatelessWidget {
               status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () => _navigateToComponents(context),
+              onTap: () => _navigateTo(context, StepperComponentsScreen(
+                onThemeToggle: onThemeToggle,
+                isDarkMode: isDarkMode,
+              )),
             ),
             const SizedBox(height: GSpacing.xl2),
           ],
@@ -122,14 +149,11 @@ class NavigationScreen extends StatelessWidget {
     );
   }
 
-  void _navigateToComponents(BuildContext context) {
+  void _navigateTo(BuildContext context, Widget screen) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => NavigationComponentsScreen(
-          onThemeToggle: onThemeToggle,
-          isDarkMode: isDarkMode,
-        ),
+        builder: (_) => screen,
       ),
     );
   }
