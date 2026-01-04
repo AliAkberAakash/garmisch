@@ -5,8 +5,9 @@ import '../../widgets/showcase_widgets.dart';
 import 'button_screen.dart';
 import 'checkbox_components_screen.dart';
 import 'dropdown_components_screen.dart';
+import 'link_components_screen.dart';
 import 'radio_components_screen.dart';
-import 'search_link_screen.dart';
+import 'search_components_screen.dart';
 import 'slider_components_screen.dart';
 import 'switch_components_screen.dart';
 import 'text_field_screen.dart';
@@ -201,7 +202,7 @@ class InputsScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => SearchLinkScreen(
+                  builder: (_) => SearchComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
@@ -211,7 +212,7 @@ class InputsScreen extends StatelessWidget {
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
               title: 'Link',
-              subtitle: 'Navigation text links',
+              subtitle: 'Text links and navigation',
               icon: Icons.link_outlined,
               status: _ComponentStatus.ready,
               colors: colors,
@@ -219,7 +220,7 @@ class InputsScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => SearchLinkScreen(
+                  builder: (_) => LinkComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
