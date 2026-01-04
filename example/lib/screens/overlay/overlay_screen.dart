@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:garmisch/garmisch.dart';
 
 import '../../widgets/showcase_widgets.dart';
-import 'overlay_components_screen.dart';
+import 'bottomsheet_components_screen.dart';
+import 'dialog_components_screen.dart';
+import 'popup_menu_components_screen.dart';
+import 'tooltip_components_screen.dart';
 
 class OverlayScreen extends StatelessWidget {
   const OverlayScreen({
@@ -47,7 +50,15 @@ class OverlayScreen extends StatelessWidget {
               status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () => _navigateToComponents(context),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => DialogComponentsScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -58,7 +69,15 @@ class OverlayScreen extends StatelessWidget {
               status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () => _navigateToComponents(context),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => BottomSheetComponentsScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -69,7 +88,15 @@ class OverlayScreen extends StatelessWidget {
               status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () => _navigateToComponents(context),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => PopupMenuComponentsScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -80,7 +107,15 @@ class OverlayScreen extends StatelessWidget {
               status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () => _navigateToComponents(context),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => TooltipComponentsScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
@@ -95,18 +130,6 @@ class OverlayScreen extends StatelessWidget {
             ),
             const SizedBox(height: GSpacing.xl2),
           ],
-        ),
-      ),
-    );
-  }
-
-  void _navigateToComponents(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => OverlayComponentsScreen(
-          onThemeToggle: onThemeToggle,
-          isDarkMode: isDarkMode,
         ),
       ),
     );
