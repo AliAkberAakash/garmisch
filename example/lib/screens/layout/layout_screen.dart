@@ -4,6 +4,7 @@ import 'package:garmisch/garmisch.dart';
 import '../../widgets/showcase_widgets.dart';
 import 'accordion_components_screen.dart';
 import 'card_components_screen.dart';
+import 'container_components_screen.dart';
 import 'dialog_components_screen.dart';
 import 'expansion_tile_components_screen.dart';
 import 'list_tile_components_screen.dart';
@@ -90,8 +91,16 @@ class LayoutScreen extends StatelessWidget {
               color: GColors.gray500,
               colors: colors,
               textTheme: textTheme,
-              status: _ComponentStatus.planned,
-              onTap: () {},
+              status: _ComponentStatus.ready,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ContainerComponentsScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.sm),
             _ComponentTile(
