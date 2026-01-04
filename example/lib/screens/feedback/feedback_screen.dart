@@ -3,7 +3,9 @@ import 'package:garmisch/garmisch.dart';
 
 import '../../widgets/showcase_widgets.dart';
 import 'alert_components_screen.dart';
-import 'empty_state_banner_screen.dart';
+import 'banner_components_screen.dart';
+import 'empty_state_components_screen.dart';
+import 'snackbar_components_screen.dart';
 import 'toast_components_screen.dart';
 
 class FeedbackScreen extends StatelessWidget {
@@ -90,7 +92,7 @@ class FeedbackScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => EmptyStateBannerScreen(
+                  builder: (_) => SnackbarComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
@@ -109,7 +111,7 @@ class FeedbackScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => EmptyStateBannerScreen(
+                  builder: (_) => BannerComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
@@ -128,7 +130,7 @@ class FeedbackScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => EmptyStateBannerScreen(
+                  builder: (_) => EmptyStateComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
