@@ -4,6 +4,7 @@ import 'package:garmisch/garmisch.dart';
 import '../../widgets/showcase_widgets.dart';
 import 'bottomsheet_components_screen.dart';
 import 'dialog_components_screen.dart';
+import 'popover_components_screen.dart';
 import 'popup_menu_components_screen.dart';
 import 'tooltip_components_screen.dart';
 
@@ -123,10 +124,18 @@ class OverlayScreen extends StatelessWidget {
               subtitle: 'Rich popup content',
               icon: Icons.open_in_new_outlined,
               color: GColors.cyan500,
-              status: _ComponentStatus.planned,
+              status: _ComponentStatus.ready,
               colors: colors,
               textTheme: textTheme,
-              onTap: () {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => PopoverComponentsScreen(
+                    onThemeToggle: onThemeToggle,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: GSpacing.xl2),
           ],
