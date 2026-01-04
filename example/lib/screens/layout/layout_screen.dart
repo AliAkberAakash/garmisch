@@ -5,7 +5,8 @@ import '../../widgets/showcase_widgets.dart';
 import 'card_components_screen.dart';
 import 'dialog_components_screen.dart';
 import 'list_tile_accordion_screen.dart';
-import 'spacing_responsive_screen.dart';
+import 'responsive_components_screen.dart';
+import 'spacer_components_screen.dart';
 
 class LayoutScreen extends StatelessWidget {
   const LayoutScreen({
@@ -120,7 +121,7 @@ class LayoutScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => SpacingResponsiveScreen(
+                  builder: (_) => SpacerComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
@@ -139,7 +140,7 @@ class LayoutScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => SpacingResponsiveScreen(
+                  builder: (_) => ResponsiveComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
