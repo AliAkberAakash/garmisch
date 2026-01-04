@@ -104,7 +104,7 @@ class PopupMenuComponentsScreen extends StatelessWidget {
             const SizedBox(height: GSpacing.md),
             ShowcaseCard(
               title: 'Icon Button Trigger',
-              subtitle: 'Using GIconButton as trigger',
+              subtitle: 'Using IconButton as trigger',
               child: Row(
                 children: [
                   GPopupMenu<String>(
@@ -129,8 +129,8 @@ class PopupMenuComponentsScreen extends StatelessWidget {
                         value: 'logout',
                       ),
                     ],
-                    child: GIconButton(
-                      icon: Icons.more_vert,
+                    child: IconButton(
+                      icon: const Icon(Icons.more_vert),
                       onPressed: () {},
                     ),
                   ),
@@ -150,8 +150,8 @@ class PopupMenuComponentsScreen extends StatelessWidget {
                         value: 'size',
                       ),
                     ],
-                    child: GIconButton(
-                      icon: Icons.sort,
+                    child: IconButton(
+                      icon: const Icon(Icons.sort),
                       onPressed: () {},
                     ),
                   ),

@@ -181,15 +181,15 @@ class SkeletonDividerScreen extends StatelessWidget {
                   ),
                   GTooltip(
                     message: 'Add a new item',
-                    child: GIconButton(
-                      icon: Icons.add,
+                    child: IconButton(
+                      icon: const Icon(Icons.add),
                       onPressed: () {},
                     ),
                   ),
                   GTooltip(
                     message: 'Delete this item',
-                    child: GIconButton(
-                      icon: Icons.delete_outline,
+                    child: IconButton(
+                      icon: const Icon(Icons.delete_outline),
                       onPressed: () {},
                     ),
                   ),

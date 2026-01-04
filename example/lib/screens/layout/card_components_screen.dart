@@ -303,9 +303,8 @@ class CardComponentsScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        GIconButton(
-                          icon: Icons.edit,
-                          variant: GIconButtonVariant.standard,
+                        IconButton(
+                          icon: const Icon(Icons.edit),
                           onPressed: () {},
                         ),
                       ],

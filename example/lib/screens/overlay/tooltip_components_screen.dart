@@ -41,24 +41,24 @@ class TooltipComponentsScreen extends StatelessWidget {
                 children: [
                   GTooltip(
                     message: 'This is a tooltip',
-                    child: GIconButton(
-                      icon: Icons.info_outline,
+                    child: IconButton(
+                      icon: const Icon(Icons.info_outline),
                       onPressed: () {},
                     ),
                   ),
                   const SizedBox(width: GSpacing.md),
                   GTooltip(
                     message: 'Help information',
-                    child: GIconButton(
-                      icon: Icons.help_outline,
+                    child: IconButton(
+                      icon: const Icon(Icons.help_outline),
                       onPressed: () {},
                     ),
                   ),
                   const SizedBox(width: GSpacing.md),
                   GTooltip(
                     message: 'Settings',
-                    child: GIconButton(
-                      icon: Icons.settings,
+                    child: IconButton(
+                      icon: const Icon(Icons.settings),
                       onPressed: () {},
                     ),
                   ),
@@ -133,25 +133,25 @@ class TooltipComponentsScreen extends StatelessWidget {
                   children: [
                     GTooltip(
                       message: 'Bold',
-                      child: GIconButton(
-                        icon: Icons.format_bold,
-                        size: GIconButtonSize.sm,
+                      child: IconButton(
+                        icon: const Icon(Icons.format_bold),
+                        iconSize: 20,
                         onPressed: () {},
                       ),
                     ),
                     GTooltip(
                       message: 'Italic',
-                      child: GIconButton(
-                        icon: Icons.format_italic,
-                        size: GIconButtonSize.sm,
+                      child: IconButton(
+                        icon: const Icon(Icons.format_italic),
+                        iconSize: 20,
                         onPressed: () {},
                       ),
                     ),
                     GTooltip(
                       message: 'Underline',
-                      child: GIconButton(
-                        icon: Icons.format_underline,
-                        size: GIconButtonSize.sm,
+                      child: IconButton(
+                        icon: const Icon(Icons.format_underline),
+                        iconSize: 20,
                         onPressed: () {},
                       ),
                     ),
@@ -163,25 +163,25 @@ class TooltipComponentsScreen extends StatelessWidget {
                     ),
                     GTooltip(
                       message: 'Align left',
-                      child: GIconButton(
-                        icon: Icons.format_align_left,
-                        size: GIconButtonSize.sm,
+                      child: IconButton(
+                        icon: const Icon(Icons.format_align_left),
+                        iconSize: 20,
                         onPressed: () {},
                       ),
                     ),
                     GTooltip(
                       message: 'Align center',
-                      child: GIconButton(
-                        icon: Icons.format_align_center,
-                        size: GIconButtonSize.sm,
+                      child: IconButton(
+                        icon: const Icon(Icons.format_align_center),
+                        iconSize: 20,
                         onPressed: () {},
                       ),
                     ),
                     GTooltip(
                       message: 'Align right',
-                      child: GIconButton(
-                        icon: Icons.format_align_right,
-                        size: GIconButtonSize.sm,
+                      child: IconButton(
+                        icon: const Icon(Icons.format_align_right),
+                        iconSize: 20,
                         onPressed: () {},
                       ),
                     ),
@@ -204,27 +204,24 @@ class TooltipComponentsScreen extends StatelessWidget {
                 children: [
                   GTooltip(
                     message: 'Delete this item permanently. This action cannot be undone.',
-                    child: GIconButton(
-                      icon: Icons.delete_outline,
-                      variant: GIconButtonVariant.standard,
+                    child: IconButton(
+                      icon: const Icon(Icons.delete_outline),
                       onPressed: () {},
                     ),
                   ),
                   const SizedBox(width: GSpacing.lg),
                   GTooltip(
                     message: 'Share this content with others via email, social media, or link.',
-                    child: GIconButton(
-                      icon: Icons.share,
-                      variant: GIconButtonVariant.standard,
+                    child: IconButton(
+                      icon: const Icon(Icons.share),
                       onPressed: () {},
                     ),
                   ),
                   const SizedBox(width: GSpacing.lg),
                   GTooltip(
                     message: 'Download file to your device. Requires storage permission.',
-                    child: GIconButton(
-                      icon: Icons.download,
-                      variant: GIconButtonVariant.standard,
+                    child: IconButton(
+                      icon: const Icon(Icons.download),
                       onPressed: () {},
                     ),
                   ),

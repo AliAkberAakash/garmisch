@@ -234,14 +234,14 @@ class _ListTileComponentsScreenState extends State<ListTileComponentsScreen> {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        GIconButton(
-                          icon: Icons.message_outlined,
-                          size: GIconButtonSize.sm,
+                        IconButton(
+                          icon: const Icon(Icons.message_outlined),
+                          iconSize: 20,
                           onPressed: () {},
                         ),
-                        GIconButton(
-                          icon: Icons.call_outlined,
-                          size: GIconButtonSize.sm,
+                        IconButton(
+                          icon: const Icon(Icons.call_outlined),
+                          iconSize: 20,
                           onPressed: () {},
                         ),
                       ],
@@ -256,14 +256,14 @@ class _ListTileComponentsScreenState extends State<ListTileComponentsScreen> {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        GIconButton(
-                          icon: Icons.message_outlined,
-                          size: GIconButtonSize.sm,
+                        IconButton(
+                          icon: const Icon(Icons.message_outlined),
+                          iconSize: 20,
                           onPressed: () {},
                         ),
-                        GIconButton(
-                          icon: Icons.call_outlined,
-                          size: GIconButtonSize.sm,
+                        IconButton(
+                          icon: const Icon(Icons.call_outlined),
+                          iconSize: 20,
                           onPressed: () {},
                         ),
                       ],

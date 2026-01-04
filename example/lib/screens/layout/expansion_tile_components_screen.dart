@@ -341,8 +341,8 @@ class ExpansionTileComponentsScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: GSpacing.sm),
-                            GIconButton(
-                              icon: Icons.favorite_border,
+                            IconButton(
+                              icon: const Icon(Icons.favorite_border),
                               onPressed: () {},
                             ),
                           ],

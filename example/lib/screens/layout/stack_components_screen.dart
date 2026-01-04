@@ -20,7 +20,7 @@ class StackComponentsScreen extends StatelessWidget {
 
     return ShowcaseScaffold(
       title: 'Stack',
-      subtitle: 'GStackBadge, GOverlayContainer, GLayeredCard',
+      subtitle: 'Badge, GOverlayContainer, GLayeredCard',
       onThemeToggle: onThemeToggle,
       isDarkMode: isDarkMode,
       body: SingleChildScrollView(
@@ -29,10 +29,10 @@ class StackComponentsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            // GStackBadge
+            // Material Badge
             const SectionHeader(
-              title: 'Stack Badge',
-              subtitle: 'GStackBadge for notification indicators',
+              title: 'Badge (Material)',
+              subtitle: 'Flutter\'s built-in Badge widget',
             ),
             const SizedBox(height: GSpacing.sm),
             ShowcaseCard(
@@ -41,30 +41,26 @@ class StackComponentsScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  GStackBadge(
-                    position: GStackBadgePosition.topRight,
-                    offset: const Offset(-4, -4),
-                    badge: _NotificationDot(colors.error),
+                  Badge(
+                    backgroundColor: colors.error,
                     child: Icon(
                       Icons.notifications_outlined,
                       size: 32,
                       color: colors.onSurface,
                     ),
                   ),
-                  GStackBadge(
-                    position: GStackBadgePosition.topRight,
-                    offset: const Offset(-8, -8),
-                    badge: _CountBadge('3', colors),
+                  Badge(
+                    label: const Text('3'),
+                    backgroundColor: colors.error,
                     child: Icon(
                       Icons.mail_outlined,
                       size: 32,
                       color: colors.onSurface,
                     ),
                   ),
-                  GStackBadge(
-                    position: GStackBadgePosition.topRight,
-                    offset: const Offset(-8, -8),
-                    badge: _CountBadge('99+', colors),
+                  Badge(
+                    label: const Text('99+'),
+                    backgroundColor: colors.error,
                     child: Icon(
                       Icons.shopping_cart_outlined,
                       size: 32,
@@ -81,22 +77,22 @@ class StackComponentsScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  GStackBadge(
-                    position: GStackBadgePosition.bottomRight,
-                    offset: const Offset(0, 0),
-                    badge: _StatusDot(colors.success),
+                  Badge(
+                    alignment: Alignment.bottomRight,
+                    backgroundColor: colors.success,
+                    smallSize: 14,
                     child: GAvatar(name: 'John Doe', size: GAvatarSize.lg),
                   ),
-                  GStackBadge(
-                    position: GStackBadgePosition.bottomRight,
-                    offset: const Offset(0, 0),
-                    badge: _StatusDot(colors.warning),
+                  Badge(
+                    alignment: Alignment.bottomRight,
+                    backgroundColor: colors.warning,
+                    smallSize: 14,
                     child: GAvatar(name: 'Jane Smith', size: GAvatarSize.lg),
                   ),
-                  GStackBadge(
-                    position: GStackBadgePosition.bottomRight,
-                    offset: const Offset(0, 0),
-                    badge: _StatusDot(colors.onSurfaceVariant),
+                  Badge(
+                    alignment: Alignment.bottomRight,
+                    backgroundColor: colors.onSurfaceVariant,
+                    smallSize: 14,
                     child: GAvatar(name: 'Bob Wilson', size: GAvatarSize.lg),
                   ),
                 ],
@@ -105,30 +101,30 @@ class StackComponentsScreen extends StatelessWidget {
             const SizedBox(height: GSpacing.md),
             ShowcaseCard(
               title: 'Conditional Badge',
-              subtitle: 'showBadge: false to hide',
+              subtitle: 'isLabelVisible: false to hide',
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
                     children: [
-                      GStackBadge(
-                        showBadge: true,
-                        badge: _NotificationDot(colors.error),
+                      Badge(
+                        isLabelVisible: true,
+                        backgroundColor: colors.error,
                         child: Icon(Icons.inbox, size: 28, color: colors.onSurface),
                       ),
                       const SizedBox(height: GSpacing.xs),
-                      Text('showBadge: true', style: TextStyle(fontSize: 10, color: colors.onSurfaceVariant)),
+                      Text('isLabelVisible: true', style: TextStyle(fontSize: 10, color: colors.onSurfaceVariant)),
                     ],
                   ),
                   Column(
                     children: [
-                      GStackBadge(
-                        showBadge: false,
-                        badge: _NotificationDot(colors.error),
+                      Badge(
+                        isLabelVisible: false,
+                        backgroundColor: colors.error,
                         child: Icon(Icons.inbox, size: 28, color: colors.onSurface),
                       ),
                       const SizedBox(height: GSpacing.xs),
-                      Text('showBadge: false', style: TextStyle(fontSize: 10, color: colors.onSurfaceVariant)),
+                      Text('isLabelVisible: false', style: TextStyle(fontSize: 10, color: colors.onSurfaceVariant)),
                     ],
                   ),
                 ],
@@ -409,10 +405,8 @@ class StackComponentsScreen extends StatelessWidget {
                     Positioned(
                       top: 8,
                       right: 8,
-                      child: GIconButton(
-                        icon: Icons.edit,
-                        variant: GIconButtonVariant.filled,
-                        size: GIconButtonSize.sm,
+                      child: IconButton.filled(
+                        icon: const Icon(Icons.edit, size: 18),
                         onPressed: () {},
                       ),
                     ),
@@ -499,70 +493,4 @@ class StackComponentsScreen extends StatelessWidget {
   }
 }
 
-
-class _NotificationDot extends StatelessWidget {
-  const _NotificationDot(this.color);
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 10,
-      height: 10,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 2),
-      ),
-    );
-  }
-}
-
-class _CountBadge extends StatelessWidget {
-  const _CountBadge(this.count, this.colors);
-  final String count;
-  final GColorScheme colors;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 6,
-        vertical: 2,
-      ),
-      decoration: BoxDecoration(
-        color: colors.error,
-        borderRadius: GBorderRadius.allFull,
-        border: Border.all(color: colors.surface, width: 2),
-      ),
-      child: Text(
-        count,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 10,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-}
-
-class _StatusDot extends StatelessWidget {
-  const _StatusDot(this.color);
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = GTheme.of(context);
-    return Container(
-      width: 14,
-      height: 14,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-        border: Border.all(color: theme.colors.surface, width: 2),
-      ),
-    );
-  }
-}
 

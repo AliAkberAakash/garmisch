@@ -224,16 +224,16 @@ class AvatarBadgeScreen extends StatelessWidget {
                 children: [
                   GNotificationBadge(
                     count: 3,
-                    child: GIconButton(
-                      icon: Icons.notifications_outlined,
+                    child: IconButton(
+                      icon: const Icon(Icons.notifications_outlined),
                       onPressed: () {},
                     ),
                   ),
                   const SizedBox(width: GSpacing.lg),
                   GNotificationBadge(
                     count: 99,
-                    child: GIconButton(
-                      icon: Icons.mail_outlined,
+                    child: IconButton(
+                      icon: const Icon(Icons.mail_outlined),
                       onPressed: () {},
                     ),
                   ),
@@ -241,8 +241,8 @@ class AvatarBadgeScreen extends StatelessWidget {
                   GNotificationBadge(
                     count: 150,
                     maxCount: 99,
-                    child: GIconButton(
-                      icon: Icons.shopping_cart_outlined,
+                    child: IconButton(
+                      icon: const Icon(Icons.shopping_cart_outlined),
                       onPressed: () {},
                     ),
                   ),
