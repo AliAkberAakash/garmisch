@@ -4,9 +4,11 @@ import 'package:garmisch/garmisch.dart';
 import '../../widgets/showcase_widgets.dart';
 import 'avatar_badge_screen.dart';
 import 'chip_components_screen.dart';
+import 'icon_components_screen.dart';
+import 'image_components_screen.dart';
 import 'progress_components_screen.dart';
 import 'skeleton_divider_screen.dart';
-import 'text_image_icon_screen.dart';
+import 'text_components_screen.dart';
 
 class DisplayScreen extends StatelessWidget {
   const DisplayScreen({
@@ -179,7 +181,7 @@ class DisplayScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => TextImageIconScreen(
+                  builder: (_) => TextComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
@@ -197,7 +199,7 @@ class DisplayScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => TextImageIconScreen(
+                  builder: (_) => ImageComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
@@ -215,7 +217,7 @@ class DisplayScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => TextImageIconScreen(
+                  builder: (_) => IconComponentsScreen(
                     onThemeToggle: onThemeToggle,
                     isDarkMode: isDarkMode,
                   ),
