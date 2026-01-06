@@ -24,5 +24,6 @@ export 'opacity.dart';
 export 'shadows.dart';
 export 'sizing.dart';
 export 'spacing.dart';
+export 'system_colors.dart';
 export 'typography.dart';
 

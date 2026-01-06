@@ -424,6 +424,126 @@ lib/
 
 ## Theme System
 
+### Color Architecture
+
+Garmisch uses a **3-tier color architecture** for maximum flexibility and maintainability:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  Tier 1: Reference Colors (GColors)                                 │
+│  ─────────────────────────────────────────────────────────────────  │
+│  Raw color primitives - NEVER change these                          │
+│  Example: GColors.blue500, GColors.gray900                          │
+└─────────────────────────────────────────────────────────────────────┘
+                                 ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│  Tier 2: System Colors (GSystemColors)                              │
+│  ─────────────────────────────────────────────────────────────────  │
+│  Brightness-agnostic semantic aliases                               │
+│  Maps reference colors to brand/feedback/neutral roles              │
+│  Swap this layer to create new themes                               │
+└─────────────────────────────────────────────────────────────────────┘
+                                 ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│  Tier 3: Color Scheme (GColorScheme)                                │
+│  ─────────────────────────────────────────────────────────────────  │
+│  Light/dark mode specific tokens                                    │
+│  Derives values from system colors                                  │
+│  Used directly by components                                        │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### GSystemColors
+
+Brightness-agnostic color aliases organized into logical groups:
+
+#### Structure
+
+```dart
+GSystemColors
+├── brand: GBrandColors
+│   ├── primary: GColorScale (50-950)
+│   ├── secondary: GColorScale (50-950)
+│   └── tertiary: GColorScale (50-950)
+├── neutral: GNeutralColors (50-950)
+└── feedback: GFeedbackColors
+    ├── error: GColorScale (50-950)
+    ├── warning: GColorScale (50-950)
+    ├── success: GColorScale (50-950)
+    └── info: GColorScale (50-950)
+```
+
+#### Default Mappings
+
+| Group | Role | Default Reference |
+|-------|------|-------------------|
+| `brand.primary` | Primary brand color | Blue scale |
+| `brand.secondary` | Secondary brand color | Gray scale |
+| `brand.tertiary` | Accent/tertiary color | Teal scale |
+| `neutral` | Surfaces, backgrounds, text | Gray scale |
+| `feedback.error` | Error/destructive states | Red scale |
+| `feedback.warning` | Warning/caution states | Amber scale |
+| `feedback.success` | Success/positive states | Green scale |
+| `feedback.info` | Informational states | Blue scale |
+
+#### Usage
+
+```dart
+// Use standard system colors
+final systemColors = GSystemColors.standard();
+
+// Create color scheme from system colors
+final lightScheme = GColorScheme.light(systemColors: systemColors);
+final darkScheme = GColorScheme.dark(systemColors: systemColors);
+
+// Create custom system colors from JSON (for dynamic theming)
+final customColors = GSystemColors.fromJson({
+  'brand': {
+    'primary': {
+      '50': '#EEF2FF',
+      '100': '#E0E7FF',
+      '500': '#6366F1',
+      '900': '#312E81',
+      '950': '#1E1B4B',
+    },
+    'tertiary': {
+      '500': '#8B5CF6',
+      '600': '#7C3AED',
+    },
+  },
+  'feedback': {
+    'error': {
+      '500': '#EF4444',
+    },
+  },
+});
+```
+
+#### JSON Format for `fromJson()`
+
+The `fromJson()` method supports **partial maps** - unspecified values fall back to `GSystemColors.standard()`.
+
+```json
+{
+  "brand": {
+    "primary": { "50": "#...", "100": "#...", ... "950": "#..." },
+    "secondary": { "50": "#...", ... },
+    "tertiary": { "50": "#...", ... }
+  },
+  "neutral": { "50": "#...", "100": "#...", ... "950": "#..." },
+  "feedback": {
+    "error": { "50": "#...", ... },
+    "warning": { "50": "#...", ... },
+    "success": { "50": "#...", ... },
+    "info": { "50": "#...", ... }
+  }
+}
+```
+
+Color values can be 6-digit (`#3B82F6`) or 8-digit (`#FF3B82F6`) hex strings.
+
+---
+
 ### GColorScheme
 
 #### Light Mode

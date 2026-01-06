@@ -67,7 +67,8 @@ void main() {
 
     test('light theme has correct primary colors', () {
       final scheme = GColorScheme.light();
-      expect(scheme.primary, GColors.blue600);
+      // Default primary is blueAccent200 (shade600 from GColorScale.blueAccent())
+      expect(scheme.primary, GColors.blueAccent200);
       expect(scheme.onPrimary, GColors.white);
     });
   });

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import '../foundations/colors.dart';
+import '../foundations/system_colors.dart';
 
 /// Garmisch Design System Color Scheme
 ///
@@ -59,7 +60,11 @@ class GColorScheme {
   });
 
   /// Creates a light color scheme
+  ///
+  /// If [systemColors] is provided, colors will be derived from it.
+  /// Individual color overrides take precedence over system colors.
   factory GColorScheme.light({
+    GSystemColors? systemColors,
     Color? primary,
     Color? onPrimary,
     Color? primaryContainer,
@@ -108,60 +113,77 @@ class GColorScheme {
     Color? disabled,
     Color? onDisabled,
   }) {
+    final sc = systemColors ?? GSystemColors.standard();
+
     return GColorScheme(
       brightness: Brightness.light,
-      primary: primary ?? GColors.gray950,
+      // Primary (from brand.primary)
+      primary: primary ?? sc.brand.primary.shade600,
       onPrimary: onPrimary ?? GColors.white,
-      primaryContainer: primaryContainer ?? GColors.gray100,
-      onPrimaryContainer: onPrimaryContainer ?? GColors.gray900,
-      secondary: secondary ?? GColors.gray600,
+      primaryContainer: primaryContainer ?? sc.brand.primary.shade100,
+      onPrimaryContainer: onPrimaryContainer ?? sc.brand.primary.shade900,
+      // Secondary (from brand.secondary)
+      secondary: secondary ?? sc.brand.secondary.shade600,
       onSecondary: onSecondary ?? GColors.white,
-      secondaryContainer: secondaryContainer ?? GColors.gray100,
-      onSecondaryContainer: onSecondaryContainer ?? GColors.gray900,
-      tertiary: tertiary ?? GColors.blue600,
+      secondaryContainer: secondaryContainer ?? sc.brand.secondary.shade100,
+      onSecondaryContainer: onSecondaryContainer ?? sc.brand.secondary.shade900,
+      // Tertiary (from brand.tertiary)
+      tertiary: tertiary ?? sc.brand.tertiary.shade600,
       onTertiary: onTertiary ?? GColors.white,
-      tertiaryContainer: tertiaryContainer ?? GColors.blue100,
-      onTertiaryContainer: onTertiaryContainer ?? GColors.blue900,
-      error: error ?? GColors.red500,
+      tertiaryContainer: tertiaryContainer ?? sc.brand.tertiary.shade100,
+      onTertiaryContainer: onTertiaryContainer ?? sc.brand.tertiary.shade900,
+      // Error (from feedback.error)
+      error: error ?? sc.feedback.error.shade500,
       onError: onError ?? GColors.white,
-      errorContainer: errorContainer ?? GColors.red100,
-      onErrorContainer: onErrorContainer ?? GColors.red900,
-      warning: warning ?? GColors.amber400,
+      errorContainer: errorContainer ?? sc.feedback.error.shade100,
+      onErrorContainer: onErrorContainer ?? sc.feedback.error.shade900,
+      // Warning (from feedback.warning)
+      warning: warning ?? sc.feedback.warning.shade400,
       onWarning: onWarning ?? GColors.black,
-      warningContainer: warningContainer ?? GColors.amber100,
-      onWarningContainer: onWarningContainer ?? GColors.amber900,
-      success: success ?? GColors.green500,
+      warningContainer: warningContainer ?? sc.feedback.warning.shade100,
+      onWarningContainer: onWarningContainer ?? sc.feedback.warning.shade900,
+      // Success (from feedback.success)
+      success: success ?? sc.feedback.success.shade500,
       onSuccess: onSuccess ?? GColors.white,
-      successContainer: successContainer ?? GColors.green100,
-      onSuccessContainer: onSuccessContainer ?? GColors.green900,
-      info: info ?? GColors.blue500,
+      successContainer: successContainer ?? sc.feedback.success.shade100,
+      onSuccessContainer: onSuccessContainer ?? sc.feedback.success.shade900,
+      // Info (from feedback.info)
+      info: info ?? sc.feedback.info.shade500,
       onInfo: onInfo ?? GColors.white,
-      infoContainer: infoContainer ?? GColors.blue100,
-      onInfoContainer: onInfoContainer ?? GColors.blue900,
-      background: background ?? GColors.gray50,
-      onBackground: onBackground ?? GColors.gray900,
+      infoContainer: infoContainer ?? sc.feedback.info.shade100,
+      onInfoContainer: onInfoContainer ?? sc.feedback.info.shade900,
+      // Surfaces (from neutral)
+      background: background ?? sc.neutral.shade50,
+      onBackground: onBackground ?? sc.neutral.shade900,
       surface: surface ?? GColors.white,
-      onSurface: onSurface ?? GColors.gray900,
-      surfaceVariant: surfaceVariant ?? GColors.gray100,
-      onSurfaceVariant: onSurfaceVariant ?? GColors.gray700,
-      surfaceContainer: surfaceContainer ?? GColors.gray50,
+      onSurface: onSurface ?? sc.neutral.shade900,
+      surfaceVariant: surfaceVariant ?? sc.neutral.shade100,
+      onSurfaceVariant: onSurfaceVariant ?? sc.neutral.shade700,
+      surfaceContainer: surfaceContainer ?? sc.neutral.shade50,
       surfaceContainerLow: surfaceContainerLow ?? GColors.white,
-      surfaceContainerHigh: surfaceContainerHigh ?? GColors.gray100,
-      surfaceContainerHighest: surfaceContainerHighest ?? GColors.gray200,
-      outline: outline ?? GColors.gray300,
-      outlineVariant: outlineVariant ?? GColors.gray200,
+      surfaceContainerHigh: surfaceContainerHigh ?? sc.neutral.shade100,
+      surfaceContainerHighest: surfaceContainerHighest ?? sc.neutral.shade200,
+      // Outlines (from neutral)
+      outline: outline ?? sc.neutral.shade300,
+      outlineVariant: outlineVariant ?? sc.neutral.shade200,
+      // Utility
       shadow: shadow ?? GColors.black,
       scrim: scrim ?? GColors.black,
-      inverseSurface: inverseSurface ?? GColors.gray900,
-      onInverseSurface: onInverseSurface ?? GColors.gray50,
-      inversePrimary: inversePrimary ?? GColors.blue300,
-      disabled: disabled ?? GColors.gray400,
-      onDisabled: onDisabled ?? GColors.gray600,
+      inverseSurface: inverseSurface ?? sc.neutral.shade900,
+      onInverseSurface: onInverseSurface ?? sc.neutral.shade50,
+      inversePrimary: inversePrimary ?? sc.brand.tertiary.shade300,
+      // State
+      disabled: disabled ?? sc.neutral.shade400,
+      onDisabled: onDisabled ?? sc.neutral.shade600,
     );
   }
 
   /// Creates a dark color scheme
+  ///
+  /// If [systemColors] is provided, colors will be derived from it.
+  /// Individual color overrides take precedence over system colors.
   factory GColorScheme.dark({
+    GSystemColors? systemColors,
     Color? primary,
     Color? onPrimary,
     Color? primaryContainer,
@@ -210,55 +232,68 @@ class GColorScheme {
     Color? disabled,
     Color? onDisabled,
   }) {
+    final sc = systemColors ?? GSystemColors.standard();
+
     return GColorScheme(
       brightness: Brightness.dark,
-      primary: primary ?? GColors.blue400,
-      onPrimary: onPrimary ?? GColors.blue950,
-      primaryContainer: primaryContainer ?? GColors.blue900,
-      onPrimaryContainer: onPrimaryContainer ?? GColors.blue100,
-      secondary: secondary ?? GColors.gray400,
-      onSecondary: onSecondary ?? GColors.gray950,
-      secondaryContainer: secondaryContainer ?? GColors.gray800,
-      onSecondaryContainer: onSecondaryContainer ?? GColors.gray100,
-      tertiary: tertiary ?? GColors.teal400,
-      onTertiary: onTertiary ?? GColors.teal950,
-      tertiaryContainer: tertiaryContainer ?? GColors.teal900,
-      onTertiaryContainer: onTertiaryContainer ?? GColors.teal100,
-      error: error ?? GColors.red400,
-      onError: onError ?? GColors.red950,
-      errorContainer: errorContainer ?? GColors.red900,
-      onErrorContainer: onErrorContainer ?? GColors.red100,
-      warning: warning ?? GColors.amber400,
-      onWarning: onWarning ?? GColors.amber950,
-      warningContainer: warningContainer ?? GColors.amber900,
-      onWarningContainer: onWarningContainer ?? GColors.amber100,
-      success: success ?? GColors.green400,
-      onSuccess: onSuccess ?? GColors.green950,
-      successContainer: successContainer ?? GColors.green900,
-      onSuccessContainer: onSuccessContainer ?? GColors.green100,
-      info: info ?? GColors.blue400,
-      onInfo: onInfo ?? GColors.blue950,
-      infoContainer: infoContainer ?? GColors.blue900,
-      onInfoContainer: onInfoContainer ?? GColors.blue100,
-      background: background ?? GColors.gray950,
-      onBackground: onBackground ?? GColors.gray50,
-      surface: surface ?? GColors.gray900,
-      onSurface: onSurface ?? GColors.gray50,
-      surfaceVariant: surfaceVariant ?? GColors.gray800,
-      onSurfaceVariant: onSurfaceVariant ?? GColors.gray300,
-      surfaceContainer: surfaceContainer ?? GColors.gray900,
-      surfaceContainerLow: surfaceContainerLow ?? GColors.gray950,
-      surfaceContainerHigh: surfaceContainerHigh ?? GColors.gray800,
-      surfaceContainerHighest: surfaceContainerHighest ?? GColors.gray700,
-      outline: outline ?? GColors.gray600,
-      outlineVariant: outlineVariant ?? GColors.gray700,
+      // Primary (from brand.primary - inverted for dark)
+      primary: primary ?? sc.brand.primary.shade400,
+      onPrimary: onPrimary ?? sc.brand.primary.shade950,
+      primaryContainer: primaryContainer ?? sc.brand.primary.shade900,
+      onPrimaryContainer: onPrimaryContainer ?? sc.brand.primary.shade100,
+      // Secondary (from brand.secondary)
+      secondary: secondary ?? sc.brand.secondary.shade400,
+      onSecondary: onSecondary ?? sc.brand.secondary.shade950,
+      secondaryContainer: secondaryContainer ?? sc.brand.secondary.shade800,
+      onSecondaryContainer: onSecondaryContainer ?? sc.brand.secondary.shade100,
+      // Tertiary (from brand.tertiary)
+      tertiary: tertiary ?? sc.brand.tertiary.shade400,
+      onTertiary: onTertiary ?? sc.brand.tertiary.shade950,
+      tertiaryContainer: tertiaryContainer ?? sc.brand.tertiary.shade900,
+      onTertiaryContainer: onTertiaryContainer ?? sc.brand.tertiary.shade100,
+      // Error (from feedback.error)
+      error: error ?? sc.feedback.error.shade400,
+      onError: onError ?? sc.feedback.error.shade950,
+      errorContainer: errorContainer ?? sc.feedback.error.shade900,
+      onErrorContainer: onErrorContainer ?? sc.feedback.error.shade100,
+      // Warning (from feedback.warning)
+      warning: warning ?? sc.feedback.warning.shade400,
+      onWarning: onWarning ?? sc.feedback.warning.shade950,
+      warningContainer: warningContainer ?? sc.feedback.warning.shade900,
+      onWarningContainer: onWarningContainer ?? sc.feedback.warning.shade100,
+      // Success (from feedback.success)
+      success: success ?? sc.feedback.success.shade400,
+      onSuccess: onSuccess ?? sc.feedback.success.shade950,
+      successContainer: successContainer ?? sc.feedback.success.shade900,
+      onSuccessContainer: onSuccessContainer ?? sc.feedback.success.shade100,
+      // Info (from feedback.info)
+      info: info ?? sc.feedback.info.shade400,
+      onInfo: onInfo ?? sc.feedback.info.shade950,
+      infoContainer: infoContainer ?? sc.feedback.info.shade900,
+      onInfoContainer: onInfoContainer ?? sc.feedback.info.shade100,
+      // Surfaces (from neutral - inverted for dark)
+      background: background ?? sc.neutral.shade950,
+      onBackground: onBackground ?? sc.neutral.shade50,
+      surface: surface ?? sc.neutral.shade900,
+      onSurface: onSurface ?? sc.neutral.shade50,
+      surfaceVariant: surfaceVariant ?? sc.neutral.shade800,
+      onSurfaceVariant: onSurfaceVariant ?? sc.neutral.shade300,
+      surfaceContainer: surfaceContainer ?? sc.neutral.shade900,
+      surfaceContainerLow: surfaceContainerLow ?? sc.neutral.shade950,
+      surfaceContainerHigh: surfaceContainerHigh ?? sc.neutral.shade800,
+      surfaceContainerHighest: surfaceContainerHighest ?? sc.neutral.shade700,
+      // Outlines (from neutral)
+      outline: outline ?? sc.neutral.shade600,
+      outlineVariant: outlineVariant ?? sc.neutral.shade700,
+      // Utility
       shadow: shadow ?? GColors.black,
       scrim: scrim ?? GColors.black,
-      inverseSurface: inverseSurface ?? GColors.gray50,
-      onInverseSurface: onInverseSurface ?? GColors.gray900,
-      inversePrimary: inversePrimary ?? GColors.blue600,
-      disabled: disabled ?? GColors.gray600,
-      onDisabled: onDisabled ?? GColors.gray400,
+      inverseSurface: inverseSurface ?? sc.neutral.shade50,
+      onInverseSurface: onInverseSurface ?? sc.neutral.shade900,
+      inversePrimary: inversePrimary ?? sc.brand.tertiary.shade600,
+      // State
+      disabled: disabled ?? sc.neutral.shade600,
+      onDisabled: onDisabled ?? sc.neutral.shade400,
     );
   }
 

@@ -214,6 +214,15 @@ abstract final class GColors {
   static const Color blue950 = Color(0xFF172554);
 
   // ============================================
+  // Blue Accent Scale (matches Flutter's blueAccent)
+  // ============================================
+
+  static const Color blueAccent100 = Color(0xFF82B1FF);
+  static const Color blueAccent200 = Color(0xFF448AFF);
+  static const Color blueAccent400 = Color(0xFF2979FF);
+  static const Color blueAccent700 = Color(0xFF2962FF);
+
+  // ============================================
   // Indigo Scale
   // ============================================
 
