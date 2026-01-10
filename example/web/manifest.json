@@ -1,11 +1,11 @@
 {
-    "name": "example",
-    "short_name": "example",
+    "name": "Garmisch Design System",
+    "short_name": "Garmisch",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A Flutter project to test the design system",
+    "description": "Garmisch Design System - A comprehensive Flutter design system showcase",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
