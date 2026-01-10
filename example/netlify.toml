@@ -1,6 +1,5 @@
-[build]
-  publish = "build/web"
-  command = "flutter build web --release && cp web/_redirects build/web/"
+# Build is handled by GitHub Actions
+# This file only configures Netlify headers and redirects
 
 [[headers]]
   for = "/*"
