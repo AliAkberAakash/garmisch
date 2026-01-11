@@ -16,6 +16,7 @@ import 'layout/layout_screen.dart';
 import 'overlay/overlay_screen.dart';
 import 'theme/theme_screen.dart';
 import 'utilities/utilities_screen.dart';
+import 'token_generator/token_generator_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -382,6 +383,37 @@ class HomeScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (_) => UtilitiesScreen(
+                        onThemeToggle: onThemeToggle,
+                        isDarkMode: isDarkMode,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              colors: colors,
+              textTheme: textTheme,
+            ),
+            const SizedBox(height: GSpacing.xl),
+
+            // Tools Section
+            _SectionTitle(
+              title: 'Tools',
+              subtitle: 'Design token utilities',
+              colors: colors,
+              textTheme: textTheme,
+            ),
+            const SizedBox(height: GSpacing.sm),
+            _CategoryGrid(
+              items: [
+                _CategoryItem(
+                  title: 'Token Generator',
+                  icon: Icons.auto_awesome_outlined,
+                  color: GColors.fuchsia500,
+                  subtitle: 'Visual token editor & export',
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => TokenGeneratorScreen(
                         onThemeToggle: onThemeToggle,
                         isDarkMode: isDarkMode,
                       ),
