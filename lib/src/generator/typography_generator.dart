@@ -11,7 +11,7 @@ class TypographyGenerator extends BaseGenerator {
   String get fileName => 'typography.g.dart';
 
   @override
-  String get className => 'GTypography';
+  String get className => 'GeneratedTypography';
 
   @override
   String generate(Map<String, dynamic> tokens) {

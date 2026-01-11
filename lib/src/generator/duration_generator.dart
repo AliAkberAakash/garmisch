@@ -11,7 +11,7 @@ class DurationGenerator extends BaseGenerator {
   String get fileName => 'durations.g.dart';
 
   @override
-  String get className => 'GDurations';
+  String get className => 'GeneratedDurations';
 
   @override
   String generate(Map<String, dynamic> tokens) {
@@ -22,8 +22,8 @@ class DurationGenerator extends BaseGenerator {
       description: 'Generated duration tokens from design-tokens.json',
     ));
 
-    buffer.writeln('abstract final class $className {');
-    buffer.writeln('  $className._();');
+    buffer.writeln('class $className extends GDurationTokens {');
+    buffer.writeln('  const $className();');
     buffer.writeln();
 
     final durationTokens = parser.extractTokens(tokens, 'duration');
@@ -37,7 +37,8 @@ class DurationGenerator extends BaseGenerator {
         final resolved = parser.resolveAlias(value as String, 'duration');
         if (resolved != null) {
           buffer.writeln('  /// ${token.description ?? token.path}');
-          buffer.writeln('  static const Duration $identifier = $resolved;');
+          buffer.writeln('  @override');
+          buffer.writeln('  Duration get $identifier => $resolved;');
           buffer.writeln();
           continue;
         }
@@ -47,10 +48,11 @@ class DurationGenerator extends BaseGenerator {
       final ms = parseDuration(value);
       if (ms != null) {
         buffer.writeln('  /// ${token.description ?? token.path}');
+        buffer.writeln('  @override');
         if (ms == 0) {
-          buffer.writeln('  static const Duration $identifier = Duration.zero;');
+          buffer.writeln('  Duration get $identifier => Duration.zero;');
         } else {
-          buffer.writeln('  static const Duration $identifier = Duration(milliseconds: $ms);');
+          buffer.writeln('  Duration get $identifier => const Duration(milliseconds: $ms);');
         }
         buffer.writeln();
       }

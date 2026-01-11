@@ -12,7 +12,7 @@ class ColorGenerator extends BaseGenerator {
   String get fileName => 'colors.g.dart';
 
   @override
-  String get className => 'GColors';
+  String get className => 'GeneratedColors';
 
   @override
   String generate(Map<String, dynamic> tokens) {

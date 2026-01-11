@@ -8,6 +8,7 @@ class DimensionGenerator extends BaseGenerator {
     required this.category,
     required this.generatedClassName,
     required this.generatedFileName,
+    this.baseClassName,
     this.description,
     super.onWarning,
   });
@@ -15,6 +16,7 @@ class DimensionGenerator extends BaseGenerator {
   final String category;
   final String generatedClassName;
   final String generatedFileName;
+  final String? baseClassName;
   final String? description;
 
   @override
@@ -32,8 +34,9 @@ class DimensionGenerator extends BaseGenerator {
       description: description ?? 'Generated $category tokens from design-tokens.json',
     ));
 
-    buffer.writeln('abstract final class $className {');
-    buffer.writeln('  $className._();');
+    final extendsClause = baseClassName != null ? ' extends $baseClassName' : '';
+    buffer.writeln('class $className$extendsClause {');
+    buffer.writeln('  const $className();');
     buffer.writeln();
 
     final dimensionTokens = parser.extractTokens(tokens, category);
@@ -47,7 +50,10 @@ class DimensionGenerator extends BaseGenerator {
         final resolved = parser.resolveAlias(value as String, category);
         if (resolved != null) {
           buffer.writeln('  /// ${token.description ?? token.path}');
-          buffer.writeln('  static const double $identifier = $resolved;');
+          if (baseClassName != null) {
+            buffer.writeln('  @override');
+          }
+          buffer.writeln('  double get $identifier => $resolved;');
           buffer.writeln();
           continue;
         }
@@ -57,7 +63,10 @@ class DimensionGenerator extends BaseGenerator {
       final dimension = parseDimension(value);
       if (dimension != null) {
         buffer.writeln('  /// ${token.description ?? token.path}');
-        buffer.writeln('  static const double $identifier = $dimension;');
+        if (baseClassName != null) {
+          buffer.writeln('  @override');
+        }
+        buffer.writeln('  double get $identifier => $dimension;');
         buffer.writeln();
       }
     }
@@ -73,8 +82,9 @@ DimensionGenerator createSpacingGenerator(TokenParser parser, {void Function(Str
   return DimensionGenerator(
     parser: parser,
     category: 'spacing',
-    generatedClassName: 'GSpacing',
+    generatedClassName: 'GeneratedSpacing',
     generatedFileName: 'spacing.g.dart',
+    baseClassName: 'GSpacingTokens',
     description: 'Generated spacing tokens from design-tokens.json',
     onWarning: onWarning,
   );
@@ -85,8 +95,9 @@ DimensionGenerator createSizingGenerator(TokenParser parser, {void Function(Stri
   return DimensionGenerator(
     parser: parser,
     category: 'sizing',
-    generatedClassName: 'GSizing',
+    generatedClassName: 'GeneratedSizing',
     generatedFileName: 'sizing.g.dart',
+    baseClassName: 'GSizingTokens',
     description: 'Generated sizing tokens from design-tokens.json',
     onWarning: onWarning,
   );
@@ -97,8 +108,9 @@ DimensionGenerator createBorderRadiusGenerator(TokenParser parser, {void Functio
   return DimensionGenerator(
     parser: parser,
     category: 'borderRadius',
-    generatedClassName: 'GBorderRadius',
+    generatedClassName: 'GeneratedBorderRadius',
     generatedFileName: 'border_radius.g.dart',
+    baseClassName: 'GBorderRadiusTokens',
     description: 'Generated border radius tokens from design-tokens.json',
     onWarning: onWarning,
   );
@@ -109,8 +121,9 @@ DimensionGenerator createBorderWidthGenerator(TokenParser parser, {void Function
   return DimensionGenerator(
     parser: parser,
     category: 'borderWidth',
-    generatedClassName: 'GBorderWidth',
+    generatedClassName: 'GeneratedBorderWidth',
     generatedFileName: 'border_width.g.dart',
+    baseClassName: 'GBorderWidthTokens',
     description: 'Generated border width tokens from design-tokens.json',
     onWarning: onWarning,
   );
@@ -121,8 +134,9 @@ DimensionGenerator createBreakpointGenerator(TokenParser parser, {void Function(
   return DimensionGenerator(
     parser: parser,
     category: 'breakpoint',
-    generatedClassName: 'GBreakpoints',
+    generatedClassName: 'GeneratedBreakpoints',
     generatedFileName: 'breakpoints.g.dart',
+    baseClassName: 'GBreakpointTokens',
     description: 'Generated breakpoint tokens from design-tokens.json',
     onWarning: onWarning,
   );

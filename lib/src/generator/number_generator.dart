@@ -8,6 +8,7 @@ class NumberGenerator extends BaseGenerator {
     required this.category,
     required this.generatedClassName,
     required this.generatedFileName,
+    this.baseClassName,
     this.description,
     super.onWarning,
   });
@@ -15,6 +16,7 @@ class NumberGenerator extends BaseGenerator {
   final String category;
   final String generatedClassName;
   final String generatedFileName;
+  final String? baseClassName;
   final String? description;
 
   @override
@@ -32,8 +34,9 @@ class NumberGenerator extends BaseGenerator {
       description: description ?? 'Generated $category tokens from design-tokens.json',
     ));
 
-    buffer.writeln('abstract final class $className {');
-    buffer.writeln('  $className._();');
+    final extendsClause = baseClassName != null ? ' extends $baseClassName' : '';
+    buffer.writeln('class $className$extendsClause {');
+    buffer.writeln('  const $className();');
     buffer.writeln();
 
     final numberTokens = parser.extractTokens(tokens, category);
@@ -47,7 +50,10 @@ class NumberGenerator extends BaseGenerator {
         final resolved = parser.resolveAlias(value as String, category);
         if (resolved != null) {
           buffer.writeln('  /// ${token.description ?? token.path}');
-          buffer.writeln('  static const double $identifier = $resolved;');
+          if (baseClassName != null) {
+            buffer.writeln('  @override');
+          }
+          buffer.writeln('  double get $identifier => $resolved;');
           buffer.writeln();
           continue;
         }
@@ -56,7 +62,10 @@ class NumberGenerator extends BaseGenerator {
       // Parse number value
       if (value is num) {
         buffer.writeln('  /// ${token.description ?? token.path}');
-        buffer.writeln('  static const double $identifier = ${value.toDouble()};');
+        if (baseClassName != null) {
+          buffer.writeln('  @override');
+        }
+        buffer.writeln('  double get $identifier => ${value.toDouble()};');
         buffer.writeln();
       }
     }
@@ -72,8 +81,9 @@ NumberGenerator createOpacityGenerator(TokenParser parser, {void Function(String
   return NumberGenerator(
     parser: parser,
     category: 'opacity',
-    generatedClassName: 'GOpacity',
+    generatedClassName: 'GeneratedOpacity',
     generatedFileName: 'opacity.g.dart',
+    baseClassName: 'GOpacityTokens',
     description: 'Generated opacity tokens from design-tokens.json',
     onWarning: onWarning,
   );

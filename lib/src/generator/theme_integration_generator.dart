@@ -38,16 +38,6 @@ class ThemeIntegrationGenerator extends BaseGenerator {
       description: 'Generated theme integration for easy setup',
     ));
 
-    // Generate token override classes
-    _generateSpacingTokens(buffer, tokens);
-    _generateSizingTokens(buffer, tokens);
-    _generateBorderRadiusTokens(buffer, tokens);
-    _generateBorderWidthTokens(buffer, tokens);
-    _generateShadowTokens(buffer, tokens);
-    _generateDurationTokens(buffer, tokens);
-    _generateEasingTokens(buffer, tokens);
-    _generateOpacityTokens(buffer, tokens);
-    _generateBreakpointTokens(buffer, tokens);
 
     // Generate the main theme class
     buffer.writeln('/// Generated theme configuration');
@@ -90,238 +80,38 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     return buffer.toString();
   }
 
-  void _generateSpacingTokens(StringBuffer buffer, Map<String, dynamic> tokens) {
-    buffer.writeln('/// Generated spacing tokens');
-    buffer.writeln('class GeneratedSpacingTokens extends GSpacingTokens {');
-    buffer.writeln('  const GeneratedSpacingTokens();');
-    buffer.writeln();
-
-    final spacingTokens = parser.extractTokens(tokens, 'spacing');
-    for (final token in spacingTokens.values) {
-      final identifier = toIdentifier(token.path);
-      final value = parseDimension(token.value);
-      if (value != null) {
-        buffer.writeln('  @override');
-        buffer.writeln('  double get $identifier => $value;');
-        buffer.writeln();
-      }
-    }
-
-    buffer.writeln('}');
-    buffer.writeln();
-  }
-
-  void _generateSizingTokens(StringBuffer buffer, Map<String, dynamic> tokens) {
-    buffer.writeln('/// Generated sizing tokens');
-    buffer.writeln('class GeneratedSizingTokens extends GSizingTokens {');
-    buffer.writeln('  const GeneratedSizingTokens();');
-    buffer.writeln();
-
-    final sizingTokens = parser.extractTokens(tokens, 'sizing');
-    for (final token in sizingTokens.values) {
-      final identifier = toIdentifier(token.path);
-      final value = parseDimension(token.value);
-      if (value != null) {
-        buffer.writeln('  @override');
-        buffer.writeln('  double get $identifier => $value;');
-        buffer.writeln();
-      }
-    }
-
-    buffer.writeln('}');
-    buffer.writeln();
-  }
-
-  void _generateBorderRadiusTokens(StringBuffer buffer, Map<String, dynamic> tokens) {
-    buffer.writeln('/// Generated border radius tokens');
-    buffer.writeln('class GeneratedBorderRadiusTokens extends GBorderRadiusTokens {');
-    buffer.writeln('  const GeneratedBorderRadiusTokens();');
-    buffer.writeln();
-
-    final borderRadiusTokens = parser.extractTokens(tokens, 'borderRadius');
-    for (final token in borderRadiusTokens.values) {
-      final identifier = toIdentifier(token.path);
-      final value = parseDimension(token.value);
-      if (value != null) {
-        buffer.writeln('  @override');
-        buffer.writeln('  double get $identifier => $value;');
-        buffer.writeln();
-      }
-    }
-
-    buffer.writeln('}');
-    buffer.writeln();
-  }
-
-  void _generateBorderWidthTokens(StringBuffer buffer, Map<String, dynamic> tokens) {
-    buffer.writeln('/// Generated border width tokens');
-    buffer.writeln('class GeneratedBorderWidthTokens extends GBorderWidthTokens {');
-    buffer.writeln('  const GeneratedBorderWidthTokens();');
-    buffer.writeln();
-
-    final borderWidthTokens = parser.extractTokens(tokens, 'borderWidth');
-    for (final token in borderWidthTokens.values) {
-      final identifier = toIdentifier(token.path);
-      final value = parseDimension(token.value);
-      if (value != null) {
-        buffer.writeln('  @override');
-        buffer.writeln('  double get $identifier => $value;');
-        buffer.writeln();
-      }
-    }
-
-    buffer.writeln('}');
-    buffer.writeln();
-  }
-
-  void _generateShadowTokens(StringBuffer buffer, Map<String, dynamic> tokens) {
-    buffer.writeln('/// Generated shadow tokens');
-    buffer.writeln('class GeneratedShadowTokens extends GShadowTokens {');
-    buffer.writeln('  const GeneratedShadowTokens();');
-    buffer.writeln();
-
-    final shadowTokens = parser.extractTokens(tokens, 'shadow');
-    for (final token in shadowTokens.values) {
-      final identifier = toIdentifier(token.path);
-      final shadows = _parseShadows(token.value);
-      if (shadows != null) {
-        buffer.writeln('  @override');
-        if (shadows.isEmpty) {
-          buffer.writeln('  List<BoxShadow> get $identifier => const [];');
-        } else {
-          buffer.writeln('  List<BoxShadow> get $identifier => const [');
-          for (final shadow in shadows) {
-            buffer.writeln('    $shadow,');
-          }
-          buffer.writeln('  ];');
-        }
-        buffer.writeln();
-      }
-    }
-
-    buffer.writeln('}');
-    buffer.writeln();
-  }
-
-  void _generateDurationTokens(StringBuffer buffer, Map<String, dynamic> tokens) {
-    buffer.writeln('/// Generated duration tokens');
-    buffer.writeln('class GeneratedDurationTokens extends GDurationTokens {');
-    buffer.writeln('  const GeneratedDurationTokens();');
-    buffer.writeln();
-
-    final durationTokens = parser.extractTokens(tokens, 'duration');
-    for (final token in durationTokens.values) {
-      final identifier = toIdentifier(token.path);
-      final ms = parseDuration(token.value);
-      if (ms != null) {
-        buffer.writeln('  @override');
-        if (ms == 0) {
-          buffer.writeln('  Duration get $identifier => Duration.zero;');
-        } else {
-          buffer.writeln('  Duration get $identifier => const Duration(milliseconds: $ms);');
-        }
-        buffer.writeln();
-      }
-    }
-
-    buffer.writeln('}');
-    buffer.writeln();
-  }
-
-  void _generateEasingTokens(StringBuffer buffer, Map<String, dynamic> tokens) {
-    buffer.writeln('/// Generated easing curve tokens');
-    buffer.writeln('class GeneratedEasingTokens extends GEasingTokens {');
-    buffer.writeln('  const GeneratedEasingTokens();');
-    buffer.writeln();
-
-    final easingTokens = parser.extractTokens(tokens, 'easing');
-    for (final token in easingTokens.values) {
-      final identifier = toIdentifier(token.path);
-      final bezier = _parseCubicBezier(token.value);
-      if (bezier != null) {
-        buffer.writeln('  @override');
-        buffer.writeln('  Curve get $identifier => const Cubic(${bezier[0]}, ${bezier[1]}, ${bezier[2]}, ${bezier[3]});');
-        buffer.writeln();
-      }
-    }
-
-    buffer.writeln('}');
-    buffer.writeln();
-  }
-
-  void _generateOpacityTokens(StringBuffer buffer, Map<String, dynamic> tokens) {
-    buffer.writeln('/// Generated opacity tokens');
-    buffer.writeln('class GeneratedOpacityTokens extends GOpacityTokens {');
-    buffer.writeln('  const GeneratedOpacityTokens();');
-    buffer.writeln();
-
-    final opacityTokens = parser.extractTokens(tokens, 'opacity');
-    for (final token in opacityTokens.values) {
-      final identifier = toIdentifier(token.path);
-      final value = token.value;
-      if (value is num) {
-        buffer.writeln('  @override');
-        buffer.writeln('  double get $identifier => ${value.toDouble()};');
-        buffer.writeln();
-      }
-    }
-
-    buffer.writeln('}');
-    buffer.writeln();
-  }
-
-  void _generateBreakpointTokens(StringBuffer buffer, Map<String, dynamic> tokens) {
-    buffer.writeln('/// Generated breakpoint tokens');
-    buffer.writeln('class GeneratedBreakpointTokens extends GBreakpointTokens {');
-    buffer.writeln('  const GeneratedBreakpointTokens();');
-    buffer.writeln();
-
-    final breakpointTokens = parser.extractTokens(tokens, 'breakpoint');
-    for (final token in breakpointTokens.values) {
-      final identifier = toIdentifier(token.path);
-      final value = parseDimension(token.value);
-      if (value != null) {
-        buffer.writeln('  @override');
-        buffer.writeln('  double get $identifier => $value;');
-        buffer.writeln();
-      }
-    }
-
-    buffer.writeln('}');
-    buffer.writeln();
-  }
 
   void _generateTokenInstances(StringBuffer buffer) {
     buffer.writeln('  // ============================================');
-    buffer.writeln('  // Generated Token Instances');
+    buffer.writeln('  // Token Instances from Generated Files');
     buffer.writeln('  // ============================================');
     buffer.writeln();
     buffer.writeln('  /// Generated spacing tokens');
-    buffer.writeln('  static const spacing = GeneratedSpacingTokens();');
+    buffer.writeln('  static const spacing = GeneratedSpacing();');
     buffer.writeln();
     buffer.writeln('  /// Generated sizing tokens');
-    buffer.writeln('  static const sizing = GeneratedSizingTokens();');
+    buffer.writeln('  static const sizing = GeneratedSizing();');
     buffer.writeln();
     buffer.writeln('  /// Generated border radius tokens');
-    buffer.writeln('  static const borderRadius = GeneratedBorderRadiusTokens();');
+    buffer.writeln('  static const borderRadius = GeneratedBorderRadius();');
     buffer.writeln();
     buffer.writeln('  /// Generated border width tokens');
-    buffer.writeln('  static const borderWidth = GeneratedBorderWidthTokens();');
+    buffer.writeln('  static const borderWidth = GeneratedBorderWidth();');
     buffer.writeln();
     buffer.writeln('  /// Generated shadow tokens');
-    buffer.writeln('  static const shadows = GeneratedShadowTokens();');
+    buffer.writeln('  static const shadows = GeneratedShadows();');
     buffer.writeln();
     buffer.writeln('  /// Generated duration tokens');
-    buffer.writeln('  static const durations = GeneratedDurationTokens();');
+    buffer.writeln('  static const durations = GeneratedDurations();');
     buffer.writeln();
     buffer.writeln('  /// Generated easing curve tokens');
-    buffer.writeln('  static const easing = GeneratedEasingTokens();');
+    buffer.writeln('  static const easing = GeneratedEasing();');
     buffer.writeln();
     buffer.writeln('  /// Generated opacity tokens');
-    buffer.writeln('  static const opacity = GeneratedOpacityTokens();');
+    buffer.writeln('  static const opacity = GeneratedOpacity();');
     buffer.writeln();
     buffer.writeln('  /// Generated breakpoint tokens');
-    buffer.writeln('  static const breakpoints = GeneratedBreakpointTokens();');
+    buffer.writeln('  static const breakpoints = GeneratedBreakpoints();');
     buffer.writeln();
   }
 
@@ -356,43 +146,43 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('  static GBrandColors _defaultBrandColors() {');
     buffer.writeln('    return GBrandColors(');
     buffer.writeln('      primary: GColorScale(');
-    buffer.writeln('        shade50: GColors.blue50,');
-    buffer.writeln('        shade100: GColors.blue100,');
-    buffer.writeln('        shade200: GColors.blue200,');
-    buffer.writeln('        shade300: GColors.blue300,');
-    buffer.writeln('        shade400: GColors.blue400,');
-    buffer.writeln('        shade500: GColors.blue500,');
-    buffer.writeln('        shade600: GColors.blue600,');
-    buffer.writeln('        shade700: GColors.blue700,');
-    buffer.writeln('        shade800: GColors.blue800,');
-    buffer.writeln('        shade900: GColors.blue900,');
-    buffer.writeln('        shade950: GColors.blue950,');
+    buffer.writeln('        shade50: GeneratedColors.blue50,');
+    buffer.writeln('        shade100: GeneratedColors.blue100,');
+    buffer.writeln('        shade200: GeneratedColors.blue200,');
+    buffer.writeln('        shade300: GeneratedColors.blue300,');
+    buffer.writeln('        shade400: GeneratedColors.blue400,');
+    buffer.writeln('        shade500: GeneratedColors.blue500,');
+    buffer.writeln('        shade600: GeneratedColors.blue600,');
+    buffer.writeln('        shade700: GeneratedColors.blue700,');
+    buffer.writeln('        shade800: GeneratedColors.blue800,');
+    buffer.writeln('        shade900: GeneratedColors.blue900,');
+    buffer.writeln('        shade950: GeneratedColors.blue950,');
     buffer.writeln('      ),');
     buffer.writeln('      secondary: GColorScale(');
-    buffer.writeln('        shade50: GColors.purple50,');
-    buffer.writeln('        shade100: GColors.purple100,');
-    buffer.writeln('        shade200: GColors.purple200,');
-    buffer.writeln('        shade300: GColors.purple300,');
-    buffer.writeln('        shade400: GColors.purple400,');
-    buffer.writeln('        shade500: GColors.purple500,');
-    buffer.writeln('        shade600: GColors.purple600,');
-    buffer.writeln('        shade700: GColors.purple700,');
-    buffer.writeln('        shade800: GColors.purple800,');
-    buffer.writeln('        shade900: GColors.purple900,');
-    buffer.writeln('        shade950: GColors.purple950,');
+    buffer.writeln('        shade50: GeneratedColors.purple50,');
+    buffer.writeln('        shade100: GeneratedColors.purple100,');
+    buffer.writeln('        shade200: GeneratedColors.purple200,');
+    buffer.writeln('        shade300: GeneratedColors.purple300,');
+    buffer.writeln('        shade400: GeneratedColors.purple400,');
+    buffer.writeln('        shade500: GeneratedColors.purple500,');
+    buffer.writeln('        shade600: GeneratedColors.purple600,');
+    buffer.writeln('        shade700: GeneratedColors.purple700,');
+    buffer.writeln('        shade800: GeneratedColors.purple800,');
+    buffer.writeln('        shade900: GeneratedColors.purple900,');
+    buffer.writeln('        shade950: GeneratedColors.purple950,');
     buffer.writeln('      ),');
     buffer.writeln('      tertiary: GColorScale(');
-    buffer.writeln('        shade50: GColors.teal50,');
-    buffer.writeln('        shade100: GColors.teal100,');
-    buffer.writeln('        shade200: GColors.teal200,');
-    buffer.writeln('        shade300: GColors.teal300,');
-    buffer.writeln('        shade400: GColors.teal400,');
-    buffer.writeln('        shade500: GColors.teal500,');
-    buffer.writeln('        shade600: GColors.teal600,');
-    buffer.writeln('        shade700: GColors.teal700,');
-    buffer.writeln('        shade800: GColors.teal800,');
-    buffer.writeln('        shade900: GColors.teal900,');
-    buffer.writeln('        shade950: GColors.teal950,');
+    buffer.writeln('        shade50: GeneratedColors.teal50,');
+    buffer.writeln('        shade100: GeneratedColors.teal100,');
+    buffer.writeln('        shade200: GeneratedColors.teal200,');
+    buffer.writeln('        shade300: GeneratedColors.teal300,');
+    buffer.writeln('        shade400: GeneratedColors.teal400,');
+    buffer.writeln('        shade500: GeneratedColors.teal500,');
+    buffer.writeln('        shade600: GeneratedColors.teal600,');
+    buffer.writeln('        shade700: GeneratedColors.teal700,');
+    buffer.writeln('        shade800: GeneratedColors.teal800,');
+    buffer.writeln('        shade900: GeneratedColors.teal900,');
+    buffer.writeln('        shade950: GeneratedColors.teal950,');
     buffer.writeln('      ),');
     buffer.writeln('    );');
     buffer.writeln('  }');
@@ -402,17 +192,17 @@ class ThemeIntegrationGenerator extends BaseGenerator {
   void _generateDefaultNeutralColors(StringBuffer buffer, Map<String, dynamic> tokens) {
     buffer.writeln('  static GNeutralColors _defaultNeutralColors() {');
     buffer.writeln('    return GNeutralColors(');
-    buffer.writeln('      shade50: GColors.gray50,');
-    buffer.writeln('      shade100: GColors.gray100,');
-    buffer.writeln('      shade200: GColors.gray200,');
-    buffer.writeln('      shade300: GColors.gray300,');
-    buffer.writeln('      shade400: GColors.gray400,');
-    buffer.writeln('      shade500: GColors.gray500,');
-    buffer.writeln('      shade600: GColors.gray600,');
-    buffer.writeln('      shade700: GColors.gray700,');
-    buffer.writeln('      shade800: GColors.gray800,');
-    buffer.writeln('      shade900: GColors.gray900,');
-    buffer.writeln('      shade950: GColors.gray950,');
+    buffer.writeln('      shade50: GeneratedColors.gray50,');
+    buffer.writeln('      shade100: GeneratedColors.gray100,');
+    buffer.writeln('      shade200: GeneratedColors.gray200,');
+    buffer.writeln('      shade300: GeneratedColors.gray300,');
+    buffer.writeln('      shade400: GeneratedColors.gray400,');
+    buffer.writeln('      shade500: GeneratedColors.gray500,');
+    buffer.writeln('      shade600: GeneratedColors.gray600,');
+    buffer.writeln('      shade700: GeneratedColors.gray700,');
+    buffer.writeln('      shade800: GeneratedColors.gray800,');
+    buffer.writeln('      shade900: GeneratedColors.gray900,');
+    buffer.writeln('      shade950: GeneratedColors.gray950,');
     buffer.writeln('    );');
     buffer.writeln('  }');
     buffer.writeln();
@@ -422,56 +212,56 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('  static GFeedbackColors _defaultFeedbackColors() {');
     buffer.writeln('    return GFeedbackColors(');
     buffer.writeln('      error: GColorScale(');
-    buffer.writeln('        shade50: GColors.red50,');
-    buffer.writeln('        shade100: GColors.red100,');
-    buffer.writeln('        shade200: GColors.red200,');
-    buffer.writeln('        shade300: GColors.red300,');
-    buffer.writeln('        shade400: GColors.red400,');
-    buffer.writeln('        shade500: GColors.red500,');
-    buffer.writeln('        shade600: GColors.red600,');
-    buffer.writeln('        shade700: GColors.red700,');
-    buffer.writeln('        shade800: GColors.red800,');
-    buffer.writeln('        shade900: GColors.red900,');
-    buffer.writeln('        shade950: GColors.red950,');
+    buffer.writeln('        shade50: GeneratedColors.red50,');
+    buffer.writeln('        shade100: GeneratedColors.red100,');
+    buffer.writeln('        shade200: GeneratedColors.red200,');
+    buffer.writeln('        shade300: GeneratedColors.red300,');
+    buffer.writeln('        shade400: GeneratedColors.red400,');
+    buffer.writeln('        shade500: GeneratedColors.red500,');
+    buffer.writeln('        shade600: GeneratedColors.red600,');
+    buffer.writeln('        shade700: GeneratedColors.red700,');
+    buffer.writeln('        shade800: GeneratedColors.red800,');
+    buffer.writeln('        shade900: GeneratedColors.red900,');
+    buffer.writeln('        shade950: GeneratedColors.red950,');
     buffer.writeln('      ),');
     buffer.writeln('      warning: GColorScale(');
-    buffer.writeln('        shade50: GColors.amber50,');
-    buffer.writeln('        shade100: GColors.amber100,');
-    buffer.writeln('        shade200: GColors.amber200,');
-    buffer.writeln('        shade300: GColors.amber300,');
-    buffer.writeln('        shade400: GColors.amber400,');
-    buffer.writeln('        shade500: GColors.amber500,');
-    buffer.writeln('        shade600: GColors.amber600,');
-    buffer.writeln('        shade700: GColors.amber700,');
-    buffer.writeln('        shade800: GColors.amber800,');
-    buffer.writeln('        shade900: GColors.amber900,');
-    buffer.writeln('        shade950: GColors.amber950,');
+    buffer.writeln('        shade50: GeneratedColors.amber50,');
+    buffer.writeln('        shade100: GeneratedColors.amber100,');
+    buffer.writeln('        shade200: GeneratedColors.amber200,');
+    buffer.writeln('        shade300: GeneratedColors.amber300,');
+    buffer.writeln('        shade400: GeneratedColors.amber400,');
+    buffer.writeln('        shade500: GeneratedColors.amber500,');
+    buffer.writeln('        shade600: GeneratedColors.amber600,');
+    buffer.writeln('        shade700: GeneratedColors.amber700,');
+    buffer.writeln('        shade800: GeneratedColors.amber800,');
+    buffer.writeln('        shade900: GeneratedColors.amber900,');
+    buffer.writeln('        shade950: GeneratedColors.amber950,');
     buffer.writeln('      ),');
     buffer.writeln('      success: GColorScale(');
-    buffer.writeln('        shade50: GColors.green50,');
-    buffer.writeln('        shade100: GColors.green100,');
-    buffer.writeln('        shade200: GColors.green200,');
-    buffer.writeln('        shade300: GColors.green300,');
-    buffer.writeln('        shade400: GColors.green400,');
-    buffer.writeln('        shade500: GColors.green500,');
-    buffer.writeln('        shade600: GColors.green600,');
-    buffer.writeln('        shade700: GColors.green700,');
-    buffer.writeln('        shade800: GColors.green800,');
-    buffer.writeln('        shade900: GColors.green900,');
-    buffer.writeln('        shade950: GColors.green950,');
+    buffer.writeln('        shade50: GeneratedColors.green50,');
+    buffer.writeln('        shade100: GeneratedColors.green100,');
+    buffer.writeln('        shade200: GeneratedColors.green200,');
+    buffer.writeln('        shade300: GeneratedColors.green300,');
+    buffer.writeln('        shade400: GeneratedColors.green400,');
+    buffer.writeln('        shade500: GeneratedColors.green500,');
+    buffer.writeln('        shade600: GeneratedColors.green600,');
+    buffer.writeln('        shade700: GeneratedColors.green700,');
+    buffer.writeln('        shade800: GeneratedColors.green800,');
+    buffer.writeln('        shade900: GeneratedColors.green900,');
+    buffer.writeln('        shade950: GeneratedColors.green950,');
     buffer.writeln('      ),');
     buffer.writeln('      info: GColorScale(');
-    buffer.writeln('        shade50: GColors.sky50,');
-    buffer.writeln('        shade100: GColors.sky100,');
-    buffer.writeln('        shade200: GColors.sky200,');
-    buffer.writeln('        shade300: GColors.sky300,');
-    buffer.writeln('        shade400: GColors.sky400,');
-    buffer.writeln('        shade500: GColors.sky500,');
-    buffer.writeln('        shade600: GColors.sky600,');
-    buffer.writeln('        shade700: GColors.sky700,');
-    buffer.writeln('        shade800: GColors.sky800,');
-    buffer.writeln('        shade900: GColors.sky900,');
-    buffer.writeln('        shade950: GColors.sky950,');
+    buffer.writeln('        shade50: GeneratedColors.sky50,');
+    buffer.writeln('        shade100: GeneratedColors.sky100,');
+    buffer.writeln('        shade200: GeneratedColors.sky200,');
+    buffer.writeln('        shade300: GeneratedColors.sky300,');
+    buffer.writeln('        shade400: GeneratedColors.sky400,');
+    buffer.writeln('        shade500: GeneratedColors.sky500,');
+    buffer.writeln('        shade600: GeneratedColors.sky600,');
+    buffer.writeln('        shade700: GeneratedColors.sky700,');
+    buffer.writeln('        shade800: GeneratedColors.sky800,');
+    buffer.writeln('        shade900: GeneratedColors.sky900,');
+    buffer.writeln('        shade950: GeneratedColors.sky950,');
     buffer.writeln('      ),');
     buffer.writeln('    );');
     buffer.writeln('  }');
@@ -511,8 +301,8 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('    final effectiveColors = colors ?? GColorScheme.light(systemColors: effectiveSystemColors);');
     buffer.writeln('');
     if (hasSansFont) {
-      buffer.writeln('    final effectiveFontFamily = fontFamily ?? GTypography.fontFamilySans;');
-      buffer.writeln('    final effectiveFallback = fontFamilyFallback ?? GTypography.fontFamilyFallbackSans;');
+      buffer.writeln('    final effectiveFontFamily = fontFamily ?? GeneratedTypography.fontFamilySans;');
+      buffer.writeln('    final effectiveFallback = fontFamilyFallback ?? GeneratedTypography.fontFamilyFallbackSans;');
     } else {
       buffer.writeln('    final effectiveFontFamily = fontFamily;');
       buffer.writeln('    final effectiveFallback = fontFamilyFallback;');
@@ -571,8 +361,8 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('    final effectiveColors = colors ?? GColorScheme.dark(systemColors: effectiveSystemColors);');
     buffer.writeln('');
     if (hasSansFont) {
-      buffer.writeln('    final effectiveFontFamily = fontFamily ?? GTypography.fontFamilySans;');
-      buffer.writeln('    final effectiveFallback = fontFamilyFallback ?? GTypography.fontFamilyFallbackSans;');
+      buffer.writeln('    final effectiveFontFamily = fontFamily ?? GeneratedTypography.fontFamilySans;');
+      buffer.writeln('    final effectiveFallback = fontFamilyFallback ?? GeneratedTypography.fontFamilyFallbackSans;');
     } else {
       buffer.writeln('    final effectiveFontFamily = fontFamily;');
       buffer.writeln('    final effectiveFallback = fontFamilyFallback;');
@@ -633,65 +423,6 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('            fontFamilyFallback: fontFamilyFallback,');
     buffer.writeln('          );');
     buffer.writeln('  }');
-  }
-
-  // Helper methods for parsing token values
-
-  List<String>? _parseShadows(dynamic value) {
-    if (value is! List) {
-      return null;
-    }
-
-    if (value.isEmpty) {
-      return [];
-    }
-
-    final shadows = <String>[];
-    for (final shadowDef in value) {
-      if (shadowDef is! Map<String, dynamic>) {
-        continue;
-      }
-
-      final color = _parseColorValue(shadowDef['color']);
-      final offsetX = parseDimension(shadowDef['offsetX']) ?? 0;
-      final offsetY = parseDimension(shadowDef['offsetY']) ?? 0;
-      final blur = parseDimension(shadowDef['blur']) ?? 0;
-      final spread = parseDimension(shadowDef['spread']) ?? 0;
-
-      if (color != null) {
-        shadows.add(
-          'BoxShadow(color: Color($color), offset: Offset($offsetX, $offsetY), blurRadius: $blur, spreadRadius: $spread)',
-        );
-      }
-    }
-
-    return shadows;
-  }
-
-  String? _parseColorValue(dynamic value) {
-    if (value == null) return null;
-    if (value is! String) return null;
-
-    final colorInt = parseColor(value);
-    if (colorInt == null) return null;
-
-    return '0x${colorInt.toRadixString(16).toUpperCase().padLeft(8, '0')}';
-  }
-
-  List<double>? _parseCubicBezier(dynamic value) {
-    if (value is! List) {
-      return null;
-    }
-
-    if (value.length != 4) {
-      return null;
-    }
-
-    try {
-      return value.map((v) => (v as num).toDouble()).toList();
-    } catch (e) {
-      return null;
-    }
   }
 }
 

@@ -11,19 +11,19 @@ class CubicBezierGenerator extends BaseGenerator {
   String get fileName => 'easing.g.dart';
 
   @override
-  String get className => 'GEasing';
+  String get className => 'GeneratedEasing';
 
   @override
   String generate(Map<String, dynamic> tokens) {
     final buffer = StringBuffer();
 
     buffer.write(generateHeader(
-      imports: ['package:flutter/widgets.dart'],
+      imports: ['package:flutter/widgets.dart', 'package:garmisch/garmisch.dart'],
       description: 'Generated easing curve tokens from design-tokens.json',
     ));
 
-    buffer.writeln('abstract final class $className {');
-    buffer.writeln('  $className._();');
+    buffer.writeln('class $className extends GEasingTokens {');
+    buffer.writeln('  const $className();');
     buffer.writeln();
 
     final easingTokens = parser.extractTokens(tokens, 'easing');
@@ -37,7 +37,8 @@ class CubicBezierGenerator extends BaseGenerator {
         final resolved = parser.resolveAlias(value as String, 'easing');
         if (resolved != null) {
           buffer.writeln('  /// ${token.description ?? token.path}');
-          buffer.writeln('  static const Curve $identifier = $resolved;');
+          buffer.writeln('  @override');
+          buffer.writeln('  Curve get $identifier => $resolved;');
           buffer.writeln();
           continue;
         }
@@ -47,7 +48,8 @@ class CubicBezierGenerator extends BaseGenerator {
       final bezier = _parseCubicBezier(value);
       if (bezier != null) {
         buffer.writeln('  /// ${token.description ?? token.path}');
-        buffer.writeln('  static const Curve $identifier = Cubic(${bezier[0]}, ${bezier[1]}, ${bezier[2]}, ${bezier[3]});');
+        buffer.writeln('  @override');
+        buffer.writeln('  Curve get $identifier => const Cubic(${bezier[0]}, ${bezier[1]}, ${bezier[2]}, ${bezier[3]});');
         buffer.writeln();
       }
     }
@@ -76,4 +78,3 @@ class CubicBezierGenerator extends BaseGenerator {
     }
   }
 }
-

@@ -11,19 +11,19 @@ class ShadowGenerator extends BaseGenerator {
   String get fileName => 'shadows.g.dart';
 
   @override
-  String get className => 'GShadows';
+  String get className => 'GeneratedShadows';
 
   @override
   String generate(Map<String, dynamic> tokens) {
     final buffer = StringBuffer();
 
     buffer.write(generateHeader(
-      imports: ['package:flutter/widgets.dart'],
+      imports: ['package:flutter/widgets.dart', 'package:garmisch/garmisch.dart'],
       description: 'Generated shadow tokens from design-tokens.json',
     ));
 
-    buffer.writeln('abstract final class $className {');
-    buffer.writeln('  $className._();');
+    buffer.writeln('class $className extends GShadowTokens {');
+    buffer.writeln('  const $className();');
     buffer.writeln();
 
     final shadowTokens = parser.extractTokens(tokens, 'shadow');
@@ -37,7 +37,8 @@ class ShadowGenerator extends BaseGenerator {
         final resolved = parser.resolveAlias(value as String, 'shadow');
         if (resolved != null) {
           buffer.writeln('  /// ${token.description ?? token.path}');
-          buffer.writeln('  static const List<BoxShadow> $identifier = $resolved;');
+          buffer.writeln('  @override');
+          buffer.writeln('  List<BoxShadow> get $identifier => $resolved;');
           buffer.writeln();
           continue;
         }
@@ -47,10 +48,11 @@ class ShadowGenerator extends BaseGenerator {
       final shadows = _parseShadows(value);
       if (shadows != null) {
         buffer.writeln('  /// ${token.description ?? token.path}');
+        buffer.writeln('  @override');
         if (shadows.isEmpty) {
-          buffer.writeln('  static const List<BoxShadow> $identifier = [];');
+          buffer.writeln('  List<BoxShadow> get $identifier => const [];');
         } else {
-          buffer.writeln('  static const List<BoxShadow> $identifier = [');
+          buffer.writeln('  List<BoxShadow> get $identifier => const [');
           for (final shadow in shadows) {
             buffer.writeln('    $shadow,');
           }
