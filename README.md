@@ -504,9 +504,68 @@ When generating Flutter code for this project:
 
 ## Custom Design Tokens
 
-Garmisch includes a CLI tool that generates custom design tokens from DTCG (Design Tokens Community Group) format JSON files. The generator creates ready-to-use Dart classes including a `GeneratedTheme` class that wires everything together automatically.
+Garmisch includes tools to generate custom design tokens from DTCG (Design Tokens Community Group) format JSON files. You can create your `design-tokens.json` file using either:
 
-### Quick Start
+1. **🎨 Visual Token Editor** — An interactive UI to customize and export tokens (recommended)
+2. **📝 Manual JSON Editing** — Edit the JSON file directly for full control
+
+The generator creates ready-to-use Dart classes including a `GeneratedTheme` class that wires everything together automatically.
+
+### Option 1: Visual Token Editor (Recommended)
+
+The example app includes a visual Token Generator that lets you customize all design tokens with an interactive UI and live preview.
+
+#### Running the Token Editor
+
+```bash
+# Navigate to the example app
+cd example
+
+# Run the app
+flutter run -d chrome  # or any other device
+```
+
+Then navigate to **Tools → Token Generator** in the app.
+
+#### Features
+
+The Token Editor provides visual editors for all token types:
+
+| Tab | Description |
+|-----|-------------|
+| **Colors** | Edit 18 color palettes (gray, red, blue, etc.) with color picker |
+| **System** | Map semantic roles (primary, error, etc.) to color palettes |
+| **Spacing** | Configure spacing values with visual preview bars |
+| **Sizing** | Define size values for dimensions |
+| **Radius** | Adjust border radius with shape preview |
+| **Border** | Set border width values |
+| **Opacity** | Configure transparency levels with visual preview |
+| **Duration** | Set animation durations with playback preview |
+| **Shadows** | Edit multi-layer shadow properties |
+| **Breakpoints** | Define responsive breakpoint widths |
+| **Fonts** | Set font family names with live preview |
+| **Typography** | Configure font sizes, weights, line heights |
+
+#### Live Preview
+
+The side panel shows real-time updates as you edit tokens, displaying:
+- System color swatches
+- Button previews with current styles
+- Card with shadow applied
+- Typography samples
+- Spacing and border radius visualizations
+
+#### Exporting Tokens
+
+1. Click the **Export JSON** button in the top-right
+2. The JSON is copied to your clipboard and displayed in a dialog
+3. Save as `design-tokens.json` in your project root
+
+### Option 2: Manual JSON Editing
+
+If you prefer full control, you can create or edit the JSON file directly.
+
+#### Quick Start
 
 1. **Copy the default tokens file** to your project:
 
@@ -530,7 +589,13 @@ cp path/to/garmisch/tokens/design-tokens.json ./design-tokens.json
 }
 ```
 
-3. **Run the generator**:
+3. Save as `design-tokens.json` in your project root
+
+---
+
+### Running the Generator
+
+Once you have your `design-tokens.json` file (from either the visual editor or manual editing), run the generator:
 
 ```bash
 dart run garmisch:generate_tokens --input design-tokens.json
@@ -538,7 +603,7 @@ dart run garmisch:generate_tokens --input design-tokens.json
 
 This will generate files to `lib/generated_tokens/` by default.
 
-4. **Use the generated theme** (zero configuration):
+### Using the Generated Theme
 
 ```dart
 import 'package:garmisch/garmisch.dart';
