@@ -5,13 +5,14 @@ class CubicBezierGenerator extends BaseGenerator {
   CubicBezierGenerator({
     required super.parser,
     super.onWarning,
+    super.prefix,
   });
 
   @override
-  String get fileName => 'easing.g.dart';
+  String get baseFileName => 'easing';
 
   @override
-  String get className => 'GeneratedEasing';
+  String get baseClassName => 'Easing';
 
   @override
   String generate(Map<String, dynamic> tokens) {

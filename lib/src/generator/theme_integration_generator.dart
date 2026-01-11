@@ -6,13 +6,29 @@ class ThemeIntegrationGenerator extends BaseGenerator {
   ThemeIntegrationGenerator({
     required super.parser,
     super.onWarning,
+    super.prefix,
   });
 
   @override
-  String get fileName => 'theme_integration.g.dart';
+  String get baseFileName => 'theme_integration';
 
   @override
-  String get className => 'GeneratedTheme';
+  String get baseClassName => 'Theme';
+
+  /// Helper to create prefixed file names
+  String _prefixedFileName(String baseName) {
+    final snakePrefix = prefix
+        .replaceAllMapped(
+          RegExp(r'([A-Z])'),
+          (match) => '_${match.group(1)!.toLowerCase()}',
+        )
+        .replaceFirst(RegExp(r'^_'), '')
+        .toLowerCase();
+    return '${snakePrefix}_$baseName.g.dart';
+  }
+
+  /// Helper to create prefixed class names
+  String _prefixedClassName(String baseName) => '$prefix$baseName';
 
   @override
   String generate(Map<String, dynamic> tokens) {
@@ -23,17 +39,17 @@ class ThemeIntegrationGenerator extends BaseGenerator {
         'dart:ui',
         'package:flutter/widgets.dart',
         'package:garmisch/garmisch.dart',
-        'colors.g.dart',
-        'typography.g.dart',
-        'spacing.g.dart',
-        'sizing.g.dart',
-        'border_radius.g.dart',
-        'border_width.g.dart',
-        'shadows.g.dart',
-        'durations.g.dart',
-        'easing.g.dart',
-        'opacity.g.dart',
-        'breakpoints.g.dart',
+        _prefixedFileName('colors'),
+        _prefixedFileName('typography'),
+        _prefixedFileName('spacing'),
+        _prefixedFileName('sizing'),
+        _prefixedFileName('border_radius'),
+        _prefixedFileName('border_width'),
+        _prefixedFileName('shadows'),
+        _prefixedFileName('durations'),
+        _prefixedFileName('easing'),
+        _prefixedFileName('opacity'),
+        _prefixedFileName('breakpoints'),
       ],
       description: 'Generated theme integration for easy setup',
     ));
@@ -45,7 +61,7 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('/// Usage:');
     buffer.writeln('/// ```dart');
     buffer.writeln('/// GTheme(');
-    buffer.writeln('///   data: GeneratedTheme.light(),');
+    buffer.writeln('///   data: $className.light(),');
     buffer.writeln('///   child: MyApp(),');
     buffer.writeln('/// )');
     buffer.writeln('/// ```');
@@ -87,31 +103,31 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('  // ============================================');
     buffer.writeln();
     buffer.writeln('  /// Generated spacing tokens');
-    buffer.writeln('  static const spacing = GeneratedSpacing();');
+    buffer.writeln('  static const spacing = ${_prefixedClassName('Spacing')}();');
     buffer.writeln();
     buffer.writeln('  /// Generated sizing tokens');
-    buffer.writeln('  static const sizing = GeneratedSizing();');
+    buffer.writeln('  static const sizing = ${_prefixedClassName('Sizing')}();');
     buffer.writeln();
     buffer.writeln('  /// Generated border radius tokens');
-    buffer.writeln('  static const borderRadius = GeneratedBorderRadius();');
+    buffer.writeln('  static const borderRadius = ${_prefixedClassName('BorderRadius')}();');
     buffer.writeln();
     buffer.writeln('  /// Generated border width tokens');
-    buffer.writeln('  static const borderWidth = GeneratedBorderWidth();');
+    buffer.writeln('  static const borderWidth = ${_prefixedClassName('BorderWidth')}();');
     buffer.writeln();
     buffer.writeln('  /// Generated shadow tokens');
-    buffer.writeln('  static const shadows = GeneratedShadows();');
+    buffer.writeln('  static const shadows = ${_prefixedClassName('Shadows')}();');
     buffer.writeln();
     buffer.writeln('  /// Generated duration tokens');
-    buffer.writeln('  static const durations = GeneratedDurations();');
+    buffer.writeln('  static const durations = ${_prefixedClassName('Durations')}();');
     buffer.writeln();
     buffer.writeln('  /// Generated easing curve tokens');
-    buffer.writeln('  static const easing = GeneratedEasing();');
+    buffer.writeln('  static const easing = ${_prefixedClassName('Easing')}();');
     buffer.writeln();
     buffer.writeln('  /// Generated opacity tokens');
-    buffer.writeln('  static const opacity = GeneratedOpacity();');
+    buffer.writeln('  static const opacity = ${_prefixedClassName('Opacity')}();');
     buffer.writeln();
     buffer.writeln('  /// Generated breakpoint tokens');
-    buffer.writeln('  static const breakpoints = GeneratedBreakpoints();');
+    buffer.writeln('  static const breakpoints = ${_prefixedClassName('Breakpoints')}();');
     buffer.writeln();
   }
 
@@ -119,13 +135,13 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('  /// Creates GSystemColors from generated tokens');
     buffer.writeln('  ///');
     buffer.writeln('  /// Override individual color scales by passing them as parameters.');
-    buffer.writeln('  /// Uses GeneratedSystemColors which maps design token palettes to semantic colors.');
+    buffer.writeln('  /// Uses ${_prefixedClassName('SystemColors')} which maps design token palettes to semantic colors.');
     buffer.writeln('  static GSystemColors systemColors({');
     buffer.writeln('    GBrandColors? brand,');
     buffer.writeln('    GNeutralColors? neutral,');
     buffer.writeln('    GFeedbackColors? feedback,');
     buffer.writeln('  }) {');
-    buffer.writeln('    return GeneratedSystemColors.create(');
+    buffer.writeln('    return ${_prefixedClassName('SystemColors')}.create(');
     buffer.writeln('      brand: brand,');
     buffer.writeln('      neutral: neutral,');
     buffer.writeln('      feedback: feedback,');
@@ -151,7 +167,7 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('  ///');
     buffer.writeln('  /// Override specific parts by passing parameters:');
     buffer.writeln('  /// ```dart');
-    buffer.writeln('  /// GeneratedTheme.light(');
+    buffer.writeln('  /// $className.light(');
     buffer.writeln('  ///   fontFamily: "CustomFont",');
     buffer.writeln('  ///   systemColors: customSystemColors,');
     buffer.writeln('  /// )');
@@ -167,8 +183,8 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('    final effectiveColors = colors ?? GColorScheme.light(systemColors: effectiveSystemColors);');
     buffer.writeln('');
     if (hasSansFont) {
-      buffer.writeln('    final effectiveFontFamily = fontFamily ?? GeneratedTypography.fontFamilySans;');
-      buffer.writeln('    final effectiveFallback = fontFamilyFallback ?? GeneratedTypography.fontFamilyFallbackSans;');
+      buffer.writeln('    final effectiveFontFamily = fontFamily ?? ${_prefixedClassName('Typography')}.fontFamilySans;');
+      buffer.writeln('    final effectiveFallback = fontFamilyFallback ?? ${_prefixedClassName('Typography')}.fontFamilyFallbackSans;');
     } else {
       buffer.writeln('    final effectiveFontFamily = fontFamily;');
       buffer.writeln('    final effectiveFallback = fontFamilyFallback;');
@@ -212,7 +228,7 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('  ///');
     buffer.writeln('  /// Override specific parts by passing parameters:');
     buffer.writeln('  /// ```dart');
-    buffer.writeln('  /// GeneratedTheme.dark(');
+    buffer.writeln('  /// $className.dark(');
     buffer.writeln('  ///   fontFamily: "CustomFont",');
     buffer.writeln('  /// )');
     buffer.writeln('  /// ```');
@@ -227,8 +243,8 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('    final effectiveColors = colors ?? GColorScheme.dark(systemColors: effectiveSystemColors);');
     buffer.writeln('');
     if (hasSansFont) {
-      buffer.writeln('    final effectiveFontFamily = fontFamily ?? GeneratedTypography.fontFamilySans;');
-      buffer.writeln('    final effectiveFallback = fontFamilyFallback ?? GeneratedTypography.fontFamilyFallbackSans;');
+      buffer.writeln('    final effectiveFontFamily = fontFamily ?? ${_prefixedClassName('Typography')}.fontFamilySans;');
+      buffer.writeln('    final effectiveFallback = fontFamilyFallback ?? ${_prefixedClassName('Typography')}.fontFamilyFallbackSans;');
     } else {
       buffer.writeln('    final effectiveFontFamily = fontFamily;');
       buffer.writeln('    final effectiveFallback = fontFamilyFallback;');
@@ -261,7 +277,7 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('  ///');
     buffer.writeln('  /// Useful for system theme following:');
     buffer.writeln('  /// ```dart');
-    buffer.writeln('  /// GeneratedTheme.fromBrightness(');
+    buffer.writeln('  /// $className.fromBrightness(');
     buffer.writeln('  ///   brightness: MediaQuery.platformBrightnessOf(context),');
     buffer.writeln('  /// )');
     buffer.writeln('  /// ```');

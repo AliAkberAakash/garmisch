@@ -5,13 +5,14 @@ class ShadowGenerator extends BaseGenerator {
   ShadowGenerator({
     required super.parser,
     super.onWarning,
+    super.prefix,
   });
 
   @override
-  String get fileName => 'shadows.g.dart';
+  String get baseFileName => 'shadows';
 
   @override
-  String get className => 'GeneratedShadows';
+  String get baseClassName => 'Shadows';
 
   @override
   String generate(Map<String, dynamic> tokens) {

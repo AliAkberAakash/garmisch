@@ -5,13 +5,14 @@ class DurationGenerator extends BaseGenerator {
   DurationGenerator({
     required super.parser,
     super.onWarning,
+    super.prefix,
   });
 
   @override
-  String get fileName => 'durations.g.dart';
+  String get baseFileName => 'durations';
 
   @override
-  String get className => 'GeneratedDurations';
+  String get baseClassName => 'Durations';
 
   @override
   String generate(Map<String, dynamic> tokens) {

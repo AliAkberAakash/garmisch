@@ -5,19 +5,46 @@ abstract class BaseGenerator {
   BaseGenerator({
     required this.parser,
     this.onWarning,
-  });
+    String? prefix,
+  }) : prefix = prefix ?? 'Generated';
 
   final TokenParser parser;
   final void Function(String message)? onWarning;
 
+  /// The prefix used for generated file names and class names.
+  /// Defaults to 'Generated' if not specified.
+  final String prefix;
+
   /// Generates Dart code from the tokens
   String generate(Map<String, dynamic> tokens);
 
-  /// Returns the file name for the generated code
-  String get fileName;
+  /// Returns the file name for the generated code (without prefix)
+  String get baseFileName;
 
-  /// Returns the class name for the generated code
-  String get className;
+  /// Returns the class name for the generated code (without prefix)
+  String get baseClassName;
+
+  /// Returns the full file name with prefix
+  /// For example: if prefix is 'MyDesign' and baseFileName is 'colors', returns 'my_design_colors.g.dart'
+  String get fileName {
+    final snakePrefix = _toSnakeCase(prefix);
+    return '${snakePrefix}_$baseFileName.g.dart';
+  }
+
+  /// Returns the full class name with prefix
+  /// For example: if prefix is 'MyDesign' and baseClassName is 'Colors', returns 'MyDesignColors'
+  String get className => '$prefix$baseClassName';
+
+  /// Converts a PascalCase or camelCase string to snake_case
+  String _toSnakeCase(String input) {
+    return input
+        .replaceAllMapped(
+          RegExp(r'([A-Z])'),
+          (match) => '_${match.group(1)!.toLowerCase()}',
+        )
+        .replaceFirst(RegExp(r'^_'), '')
+        .toLowerCase();
+  }
 
   /// Generates the file header with imports and documentation
   String generateHeader({

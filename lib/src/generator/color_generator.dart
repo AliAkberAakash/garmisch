@@ -66,13 +66,14 @@ class ColorGenerator extends BaseGenerator {
   ColorGenerator({
     required super.parser,
     super.onWarning,
+    super.prefix,
   });
 
   @override
-  String get fileName => 'colors.g.dart';
+  String get baseFileName => 'colors';
 
   @override
-  String get className => 'GeneratedSystemColors';
+  String get baseClassName => 'SystemColors';
 
   @override
   String generate(Map<String, dynamic> tokens) {
@@ -122,7 +123,7 @@ class ColorGenerator extends BaseGenerator {
     buffer.writeln('///');
     buffer.writeln('/// Usage:');
     buffer.writeln('/// ```dart');
-    buffer.writeln('/// final colors = GeneratedSystemColors.create();');
+    buffer.writeln('/// final colors = $className.create();');
     buffer.writeln('/// ```');
     buffer.writeln('abstract final class $className {');
     buffer.writeln('  $className._();');
