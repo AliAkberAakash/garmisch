@@ -7,6 +7,7 @@ import 'color_scheme.dart';
 import 'text_theme.dart';
 import 'theme_data.dart';
 import 'theme_provider.dart';
+import 'token_classes.dart';
 
 /// Extension on [BuildContext] to provide easy access to Garmisch theme
 extension GThemeExtension on BuildContext {
@@ -18,6 +19,59 @@ extension GThemeExtension on BuildContext {
 
   /// Get the current [GTextTheme]
   GTextTheme get gTextTheme => GTheme.of(this).textTheme;
+
+  // ============================================
+  // Token Accessors
+  // ============================================
+
+  /// Get spacing tokens
+  ///
+  /// Usage: `context.gSpacing.md`
+  GSpacingTokens get gSpacing => GTheme.of(this).spacing;
+
+  /// Get sizing tokens
+  ///
+  /// Usage: `context.gSizing.xl`
+  GSizingTokens get gSizing => GTheme.of(this).sizing;
+
+  /// Get border radius tokens
+  ///
+  /// Usage: `context.gBorderRadius.lg` or `context.gBorderRadius.circularLg`
+  GBorderRadiusTokens get gBorderRadius => GTheme.of(this).borderRadius;
+
+  /// Get border width tokens
+  ///
+  /// Usage: `context.gBorderWidth.thin`
+  GBorderWidthTokens get gBorderWidth => GTheme.of(this).borderWidth;
+
+  /// Get shadow tokens
+  ///
+  /// Usage: `context.gShadows.md`
+  GShadowTokens get gShadows => GTheme.of(this).shadows;
+
+  /// Get duration tokens
+  ///
+  /// Usage: `context.gDurations.normal`
+  GDurationTokens get gDurations => GTheme.of(this).durations;
+
+  /// Get easing curve tokens
+  ///
+  /// Usage: `context.gEasing.easeOut`
+  GEasingTokens get gEasing => GTheme.of(this).easing;
+
+  /// Get opacity tokens
+  ///
+  /// Usage: `context.gOpacity.o50`
+  GOpacityTokens get gOpacity => GTheme.of(this).opacity;
+
+  /// Get breakpoint tokens
+  ///
+  /// Usage: `context.gBreakpoints.md`
+  GBreakpointTokens get gBreakpoints => GTheme.of(this).breakpoints;
+
+  // ============================================
+  // Theme State
+  // ============================================
 
   /// Check if the current theme is dark mode
   bool get isDarkMode => GTheme.of(this).isDark;

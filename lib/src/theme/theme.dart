@@ -5,6 +5,7 @@
 /// - GTextTheme
 /// - GThemeData
 /// - GTheme (provider)
+/// - Token classes (GSpacingTokens, GSizingTokens, etc.)
 /// - BuildContext extensions
 library;
 
@@ -13,4 +14,5 @@ export 'text_theme.dart';
 export 'theme_data.dart';
 export 'theme_extension.dart';
 export 'theme_provider.dart';
+export 'token_classes.dart';
 

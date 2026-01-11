@@ -309,10 +309,24 @@ GThemeData(
 ### Context Extensions
 
 ```dart
+// Theme & Colors
 context.gTheme        // GThemeData
 context.gColors       // GColorScheme
 context.gTextTheme    // GTextTheme
 context.isDarkMode    // bool
+
+// Design Tokens (via theme)
+context.gSpacing      // GSpacingTokens - context.gSpacing.md
+context.gSizing       // GSizingTokens - context.gSizing.xl
+context.gBorderRadius // GBorderRadiusTokens - context.gBorderRadius.lg
+context.gBorderWidth  // GBorderWidthTokens - context.gBorderWidth.thin
+context.gShadows      // GShadowTokens - context.gShadows.md
+context.gDurations    // GDurationTokens - context.gDurations.normal
+context.gEasing       // GEasingTokens - context.gEasing.easeOut
+context.gOpacity      // GOpacityTokens - context.gOpacity.o50
+context.gBreakpoints  // GBreakpointTokens - context.gBreakpoints.md
+
+// Screen Info
 context.screenWidth   // double
 context.screenHeight  // double
 context.isMobile      // bool (< 768px)
@@ -324,7 +338,8 @@ context.isXs / isSm / isMd / isLg / isXl / isXl2  // Breakpoint checks
 ### Widget Extensions
 
 ```dart
-widget.padding(GSpacing.md)
+widget.padding(GSpacing.md)         // Static access
+widget.padding(context.gSpacing.md) // Theme-aware access (uses generated tokens if available)
 widget.margin(GSpacing.sm)
 widget.center()
 widget.expanded()
@@ -416,6 +431,177 @@ When generating Flutter code for this project:
 - Access theme via context: context.gColors, context.gTextTheme
 - Use responsive helpers: context.isMobile, context.isDesktop
 - Refer to DESIGN_SYSTEM.md for complete component APIs
+```
+
+---
+
+## Custom Design Tokens
+
+Garmisch includes a CLI tool that generates custom design tokens from DTCG (Design Tokens Community Group) format JSON files. The generator creates ready-to-use Dart classes including a `GeneratedTheme` class that wires everything together automatically.
+
+### Quick Start
+
+1. **Copy the default tokens file** to your project:
+
+```bash
+# From the garmisch package
+cp path/to/garmisch/tokens/design-tokens.json ./design-tokens.json
+```
+
+2. **Customize the tokens** in `design-tokens.json`:
+
+```json
+{
+  "color": {
+    "blue": {
+      "500": { "$type": "color", "$value": "#6366F1" }
+    }
+  },
+  "fontFamily": {
+    "sans": { "$type": "fontFamily", "$value": "Poppins" }
+  }
+}
+```
+
+3. **Run the generator**:
+
+```bash
+dart run garmisch:generate_tokens --input design-tokens.json --output lib/generated/
+```
+
+4. **Use the generated theme** (zero configuration):
+
+```dart
+import 'package:garmisch/garmisch.dart';
+import 'package:your_app/generated/generated.dart';
+
+void main() {
+  runApp(
+    GTheme(
+      data: GeneratedTheme.light(), // That's it!
+      child: MyApp(),
+    ),
+  );
+}
+```
+
+### Generated Files
+
+The generator creates 12 files:
+
+| File | Description |
+|------|-------------|
+| `colors.g.dart` | `GColors` class with all color tokens |
+| `spacing.g.dart` | `GSpacing` class |
+| `sizing.g.dart` | `GSizing` class |
+| `typography.g.dart` | `GTypography` with fonts, sizes, weights |
+| `border_radius.g.dart` | `GBorderRadius` class |
+| `shadows.g.dart` | `GShadows` class |
+| `durations.g.dart` | `GDurations` class |
+| `easing.g.dart` | `GEasing` curves |
+| `opacity.g.dart` | `GOpacity` class |
+| `breakpoints.g.dart` | `GBreakpoints` class |
+| `theme_integration.g.dart` | `GeneratedTheme` with `light()`, `dark()`, `fromBrightness()` |
+| `generated.dart` | Barrel export for all files |
+
+### GeneratedTheme API
+
+```dart
+// Light theme with generated tokens
+GeneratedTheme.light()
+
+// Dark theme with generated tokens
+GeneratedTheme.dark()
+
+// Follow system brightness
+GeneratedTheme.fromBrightness(
+  brightness: MediaQuery.platformBrightnessOf(context),
+)
+
+// Override specific parts
+GeneratedTheme.light(
+  fontFamily: 'CustomFont',
+  systemColors: myCustomSystemColors,
+)
+```
+
+### CLI Options
+
+```bash
+dart run garmisch:generate_tokens [options]
+
+Options:
+  --input, -i <path>    Path to design tokens JSON (default: design-tokens.json)
+  --output, -o <path>   Output directory (default: lib/generated/)
+  --help, -h            Show help message
+```
+
+### Custom Fonts
+
+1. **Define fonts in your tokens**:
+
+```json
+{
+  "fontFamily": {
+    "sans": { "$type": "fontFamily", "$value": "Poppins" },
+    "serif": { "$type": "fontFamily", "$value": "Merriweather" }
+  },
+  "fontFamilyFallback": {
+    "sans": { "$type": "fontFamily", "$value": ["system-ui", "sans-serif"] }
+  }
+}
+```
+
+2. **Add font files** to your project and register in `pubspec.yaml`:
+
+```yaml
+flutter:
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins-Regular.ttf
+        - asset: fonts/Poppins-Bold.ttf
+          weight: 700
+```
+
+3. **The generated theme automatically uses your fonts**:
+
+```dart
+// GTypography.fontFamilySans is now "Poppins"
+GeneratedTheme.light() // Uses Poppins automatically
+```
+
+### DTCG Format Reference
+
+The generator follows the [Design Tokens Community Group format](https://tr.designtokens.org/format/):
+
+```json
+{
+  "category": {
+    "token-name": {
+      "$type": "color|dimension|duration|cubicBezier|shadow|fontFamily|fontWeight|number",
+      "$value": "<value>",
+      "$description": "Optional description"
+    }
+  }
+}
+```
+
+### Token Aliases
+
+Use aliases to reference other tokens (preserved as Dart references for tree-shaking):
+
+```json
+{
+  "color": {
+    "primary": { "$type": "color", "$value": "{color.blue.500}" }
+  }
+}
+```
+
+Generates:
+```dart
+static const Color primary = GColors.blue500;
 ```
 
 ---
