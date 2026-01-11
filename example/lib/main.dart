@@ -35,22 +35,8 @@ class _GarmischShowcaseAppState extends State<GarmischShowcaseApp> {
         title: 'Garmisch Design System',
         debugShowCheckedModeBanner: false,
         themeMode: _themeMode,
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: GColors.blue600,
-            brightness: Brightness.light,
-          ),
-          fontFamily: GTypography.fontFamilySans,
-        ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: GColors.blue600,
-            brightness: Brightness.dark,
-          ),
-          fontFamily: GTypography.fontFamilySans,
-        ),
+        theme: GThemeData.light().toThemeData(),
+        darkTheme: GThemeData.dark().toThemeData(),
         home: HomeScreen(
           onThemeToggle: _toggleTheme,
           isDarkMode: isDark,

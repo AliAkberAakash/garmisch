@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart' show ColorScheme, ThemeData;
 import 'package:flutter/widgets.dart';
 
 import '../foundations/breakpoints.dart';
@@ -153,5 +154,75 @@ extension GThemeExtension on BuildContext {
 
   /// Get platform brightness (light/dark from system)
   Brightness get platformBrightness => MediaQuery.platformBrightnessOf(this);
+}
+
+/// Extension on [GColorScheme] to convert to Flutter's [ColorScheme]
+extension GColorSchemeToMaterial on GColorScheme {
+  /// Converts this [GColorScheme] to a Flutter [ColorScheme]
+  ///
+  /// This allows seamless integration with [MaterialApp] and Material widgets.
+  ///
+  /// Example:
+  /// ```dart
+  /// MaterialApp(
+  ///   theme: ThemeData(
+  ///     colorScheme: GThemeData.light().colors.toColorScheme(),
+  ///   ),
+  /// )
+  /// ```
+  ColorScheme toColorScheme() {
+    return ColorScheme(
+      brightness: brightness,
+      primary: primary,
+      onPrimary: onPrimary,
+      primaryContainer: primaryContainer,
+      onPrimaryContainer: onPrimaryContainer,
+      secondary: secondary,
+      onSecondary: onSecondary,
+      secondaryContainer: secondaryContainer,
+      onSecondaryContainer: onSecondaryContainer,
+      tertiary: tertiary,
+      onTertiary: onTertiary,
+      tertiaryContainer: tertiaryContainer,
+      onTertiaryContainer: onTertiaryContainer,
+      error: error,
+      onError: onError,
+      errorContainer: errorContainer,
+      onErrorContainer: onErrorContainer,
+      surface: surface,
+      onSurface: onSurface,
+      surfaceContainerHighest: surfaceContainerHighest,
+      onSurfaceVariant: onSurfaceVariant,
+      outline: outline,
+      outlineVariant: outlineVariant,
+      shadow: shadow,
+      scrim: scrim,
+      inverseSurface: inverseSurface,
+      onInverseSurface: onInverseSurface,
+      inversePrimary: inversePrimary,
+    );
+  }
+}
+
+/// Extension on [GThemeData] to convert to Flutter's [ThemeData]
+extension GThemeDataToMaterial on GThemeData {
+  /// Converts this [GThemeData] to a Flutter [ThemeData]
+  ///
+  /// This provides full Material 3 theming using Garmisch design tokens.
+  ///
+  /// Example:
+  /// ```dart
+  /// MaterialApp(
+  ///   theme: GThemeData.light().toThemeData(),
+  ///   darkTheme: GThemeData.dark().toThemeData(),
+  /// )
+  /// ```
+  ThemeData toThemeData() {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: colors.toColorScheme(),
+      fontFamily: fontFamily ?? typography.fontFamilySans,
+    );
+  }
 }
 
