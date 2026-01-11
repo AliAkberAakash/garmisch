@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../foundations/sizing.dart';
 import '../../foundations/border_width.dart';
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Avatar size options
@@ -101,6 +100,7 @@ class GAvatar extends StatelessWidget {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final typography = theme.typography;
 
     final dimensions = _getDimensions();
     final bgColor = backgroundColor ?? colors.primaryContainer;
@@ -131,7 +131,7 @@ class GAvatar extends StatelessWidget {
               )
             : null,
       ),
-      child: imageUrl == null ? _buildFallback(fgColor, dimensions, textTheme) : null,
+      child: imageUrl == null ? _buildFallback(fgColor, dimensions, textTheme, typography) : null,
     );
 
     if (onTap != null) {
@@ -161,7 +161,7 @@ class GAvatar extends StatelessWidget {
     return avatar;
   }
 
-  Widget _buildFallback(Color fgColor, _AvatarDimensions dimensions, GTextTheme textTheme) {
+  Widget _buildFallback(Color fgColor, _AvatarDimensions dimensions, GTextTheme textTheme, GTypographyTokens typography) {
     if (name != null && name!.isNotEmpty) {
       final initials = _getInitials(name!);
       return Center(
@@ -169,7 +169,7 @@ class GAvatar extends StatelessWidget {
           initials,
           style: TextStyle(
             fontSize: dimensions.fontSize,
-            fontWeight: GTypography.fontWeightSemiBold,
+            fontWeight: typography.fontWeightSemiBold,
             color: fgColor,
           ),
         ),

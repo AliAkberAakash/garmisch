@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Text field variants
@@ -436,6 +435,7 @@ class _GTextFieldState extends State<GTextField> {
     final spacing = theme.spacing;
     final sizing = theme.sizing;
     final borderRadius = theme.borderRadius;
+    final typography = theme.typography;
 
     switch (widget.size) {
       case GTextFieldSize.sm:
@@ -445,8 +445,8 @@ class _GTextFieldState extends State<GTextField> {
           verticalPadding: spacing.xs,
           iconSize: sizing.iconSm,
           borderRadius: borderRadius.sm,
-          textStyle: const TextStyle(
-            fontSize: GTypography.fontSizeSm,
+          textStyle: TextStyle(
+            fontSize: typography.fontSizeSm,
           ),
         );
       case GTextFieldSize.md:
@@ -456,8 +456,8 @@ class _GTextFieldState extends State<GTextField> {
           verticalPadding: spacing.sm,
           iconSize: sizing.iconMd,
           borderRadius: borderRadius.md,
-          textStyle: const TextStyle(
-            fontSize: GTypography.fontSizeBase,
+          textStyle: TextStyle(
+            fontSize: typography.fontSizeBase,
           ),
         );
       case GTextFieldSize.lg:
@@ -467,8 +467,8 @@ class _GTextFieldState extends State<GTextField> {
           verticalPadding: spacing.sm,
           iconSize: sizing.iconLg,
           borderRadius: borderRadius.md,
-          textStyle: const TextStyle(
-            fontSize: GTypography.fontSizeLg,
+          textStyle: TextStyle(
+            fontSize: typography.fontSizeLg,
           ),
         );
     }

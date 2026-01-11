@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../foundations/spacing.dart';
 import '../../foundations/border_width.dart';
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Badge variant options
@@ -99,6 +98,7 @@ class GBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = GTheme.of(context);
     final colors = theme.colors;
+    final typography = theme.typography;
 
     final badgeColors = _getBadgeColors(colors);
     final dimensions = _getDimensions();
@@ -135,7 +135,7 @@ class GBadge extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: dimensions.fontSize,
-              fontWeight: GTypography.fontWeightMedium,
+              fontWeight: typography.fontWeightMedium,
               color: badgeColors.foregroundColor,
               height: 1,
             ),
@@ -336,6 +336,7 @@ class GNotificationBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = GTheme.of(context);
     final colors = theme.colors;
+    final typography = theme.typography;
 
     final badgeColor = color ?? colors.error;
     final shouldShow = count != null && (count! > 0 || showZero);
@@ -363,7 +364,7 @@ class GNotificationBadge extends StatelessWidget {
                   count! > maxCount ? '$maxCount+' : '$count',
                   style: TextStyle(
                     fontSize: 10,
-                    fontWeight: GTypography.fontWeightSemiBold,
+                    fontWeight: typography.fontWeightSemiBold,
                     color: colors.onError,
                     height: 1,
                   ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Tooltip position options
@@ -133,6 +132,7 @@ class _GTooltipCustomState extends State<GTooltipCustom> {
     final borderRadius = theme.borderRadius;
     final shadows = theme.shadows;
     final spacing = theme.spacing;
+    final typography = theme.typography;
 
     return CompositedTransformTarget(
       link: _link,
@@ -159,7 +159,7 @@ class _GTooltipCustomState extends State<GTooltipCustom> {
                 child: DefaultTextStyle(
                   style: TextStyle(
                     color: colors.onInverseSurface,
-                    fontSize: GTypography.fontSizeSm,
+                    fontSize: typography.fontSizeSm,
                   ),
                   child: widget.content,
                 ),

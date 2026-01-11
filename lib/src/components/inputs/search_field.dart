@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// A search field component.
@@ -98,7 +97,7 @@ class _GSearchFieldState extends State<GSearchField> {
     final borderRadius = theme.borderRadius;
     final borderWidth = theme.borderWidth;
 
-    final dimensions = _getDimensions();
+    final dimensions = _getDimensions(theme);
 
     return TextField(
       controller: _controller,
@@ -184,26 +183,27 @@ class _GSearchFieldState extends State<GSearchField> {
     }
   }
 
-  _SearchFieldDimensions _getDimensions() {
+  _SearchFieldDimensions _getDimensions(GThemeData theme) {
+    final typography = theme.typography;
     switch (widget.size) {
       case GSearchFieldSize.sm:
-        return const _SearchFieldDimensions(
+        return _SearchFieldDimensions(
           height: 36,
-          fontSize: GTypography.fontSizeSm,
+          fontSize: typography.fontSizeSm,
           iconSize: 18,
           verticalPadding: 8,
         );
       case GSearchFieldSize.md:
-        return const _SearchFieldDimensions(
+        return _SearchFieldDimensions(
           height: 44,
-          fontSize: GTypography.fontSizeBase,
+          fontSize: typography.fontSizeBase,
           iconSize: 20,
           verticalPadding: 12,
         );
       case GSearchFieldSize.lg:
-        return const _SearchFieldDimensions(
+        return _SearchFieldDimensions(
           height: 52,
-          fontSize: GTypography.fontSizeLg,
+          fontSize: typography.fontSizeLg,
           iconSize: 24,
           verticalPadding: 14,
         );
@@ -284,9 +284,10 @@ class _GLinkState extends State<GLink> {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final opacity = theme.opacity;
+    final typography = theme.typography;
 
     final color = _getColor(colors);
-    final fontSize = _getFontSize();
+    final fontSize = _getFontSize(typography);
 
     return MouseRegion(
       onEnter: widget.isDisabled ? null : (_) => setState(() => _isHovered = true),
@@ -308,7 +309,7 @@ class _GLinkState extends State<GLink> {
                     : color,
                 decoration: _isHovered ? TextDecoration.underline : null,
                 decorationColor: color,
-                fontWeight: GTypography.fontWeightMedium,
+                fontWeight: typography.fontWeightMedium,
               ),
             ),
             if (widget.isExternal) ...[
@@ -338,14 +339,14 @@ class _GLinkState extends State<GLink> {
     }
   }
 
-  double _getFontSize() {
+  double _getFontSize(GTypographyTokens typography) {
     switch (widget.size) {
       case GLinkSize.sm:
-        return GTypography.fontSizeSm;
+        return typography.fontSizeSm;
       case GLinkSize.md:
-        return GTypography.fontSizeBase;
+        return typography.fontSizeBase;
       case GLinkSize.lg:
-        return GTypography.fontSizeLg;
+        return typography.fontSizeLg;
     }
   }
 }

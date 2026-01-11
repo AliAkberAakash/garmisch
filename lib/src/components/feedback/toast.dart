@@ -6,7 +6,6 @@ import '../../foundations/border_radius.dart';
 import '../../foundations/shadows.dart';
 import '../../foundations/durations.dart';
 import '../../foundations/easing.dart';
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Toast position options
@@ -116,7 +115,7 @@ class GToast extends StatelessWidget {
                       data.title!,
                       style: textTheme.titleSmall.copyWith(
                         color: toastColors.textColor,
-                        fontWeight: GTypography.fontWeightSemiBold,
+                        fontWeight: theme.typography.fontWeightSemiBold,
                       ),
                     ),
                     const SizedBox(height: GSpacing.xs3),
@@ -159,7 +158,7 @@ class GToast extends StatelessWidget {
                         data.actionLabel!,
                         style: textTheme.labelMedium.copyWith(
                           color: toastColors.iconColor,
-                          fontWeight: GTypography.fontWeightSemiBold,
+                          fontWeight: theme.typography.fontWeightSemiBold,
                         ),
                       ),
                     ),

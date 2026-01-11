@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Chip variant options
@@ -96,6 +95,7 @@ class _GChipState extends State<GChip> {
     final colors = theme.colors;
     final opacity = theme.opacity;
     final borderWidth = theme.borderWidth;
+    final typography = theme.typography;
 
     final dimensions = _getDimensions();
     final chipColors = _getChipColors(colors, opacity);
@@ -153,7 +153,7 @@ class _GChipState extends State<GChip> {
                 widget.label,
                 style: TextStyle(
                   fontSize: dimensions.fontSize,
-                  fontWeight: GTypography.fontWeightMedium,
+                  fontWeight: typography.fontWeightMedium,
                   color: widget.disabled
                       ? chipColors.foregroundColor.withValues(alpha: opacity.disabled)
                       : chipColors.foregroundColor,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Dropdown size options
@@ -306,13 +305,14 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
     final spacing = theme.spacing;
     final sizing = theme.sizing;
     final borderRadius = theme.borderRadius;
+    final typography = theme.typography;
 
     switch (widget.size) {
       case GDropdownSize.sm:
         return _DropdownDimensions(
           height: sizing.inputHeightSm,
           horizontalPadding: spacing.sm,
-          fontSize: GTypography.fontSizeSm,
+          fontSize: typography.fontSizeSm,
           iconSize: 18,
           iconSpacing: spacing.xs,
           borderRadius: borderRadius.sm,
@@ -321,7 +321,7 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
         return _DropdownDimensions(
           height: sizing.inputHeightMd,
           horizontalPadding: spacing.sm,
-          fontSize: GTypography.fontSizeBase,
+          fontSize: typography.fontSizeBase,
           iconSize: 20,
           iconSpacing: spacing.xs,
           borderRadius: borderRadius.md,
@@ -330,7 +330,7 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
         return _DropdownDimensions(
           height: sizing.inputHeightLg,
           horizontalPadding: spacing.md,
-          fontSize: GTypography.fontSizeLg,
+          fontSize: typography.fontSizeLg,
           iconSize: 24,
           iconSpacing: spacing.sm,
           borderRadius: borderRadius.md,
@@ -379,6 +379,7 @@ class _DropdownMenu<T> extends StatelessWidget {
     final textTheme = theme.textTheme;
     final borderRadius = theme.borderRadius;
     final spacing = theme.spacing;
+    final typography = theme.typography;
 
     return Material(
       color: colors.surface,
@@ -420,8 +421,8 @@ class _DropdownMenu<T> extends StatelessWidget {
                                     ? colors.primary
                                     : colors.onSurface,
                                 fontWeight: isSelected
-                                    ? GTypography.fontWeightMedium
-                                    : GTypography.fontWeightRegular,
+                                    ? typography.fontWeightMedium
+                                    : typography.fontWeightRegular,
                               ),
                             ),
                     ),

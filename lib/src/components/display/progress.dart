@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../foundations/spacing.dart';
 import '../../foundations/durations.dart';
 import '../../foundations/easing.dart';
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Progress bar size options
@@ -216,6 +215,7 @@ class GProgressCircle extends StatelessWidget {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final typography = theme.typography;
 
     final progressColor = color ?? colors.primary;
     final trackColor = backgroundColor ?? colors.surfaceVariant;
@@ -255,7 +255,7 @@ class GProgressCircle extends StatelessWidget {
                 labelBuilder?.call(clampedValue) ?? '${(clampedValue * 100).round()}%',
                 style: textTheme.labelSmall.copyWith(
                   color: colors.onSurface,
-                  fontWeight: GTypography.fontWeightSemiBold,
+                  fontWeight: typography.fontWeightSemiBold,
                 ),
               ),
             ),

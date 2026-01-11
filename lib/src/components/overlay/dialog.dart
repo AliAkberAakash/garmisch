@@ -4,7 +4,6 @@ import '../../foundations/spacing.dart';
 import '../../foundations/sizing.dart';
 import '../../foundations/border_radius.dart';
 import '../../foundations/shadows.dart';
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 import '../inputs/button.dart';
 
@@ -253,7 +252,7 @@ class GDialog extends StatelessWidget {
                               title!,
                               style: textTheme.titleLarge.copyWith(
                                 color: colors.onSurface,
-                                fontWeight: GTypography.fontWeightSemiBold,
+                                fontWeight: theme.typography.fontWeightSemiBold,
                               ),
                               textAlign: icon != null ? TextAlign.center : TextAlign.start,
                             ),

@@ -88,6 +88,7 @@ class GAppBar extends StatelessWidget implements PreferredSizeWidget {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final typography = theme.typography;
 
     final bgColor = backgroundColor ?? colors.surface;
     final fgColor = foregroundColor ?? colors.onSurface;
@@ -105,7 +106,7 @@ class GAppBar extends StatelessWidget implements PreferredSizeWidget {
                   title!,
                   style: titleStyle.copyWith(
                     color: fgColor,
-                    fontWeight: GTypography.fontWeightSemiBold,
+                    fontWeight: typography.fontWeightSemiBold,
                   ),
                 )
               : null),
@@ -179,6 +180,7 @@ class GBottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = GTheme.of(context);
     final colors = theme.colors;
+    final typography = theme.typography;
 
     return Container(
       decoration: BoxDecoration(
@@ -236,8 +238,8 @@ class GBottomNav extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: isSelected
-                                ? GTypography.fontWeightMedium
-                                : GTypography.fontWeightRegular,
+                                ? typography.fontWeightMedium
+                                : typography.fontWeightRegular,
                             color: color,
                           ),
                           maxLines: 1,
@@ -326,6 +328,7 @@ class GTabBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final theme = GTheme.of(context);
     final colors = theme.colors;
+    final typography = theme.typography;
 
     return TabBar(
       controller: controller,
@@ -335,13 +338,13 @@ class GTabBar extends StatelessWidget implements PreferredSizeWidget {
       labelColor: labelColor ?? colors.primary,
       unselectedLabelColor: unselectedLabelColor ?? colors.onSurfaceVariant,
       indicatorWeight: indicatorWeight,
-      labelStyle: const TextStyle(
-        fontSize: GTypography.fontSizeSm,
-        fontWeight: GTypography.fontWeightMedium,
+      labelStyle: TextStyle(
+        fontSize: typography.fontSizeSm,
+        fontWeight: typography.fontWeightMedium,
       ),
-      unselectedLabelStyle: const TextStyle(
-        fontSize: GTypography.fontSizeSm,
-        fontWeight: GTypography.fontWeightRegular,
+      unselectedLabelStyle: TextStyle(
+        fontSize: typography.fontSizeSm,
+        fontWeight: typography.fontWeightRegular,
       ),
       onTap: onTap,
     );

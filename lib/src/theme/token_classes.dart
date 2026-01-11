@@ -9,6 +9,7 @@ import '../foundations/durations.dart';
 import '../foundations/easing.dart';
 import '../foundations/opacity.dart';
 import '../foundations/breakpoints.dart';
+import '../foundations/typography.dart';
 
 /// Spacing tokens accessible via theme
 ///
@@ -394,6 +395,186 @@ class GBreakpointTokens {
   double? maxWidthFor(double width) => GBreakpoints.maxWidthFor(width);
 }
 
+/// Typography tokens accessible via theme
+///
+/// Usage: `context.gTheme.typography.fontSizeMd`
+class GTypographyTokens {
+  const GTypographyTokens();
+
+  // ============================================
+  // Font Families
+  // ============================================
+
+  /// Sans-serif font family (default)
+  String get fontFamilySans => GTypography.fontFamilySans;
+
+  /// Serif font family
+  String get fontFamilySerif => GTypography.fontFamilySerif;
+
+  /// Monospace font family
+  String get fontFamilyMono => GTypography.fontFamilyMono;
+
+  /// Default font family fallbacks
+  List<String> get fontFamilyFallback => GTypography.fontFamilyFallback;
+
+  // ============================================
+  // Font Sizes
+  // ============================================
+
+  /// Extra small font size (12px)
+  double get fontSizeXs => GTypography.fontSizeXs;
+
+  /// Small font size (14px)
+  double get fontSizeSm => GTypography.fontSizeSm;
+
+  /// Base font size (16px)
+  double get fontSizeBase => GTypography.fontSizeBase;
+
+  /// Large font size (18px)
+  double get fontSizeLg => GTypography.fontSizeLg;
+
+  /// Extra large font size (20px)
+  double get fontSizeXl => GTypography.fontSizeXl;
+
+  /// 2XL font size (24px)
+  double get fontSizeXl2 => GTypography.fontSizeXl2;
+
+  /// 3XL font size (30px)
+  double get fontSizeXl3 => GTypography.fontSizeXl3;
+
+  /// 4XL font size (36px)
+  double get fontSizeXl4 => GTypography.fontSizeXl4;
+
+  /// 5XL font size (48px)
+  double get fontSizeXl5 => GTypography.fontSizeXl5;
+
+  /// 6XL font size (60px)
+  double get fontSizeXl6 => GTypography.fontSizeXl6;
+
+  /// 7XL font size (72px)
+  double get fontSizeXl7 => GTypography.fontSizeXl7;
+
+  /// 8XL font size (96px)
+  double get fontSizeXl8 => GTypography.fontSizeXl8;
+
+  /// 9XL font size (128px)
+  double get fontSizeXl9 => GTypography.fontSizeXl9;
+
+  // ============================================
+  // Line Heights
+  // ============================================
+
+  /// Line height for xs text (16px)
+  double get lineHeightXs => GTypography.lineHeightXs;
+
+  /// Line height for sm text (20px)
+  double get lineHeightSm => GTypography.lineHeightSm;
+
+  /// Line height for base text (24px)
+  double get lineHeightBase => GTypography.lineHeightBase;
+
+  /// Line height for lg text (28px)
+  double get lineHeightLg => GTypography.lineHeightLg;
+
+  /// Line height for xl text (28px)
+  double get lineHeightXl => GTypography.lineHeightXl;
+
+  /// Line height for 2xl text (32px)
+  double get lineHeightXl2 => GTypography.lineHeightXl2;
+
+  /// Line height for 3xl text (36px)
+  double get lineHeightXl3 => GTypography.lineHeightXl3;
+
+  /// Line height for 4xl text (40px)
+  double get lineHeightXl4 => GTypography.lineHeightXl4;
+
+  /// Line height for 5xl text (48px)
+  double get lineHeightXl5 => GTypography.lineHeightXl5;
+
+  /// Line height for 6xl text (60px)
+  double get lineHeightXl6 => GTypography.lineHeightXl6;
+
+  /// Line height for 7xl text (72px)
+  double get lineHeightXl7 => GTypography.lineHeightXl7;
+
+  /// Line height for 8xl text (96px)
+  double get lineHeightXl8 => GTypography.lineHeightXl8;
+
+  /// Line height for 9xl text (128px)
+  double get lineHeightXl9 => GTypography.lineHeightXl9;
+
+  /// No line height (1.0 multiplier)
+  double get lineHeightNone => GTypography.lineHeightNone;
+
+  /// Tight line height (1.25 multiplier)
+  double get lineHeightTight => GTypography.lineHeightTight;
+
+  /// Snug line height (1.375 multiplier)
+  double get lineHeightSnug => GTypography.lineHeightSnug;
+
+  /// Normal line height (1.5 multiplier)
+  double get lineHeightNormal => GTypography.lineHeightNormal;
+
+  /// Relaxed line height (1.625 multiplier)
+  double get lineHeightRelaxed => GTypography.lineHeightRelaxed;
+
+  /// Loose line height (2.0 multiplier)
+  double get lineHeightLoose => GTypography.lineHeightLoose;
+
+  // ============================================
+  // Font Weights
+  // ============================================
+
+  /// Thin font weight (100)
+  FontWeight get fontWeightThin => GTypography.fontWeightThin;
+
+  /// Extra light font weight (200)
+  FontWeight get fontWeightExtraLight => GTypography.fontWeightExtraLight;
+
+  /// Light font weight (300)
+  FontWeight get fontWeightLight => GTypography.fontWeightLight;
+
+  /// Regular font weight (400)
+  FontWeight get fontWeightRegular => GTypography.fontWeightRegular;
+
+  /// Medium font weight (500)
+  FontWeight get fontWeightMedium => GTypography.fontWeightMedium;
+
+  /// Semi-bold font weight (600)
+  FontWeight get fontWeightSemiBold => GTypography.fontWeightSemiBold;
+
+  /// Bold font weight (700)
+  FontWeight get fontWeightBold => GTypography.fontWeightBold;
+
+  /// Extra bold font weight (800)
+  FontWeight get fontWeightExtraBold => GTypography.fontWeightExtraBold;
+
+  /// Black font weight (900)
+  FontWeight get fontWeightBlack => GTypography.fontWeightBlack;
+
+  // ============================================
+  // Letter Spacing
+  // ============================================
+
+  /// Tighter letter spacing (-0.05em = -0.8px at 16px)
+  double get letterSpacingTighter => GTypography.letterSpacingTighter;
+
+  /// Tight letter spacing (-0.025em = -0.4px at 16px)
+  double get letterSpacingTight => GTypography.letterSpacingTight;
+
+  /// Normal letter spacing (0)
+  double get letterSpacingNormal => GTypography.letterSpacingNormal;
+
+  /// Wide letter spacing (0.025em = 0.4px at 16px)
+  double get letterSpacingWide => GTypography.letterSpacingWide;
+
+  /// Wider letter spacing (0.05em = 0.8px at 16px)
+  double get letterSpacingWider => GTypography.letterSpacingWider;
+
+  /// Widest letter spacing (0.1em = 1.6px at 16px)
+  double get letterSpacingWidest => GTypography.letterSpacingWidest;
+}
+
 /// Default token instances using foundation values
 class GTokenDefaults {
   const GTokenDefaults._();
@@ -407,5 +588,6 @@ class GTokenDefaults {
   static const easing = GEasingTokens();
   static const opacity = GOpacityTokens();
   static const breakpoints = GBreakpointTokens();
+  static const typography = GTypographyTokens();
 }
 

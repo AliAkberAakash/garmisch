@@ -144,6 +144,7 @@ class _DrawerItemTileState extends State<_DrawerItemTile> {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final typography = theme.typography;
 
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
@@ -185,8 +186,8 @@ class _DrawerItemTileState extends State<_DrawerItemTile> {
                         ? colors.primary
                         : colors.onSurface,
                     fontWeight: widget.isSelected
-                        ? GTypography.fontWeightMedium
-                        : GTypography.fontWeightRegular,
+                        ? typography.fontWeightMedium
+                        : typography.fontWeightRegular,
                   ),
                 ),
               ),
@@ -221,6 +222,7 @@ class GDrawerHeader extends StatelessWidget {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final typography = theme.typography;
 
     return Container(
       width: double.infinity,
@@ -241,7 +243,7 @@ class GDrawerHeader extends StatelessWidget {
               title!,
               style: textTheme.titleMedium.copyWith(
                 color: colors.onPrimaryContainer,
-                fontWeight: GTypography.fontWeightSemiBold,
+                fontWeight: typography.fontWeightSemiBold,
               ),
             ),
           if (subtitle != null)

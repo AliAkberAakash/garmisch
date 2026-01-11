@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../foundations/spacing.dart';
 import '../../foundations/border_radius.dart';
 import '../../foundations/durations.dart';
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Bottom sheet component for the Garmisch design system.
@@ -159,7 +158,7 @@ class GBottomSheet extends StatelessWidget {
                               title!,
                               style: textTheme.titleLarge.copyWith(
                                 color: colors.onSurface,
-                                fontWeight: GTypography.fontWeightSemiBold,
+                                fontWeight: theme.typography.fontWeightSemiBold,
                               ),
                             ),
                           if (subtitle != null)
@@ -309,7 +308,7 @@ class _CancelButton extends StatelessWidget {
             label,
             style: textTheme.bodyLarge.copyWith(
               color: colors.primary,
-              fontWeight: GTypography.fontWeightMedium,
+              fontWeight: theme.typography.fontWeightMedium,
             ),
           ),
         ),

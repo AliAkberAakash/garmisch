@@ -35,6 +35,7 @@ class GThemeData {
     this.easing = const GEasingTokens(),
     this.opacity = const GOpacityTokens(),
     this.breakpoints = const GBreakpointTokens(),
+    this.typography = const GTypographyTokens(),
   });
 
   /// Creates a light theme with default foundation tokens
@@ -51,6 +52,7 @@ class GThemeData {
     GEasingTokens? easing,
     GOpacityTokens? opacity,
     GBreakpointTokens? breakpoints,
+    GTypographyTokens? typography,
   }) {
     return GThemeData(
       colors: colors ?? GColorScheme.light(),
@@ -65,6 +67,7 @@ class GThemeData {
       easing: easing ?? const GEasingTokens(),
       opacity: opacity ?? const GOpacityTokens(),
       breakpoints: breakpoints ?? const GBreakpointTokens(),
+      typography: typography ?? const GTypographyTokens(),
     );
   }
 
@@ -82,6 +85,7 @@ class GThemeData {
     GEasingTokens? easing,
     GOpacityTokens? opacity,
     GBreakpointTokens? breakpoints,
+    GTypographyTokens? typography,
   }) {
     return GThemeData(
       colors: colors ?? GColorScheme.dark(),
@@ -96,6 +100,7 @@ class GThemeData {
       easing: easing ?? const GEasingTokens(),
       opacity: opacity ?? const GOpacityTokens(),
       breakpoints: breakpoints ?? const GBreakpointTokens(),
+      typography: typography ?? const GTypographyTokens(),
     );
   }
 
@@ -114,6 +119,7 @@ class GThemeData {
     GEasingTokens? easing,
     GOpacityTokens? opacity,
     GBreakpointTokens? breakpoints,
+    GTypographyTokens? typography,
   }) {
     return brightness == Brightness.light
         ? GThemeData.light(
@@ -129,6 +135,7 @@ class GThemeData {
             easing: easing,
             opacity: opacity,
             breakpoints: breakpoints,
+            typography: typography,
           )
         : GThemeData.dark(
             colors: colors,
@@ -143,6 +150,7 @@ class GThemeData {
             easing: easing,
             opacity: opacity,
             breakpoints: breakpoints,
+            typography: typography,
           );
   }
 
@@ -182,6 +190,9 @@ class GThemeData {
   /// Responsive breakpoint tokens
   final GBreakpointTokens breakpoints;
 
+  /// Typography tokens (font sizes, weights, line heights, letter spacing)
+  final GTypographyTokens typography;
+
   /// Whether this is a light theme
   bool get isLight => colors.isLight;
 
@@ -205,6 +216,7 @@ class GThemeData {
     GEasingTokens? easing,
     GOpacityTokens? opacity,
     GBreakpointTokens? breakpoints,
+    GTypographyTokens? typography,
   }) {
     return GThemeData(
       colors: colors ?? this.colors,
@@ -219,6 +231,7 @@ class GThemeData {
       easing: easing ?? this.easing,
       opacity: opacity ?? this.opacity,
       breakpoints: breakpoints ?? this.breakpoints,
+      typography: typography ?? this.typography,
     );
   }
 
@@ -237,7 +250,8 @@ class GThemeData {
         other.durations == durations &&
         other.easing == easing &&
         other.opacity == opacity &&
-        other.breakpoints == breakpoints;
+        other.breakpoints == breakpoints &&
+        other.typography == typography;
   }
 
   @override
@@ -254,6 +268,7 @@ class GThemeData {
         easing,
         opacity,
         breakpoints,
+        typography,
       );
 }
 

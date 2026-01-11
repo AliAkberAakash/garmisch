@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Button variants for GButton
@@ -305,6 +304,7 @@ class _GButtonState extends State<GButton> {
     final spacing = theme.spacing;
     final sizing = theme.sizing;
     final borderRadius = theme.borderRadius;
+    final typography = theme.typography;
 
     switch (widget.size) {
       case GButtonSize.xs:
@@ -314,9 +314,9 @@ class _GButtonState extends State<GButton> {
           iconSize: sizing.iconXs,
           iconSpacing: spacing.xs3,
           borderRadius: borderRadius.sm,
-          textStyle: const TextStyle(
-            fontSize: GTypography.fontSizeXs,
-            fontWeight: GTypography.fontWeightMedium,
+          textStyle: TextStyle(
+            fontSize: typography.fontSizeXs,
+            fontWeight: typography.fontWeightMedium,
           ),
         );
       case GButtonSize.sm:
@@ -326,9 +326,9 @@ class _GButtonState extends State<GButton> {
           iconSize: sizing.iconSm,
           iconSpacing: spacing.xs3,
           borderRadius: borderRadius.md,
-          textStyle: const TextStyle(
-            fontSize: GTypography.fontSizeSm,
-            fontWeight: GTypography.fontWeightMedium,
+          textStyle: TextStyle(
+            fontSize: typography.fontSizeSm,
+            fontWeight: typography.fontWeightMedium,
           ),
         );
       case GButtonSize.md:
@@ -338,9 +338,9 @@ class _GButtonState extends State<GButton> {
           iconSize: sizing.iconMd,
           iconSpacing: spacing.xs,
           borderRadius: borderRadius.md,
-          textStyle: const TextStyle(
-            fontSize: GTypography.fontSizeSm,
-            fontWeight: GTypography.fontWeightSemiBold,
+          textStyle: TextStyle(
+            fontSize: typography.fontSizeSm,
+            fontWeight: typography.fontWeightSemiBold,
           ),
         );
       case GButtonSize.lg:
@@ -350,9 +350,9 @@ class _GButtonState extends State<GButton> {
           iconSize: sizing.iconMd,
           iconSpacing: spacing.sm,
           borderRadius: borderRadius.lg,
-          textStyle: const TextStyle(
-            fontSize: GTypography.fontSizeBase,
-            fontWeight: GTypography.fontWeightSemiBold,
+          textStyle: TextStyle(
+            fontSize: typography.fontSizeBase,
+            fontWeight: typography.fontWeightSemiBold,
           ),
         );
       case GButtonSize.xl:
@@ -362,9 +362,9 @@ class _GButtonState extends State<GButton> {
           iconSize: sizing.iconLg,
           iconSpacing: spacing.sm,
           borderRadius: borderRadius.lg,
-          textStyle: const TextStyle(
-            fontSize: GTypography.fontSizeLg,
-            fontWeight: GTypography.fontWeightSemiBold,
+          textStyle: TextStyle(
+            fontSize: typography.fontSizeLg,
+            fontWeight: typography.fontWeightSemiBold,
           ),
         );
     }

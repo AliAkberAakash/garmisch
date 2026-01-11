@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Slider size options
@@ -92,6 +91,7 @@ class _GSliderState extends State<GSlider> {
     final textTheme = theme.textTheme;
     final opacity = theme.opacity;
     final spacing = theme.spacing;
+    final typography = theme.typography;
 
     final dimensions = _getDimensions();
     final activeColor = widget.activeColor ?? colors.primary;
@@ -124,7 +124,7 @@ class _GSliderState extends State<GSlider> {
                       color: widget.isDisabled
                           ? colors.onSurfaceVariant.withValues(alpha: opacity.disabled)
                           : colors.onSurfaceVariant,
-                      fontFamily: GTypography.fontFamilyMono,
+                      fontFamily: typography.fontFamilyMono,
                     ),
                   ),
               ],
@@ -268,6 +268,7 @@ class _GRangeSliderState extends State<GRangeSlider> {
     final textTheme = theme.textTheme;
     final opacity = theme.opacity;
     final spacing = theme.spacing;
+    final typography = theme.typography;
 
     final activeColor = widget.activeColor ?? colors.primary;
 
@@ -297,7 +298,7 @@ class _GRangeSliderState extends State<GRangeSlider> {
                       color: widget.isDisabled
                           ? colors.onSurfaceVariant.withValues(alpha: opacity.disabled)
                           : colors.onSurfaceVariant,
-                      fontFamily: GTypography.fontFamilyMono,
+                      fontFamily: typography.fontFamilyMono,
                     ),
                   ),
               ],

@@ -69,6 +69,11 @@ extension GThemeExtension on BuildContext {
   /// Usage: `context.gBreakpoints.md`
   GBreakpointTokens get gBreakpoints => GTheme.of(this).breakpoints;
 
+  /// Get typography tokens
+  ///
+  /// Usage: `context.gTypography.fontSizeMd`
+  GTypographyTokens get gTypography => GTheme.of(this).typography;
+
   // ============================================
   // Theme State
   // ============================================

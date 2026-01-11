@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../foundations/spacing.dart';
 import '../../foundations/durations.dart';
 import '../../foundations/opacity.dart';
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// List tile size options
@@ -99,43 +98,54 @@ class _GListTileState extends State<GListTile> {
   bool _isPressed = false;
 
   bool get _isInteractive =>
-      (widget.onTap != null || widget.onLongPress != null) && !widget.isDisabled;
+      (widget.onTap != null || widget.onLongPress != null) &&
+      !widget.isDisabled;
 
   @override
   Widget build(BuildContext context) {
     final theme = GTheme.of(context);
     final colors = theme.colors;
 
-    final dimensions = _getDimensions();
+    final dimensions = _getDimensions(theme);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         MouseRegion(
-          onEnter: _isInteractive ? (_) => setState(() => _isHovered = true) : null,
-          onExit: _isInteractive ? (_) => setState(() => _isHovered = false) : null,
+          onEnter: _isInteractive
+              ? (_) => setState(() => _isHovered = true)
+              : null,
+          onExit: _isInteractive
+              ? (_) => setState(() => _isHovered = false)
+              : null,
           cursor: _isInteractive
               ? SystemMouseCursors.click
               : SystemMouseCursors.basic,
           child: GestureDetector(
-            onTapDown: _isInteractive ? (_) => setState(() => _isPressed = true) : null,
-            onTapUp: _isInteractive ? (_) => setState(() => _isPressed = false) : null,
-            onTapCancel: _isInteractive ? () => setState(() => _isPressed = false) : null,
+            onTapDown: _isInteractive
+                ? (_) => setState(() => _isPressed = true)
+                : null,
+            onTapUp: _isInteractive
+                ? (_) => setState(() => _isPressed = false)
+                : null,
+            onTapCancel: _isInteractive
+                ? () => setState(() => _isPressed = false)
+                : null,
             onTap: widget.isDisabled ? null : widget.onTap,
             onLongPress: widget.isDisabled ? null : widget.onLongPress,
             child: AnimatedContainer(
               duration: GDurations.fast,
               padding: widget.padding ?? dimensions.padding,
-              decoration: BoxDecoration(
-                color: _getBackgroundColor(colors),
-              ),
+              decoration: BoxDecoration(color: _getBackgroundColor(colors)),
               child: Row(
                 children: [
                   if (widget.leading != null) ...[
                     IconTheme(
                       data: IconThemeData(
                         color: widget.isDisabled
-                            ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                            ? colors.onSurface.withValues(
+                                alpha: GOpacity.disabled,
+                              )
                             : colors.onSurfaceVariant,
                         size: dimensions.iconSize,
                       ),
@@ -153,21 +163,27 @@ class _GListTileState extends State<GListTile> {
                               widget.title ?? '',
                               style: dimensions.titleStyle.copyWith(
                                 color: widget.isDisabled
-                                    ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                                    ? colors.onSurface.withValues(
+                                        alpha: GOpacity.disabled,
+                                      )
                                     : widget.isSelected
-                                        ? colors.primary
-                                        : colors.onSurface,
+                                    ? colors.primary
+                                    : colors.onSurface,
                               ),
                             ),
-                        if (widget.subtitle != null || widget.subtitleWidget != null)
+                        if (widget.subtitle != null ||
+                            widget.subtitleWidget != null)
                           Padding(
                             padding: const EdgeInsets.only(top: 2),
-                            child: widget.subtitleWidget ??
+                            child:
+                                widget.subtitleWidget ??
                                 Text(
                                   widget.subtitle ?? '',
                                   style: dimensions.subtitleStyle.copyWith(
                                     color: widget.isDisabled
-                                        ? colors.onSurfaceVariant.withValues(alpha: GOpacity.disabled)
+                                        ? colors.onSurfaceVariant.withValues(
+                                            alpha: GOpacity.disabled,
+                                          )
                                         : colors.onSurfaceVariant,
                                   ),
                                 ),
@@ -180,7 +196,9 @@ class _GListTileState extends State<GListTile> {
                     IconTheme(
                       data: IconThemeData(
                         color: widget.isDisabled
-                            ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                            ? colors.onSurface.withValues(
+                                alpha: GOpacity.disabled,
+                              )
                             : colors.onSurfaceVariant,
                         size: dimensions.iconSize,
                       ),
@@ -217,7 +235,7 @@ class _GListTileState extends State<GListTile> {
     return Colors.transparent;
   }
 
-  _ListTileDimensions _getDimensions() {
+  _ListTileDimensions _getDimensions(GThemeData theme) {
     switch (widget.size) {
       case GListTileSize.sm:
         return _ListTileDimensions(
@@ -227,13 +245,11 @@ class _GListTileState extends State<GListTile> {
           ),
           iconSize: 20,
           spacing: GSpacing.sm,
-          titleStyle: const TextStyle(
-            fontSize: GTypography.fontSizeSm,
-            fontWeight: GTypography.fontWeightMedium,
+          titleStyle: TextStyle(
+            fontSize: theme.typography.fontSizeSm,
+            fontWeight: theme.typography.fontWeightMedium,
           ),
-          subtitleStyle: const TextStyle(
-            fontSize: GTypography.fontSizeXs,
-          ),
+          subtitleStyle: TextStyle(fontSize: theme.typography.fontSizeXs),
         );
       case GListTileSize.md:
         return _ListTileDimensions(
@@ -243,13 +259,11 @@ class _GListTileState extends State<GListTile> {
           ),
           iconSize: 24,
           spacing: GSpacing.md,
-          titleStyle: const TextStyle(
-            fontSize: GTypography.fontSizeBase,
-            fontWeight: GTypography.fontWeightMedium,
+          titleStyle: TextStyle(
+            fontSize: theme.typography.fontSizeBase,
+            fontWeight: theme.typography.fontWeightMedium,
           ),
-          subtitleStyle: const TextStyle(
-            fontSize: GTypography.fontSizeSm,
-          ),
+          subtitleStyle: TextStyle(fontSize: theme.typography.fontSizeSm),
         );
       case GListTileSize.lg:
         return _ListTileDimensions(
@@ -259,13 +273,11 @@ class _GListTileState extends State<GListTile> {
           ),
           iconSize: 28,
           spacing: GSpacing.md,
-          titleStyle: const TextStyle(
-            fontSize: GTypography.fontSizeLg,
-            fontWeight: GTypography.fontWeightMedium,
+          titleStyle: TextStyle(
+            fontSize: theme.typography.fontSizeLg,
+            fontWeight: theme.typography.fontWeightMedium,
           ),
-          subtitleStyle: const TextStyle(
-            fontSize: GTypography.fontSizeBase,
-          ),
+          subtitleStyle: TextStyle(fontSize: theme.typography.fontSizeBase),
         );
     }
   }
@@ -307,7 +319,8 @@ class GListSection extends StatelessWidget {
     final textTheme = theme.textTheme;
 
     return Container(
-      padding: padding ??
+      padding:
+          padding ??
           const EdgeInsets.fromLTRB(
             GSpacing.md,
             GSpacing.lg,
@@ -331,4 +344,3 @@ class GListSection extends StatelessWidget {
     );
   }
 }
-

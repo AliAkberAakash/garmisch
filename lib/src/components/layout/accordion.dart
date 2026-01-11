@@ -5,7 +5,6 @@ import '../../foundations/border_radius.dart';
 import '../../foundations/durations.dart';
 import '../../foundations/easing.dart';
 import '../../foundations/opacity.dart';
-import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// An accordion/expandable panel component.
@@ -206,8 +205,8 @@ class _AccordionPanelState extends State<_AccordionPanel>
                               ? colors.onSurface.withValues(alpha: GOpacity.disabled)
                               : colors.onSurface,
                           fontWeight: widget.isExpanded
-                              ? GTypography.fontWeightMedium
-                              : GTypography.fontWeightRegular,
+                              ? theme.typography.fontWeightMedium
+                              : theme.typography.fontWeightRegular,
                         ),
                       ),
                 ),
