@@ -119,150 +119,16 @@ class ThemeIntegrationGenerator extends BaseGenerator {
     buffer.writeln('  /// Creates GSystemColors from generated tokens');
     buffer.writeln('  ///');
     buffer.writeln('  /// Override individual color scales by passing them as parameters.');
+    buffer.writeln('  /// Uses GeneratedSystemColors which maps design token palettes to semantic colors.');
     buffer.writeln('  static GSystemColors systemColors({');
     buffer.writeln('    GBrandColors? brand,');
     buffer.writeln('    GNeutralColors? neutral,');
     buffer.writeln('    GFeedbackColors? feedback,');
     buffer.writeln('  }) {');
-    buffer.writeln('    return GSystemColors(');
-    buffer.writeln('      brand: brand ?? _defaultBrandColors(),');
-    buffer.writeln('      neutral: neutral ?? _defaultNeutralColors(),');
-    buffer.writeln('      feedback: feedback ?? _defaultFeedbackColors(),');
-    buffer.writeln('    );');
-    buffer.writeln('  }');
-    buffer.writeln();
-
-    // Generate default brand colors
-    _generateDefaultBrandColors(buffer, tokens);
-
-    // Generate default neutral colors
-    _generateDefaultNeutralColors(buffer, tokens);
-
-    // Generate default feedback colors
-    _generateDefaultFeedbackColors(buffer, tokens);
-  }
-
-  void _generateDefaultBrandColors(StringBuffer buffer, Map<String, dynamic> tokens) {
-    buffer.writeln('  static GBrandColors _defaultBrandColors() {');
-    buffer.writeln('    return GBrandColors(');
-    buffer.writeln('      primary: GColorScale(');
-    buffer.writeln('        shade50: GeneratedColors.blue50,');
-    buffer.writeln('        shade100: GeneratedColors.blue100,');
-    buffer.writeln('        shade200: GeneratedColors.blue200,');
-    buffer.writeln('        shade300: GeneratedColors.blue300,');
-    buffer.writeln('        shade400: GeneratedColors.blue400,');
-    buffer.writeln('        shade500: GeneratedColors.blue500,');
-    buffer.writeln('        shade600: GeneratedColors.blue600,');
-    buffer.writeln('        shade700: GeneratedColors.blue700,');
-    buffer.writeln('        shade800: GeneratedColors.blue800,');
-    buffer.writeln('        shade900: GeneratedColors.blue900,');
-    buffer.writeln('        shade950: GeneratedColors.blue950,');
-    buffer.writeln('      ),');
-    buffer.writeln('      secondary: GColorScale(');
-    buffer.writeln('        shade50: GeneratedColors.purple50,');
-    buffer.writeln('        shade100: GeneratedColors.purple100,');
-    buffer.writeln('        shade200: GeneratedColors.purple200,');
-    buffer.writeln('        shade300: GeneratedColors.purple300,');
-    buffer.writeln('        shade400: GeneratedColors.purple400,');
-    buffer.writeln('        shade500: GeneratedColors.purple500,');
-    buffer.writeln('        shade600: GeneratedColors.purple600,');
-    buffer.writeln('        shade700: GeneratedColors.purple700,');
-    buffer.writeln('        shade800: GeneratedColors.purple800,');
-    buffer.writeln('        shade900: GeneratedColors.purple900,');
-    buffer.writeln('        shade950: GeneratedColors.purple950,');
-    buffer.writeln('      ),');
-    buffer.writeln('      tertiary: GColorScale(');
-    buffer.writeln('        shade50: GeneratedColors.teal50,');
-    buffer.writeln('        shade100: GeneratedColors.teal100,');
-    buffer.writeln('        shade200: GeneratedColors.teal200,');
-    buffer.writeln('        shade300: GeneratedColors.teal300,');
-    buffer.writeln('        shade400: GeneratedColors.teal400,');
-    buffer.writeln('        shade500: GeneratedColors.teal500,');
-    buffer.writeln('        shade600: GeneratedColors.teal600,');
-    buffer.writeln('        shade700: GeneratedColors.teal700,');
-    buffer.writeln('        shade800: GeneratedColors.teal800,');
-    buffer.writeln('        shade900: GeneratedColors.teal900,');
-    buffer.writeln('        shade950: GeneratedColors.teal950,');
-    buffer.writeln('      ),');
-    buffer.writeln('    );');
-    buffer.writeln('  }');
-    buffer.writeln();
-  }
-
-  void _generateDefaultNeutralColors(StringBuffer buffer, Map<String, dynamic> tokens) {
-    buffer.writeln('  static GNeutralColors _defaultNeutralColors() {');
-    buffer.writeln('    return GNeutralColors(');
-    buffer.writeln('      shade50: GeneratedColors.gray50,');
-    buffer.writeln('      shade100: GeneratedColors.gray100,');
-    buffer.writeln('      shade200: GeneratedColors.gray200,');
-    buffer.writeln('      shade300: GeneratedColors.gray300,');
-    buffer.writeln('      shade400: GeneratedColors.gray400,');
-    buffer.writeln('      shade500: GeneratedColors.gray500,');
-    buffer.writeln('      shade600: GeneratedColors.gray600,');
-    buffer.writeln('      shade700: GeneratedColors.gray700,');
-    buffer.writeln('      shade800: GeneratedColors.gray800,');
-    buffer.writeln('      shade900: GeneratedColors.gray900,');
-    buffer.writeln('      shade950: GeneratedColors.gray950,');
-    buffer.writeln('    );');
-    buffer.writeln('  }');
-    buffer.writeln();
-  }
-
-  void _generateDefaultFeedbackColors(StringBuffer buffer, Map<String, dynamic> tokens) {
-    buffer.writeln('  static GFeedbackColors _defaultFeedbackColors() {');
-    buffer.writeln('    return GFeedbackColors(');
-    buffer.writeln('      error: GColorScale(');
-    buffer.writeln('        shade50: GeneratedColors.red50,');
-    buffer.writeln('        shade100: GeneratedColors.red100,');
-    buffer.writeln('        shade200: GeneratedColors.red200,');
-    buffer.writeln('        shade300: GeneratedColors.red300,');
-    buffer.writeln('        shade400: GeneratedColors.red400,');
-    buffer.writeln('        shade500: GeneratedColors.red500,');
-    buffer.writeln('        shade600: GeneratedColors.red600,');
-    buffer.writeln('        shade700: GeneratedColors.red700,');
-    buffer.writeln('        shade800: GeneratedColors.red800,');
-    buffer.writeln('        shade900: GeneratedColors.red900,');
-    buffer.writeln('        shade950: GeneratedColors.red950,');
-    buffer.writeln('      ),');
-    buffer.writeln('      warning: GColorScale(');
-    buffer.writeln('        shade50: GeneratedColors.amber50,');
-    buffer.writeln('        shade100: GeneratedColors.amber100,');
-    buffer.writeln('        shade200: GeneratedColors.amber200,');
-    buffer.writeln('        shade300: GeneratedColors.amber300,');
-    buffer.writeln('        shade400: GeneratedColors.amber400,');
-    buffer.writeln('        shade500: GeneratedColors.amber500,');
-    buffer.writeln('        shade600: GeneratedColors.amber600,');
-    buffer.writeln('        shade700: GeneratedColors.amber700,');
-    buffer.writeln('        shade800: GeneratedColors.amber800,');
-    buffer.writeln('        shade900: GeneratedColors.amber900,');
-    buffer.writeln('        shade950: GeneratedColors.amber950,');
-    buffer.writeln('      ),');
-    buffer.writeln('      success: GColorScale(');
-    buffer.writeln('        shade50: GeneratedColors.green50,');
-    buffer.writeln('        shade100: GeneratedColors.green100,');
-    buffer.writeln('        shade200: GeneratedColors.green200,');
-    buffer.writeln('        shade300: GeneratedColors.green300,');
-    buffer.writeln('        shade400: GeneratedColors.green400,');
-    buffer.writeln('        shade500: GeneratedColors.green500,');
-    buffer.writeln('        shade600: GeneratedColors.green600,');
-    buffer.writeln('        shade700: GeneratedColors.green700,');
-    buffer.writeln('        shade800: GeneratedColors.green800,');
-    buffer.writeln('        shade900: GeneratedColors.green900,');
-    buffer.writeln('        shade950: GeneratedColors.green950,');
-    buffer.writeln('      ),');
-    buffer.writeln('      info: GColorScale(');
-    buffer.writeln('        shade50: GeneratedColors.sky50,');
-    buffer.writeln('        shade100: GeneratedColors.sky100,');
-    buffer.writeln('        shade200: GeneratedColors.sky200,');
-    buffer.writeln('        shade300: GeneratedColors.sky300,');
-    buffer.writeln('        shade400: GeneratedColors.sky400,');
-    buffer.writeln('        shade500: GeneratedColors.sky500,');
-    buffer.writeln('        shade600: GeneratedColors.sky600,');
-    buffer.writeln('        shade700: GeneratedColors.sky700,');
-    buffer.writeln('        shade800: GeneratedColors.sky800,');
-    buffer.writeln('        shade900: GeneratedColors.sky900,');
-    buffer.writeln('        shade950: GeneratedColors.sky950,');
-    buffer.writeln('      ),');
+    buffer.writeln('    return GeneratedSystemColors.create(');
+    buffer.writeln('      brand: brand,');
+    buffer.writeln('      neutral: neutral,');
+    buffer.writeln('      feedback: feedback,');
     buffer.writeln('    );');
     buffer.writeln('  }');
     buffer.writeln();

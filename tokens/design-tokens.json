@@ -483,6 +483,27 @@
     "wide": { "$type": "dimension", "$value": "0.4px" },
     "wider": { "$type": "dimension", "$value": "0.8px" },
     "widest": { "$type": "dimension", "$value": "1.6px" }
+  },
+  "systemColors": {
+    "$description": "Maps color palettes to semantic system color roles. Change these to customize your theme colors.",
+    "brand": {
+      "$description": "Brand colors for primary UI elements",
+      "primary": { "$type": "reference", "$value": "blue" },
+      "secondary": { "$type": "reference", "$value": "purple" },
+      "tertiary": { "$type": "reference", "$value": "teal" }
+    },
+    "neutral": {
+      "$description": "Neutral colors for backgrounds, borders, and text",
+      "$type": "reference",
+      "$value": "gray"
+    },
+    "feedback": {
+      "$description": "Feedback colors for status and alerts",
+      "error": { "$type": "reference", "$value": "red" },
+      "warning": { "$type": "reference", "$value": "amber" },
+      "success": { "$type": "reference", "$value": "green" },
+      "info": { "$type": "reference", "$value": "sky" }
+    }
   }
 }
 
