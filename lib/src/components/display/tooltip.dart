@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Tooltip position options
@@ -69,6 +69,9 @@ class _GTooltipState extends State<GTooltip> {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final borderRadius = theme.borderRadius;
+    final shadows = theme.shadows;
+    final spacing = theme.spacing;
 
     return Tooltip(
       message: widget.richMessage != null ? '' : widget.message,
@@ -78,15 +81,15 @@ class _GTooltipState extends State<GTooltip> {
       showDuration: widget.hideDelay,
       decoration: BoxDecoration(
         color: colors.inverseSurface,
-        borderRadius: GBorderRadius.allMd,
-        boxShadow: GShadows.md,
+        borderRadius: borderRadius.allMd,
+        boxShadow: shadows.md,
       ),
       textStyle: textTheme.bodySmall.copyWith(
         color: colors.onInverseSurface,
       ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: GSpacing.sm,
-        vertical: GSpacing.xs,
+      padding: EdgeInsets.symmetric(
+        horizontal: spacing.sm,
+        vertical: spacing.xs,
       ),
       child: widget.child,
     );
@@ -127,6 +130,9 @@ class _GTooltipCustomState extends State<GTooltipCustom> {
   Widget build(BuildContext context) {
     final theme = GTheme.of(context);
     final colors = theme.colors;
+    final borderRadius = theme.borderRadius;
+    final shadows = theme.shadows;
+    final spacing = theme.spacing;
 
     return CompositedTransformTarget(
       link: _link,
@@ -141,14 +147,14 @@ class _GTooltipCustomState extends State<GTooltipCustom> {
             child: Material(
               color: Colors.transparent,
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: GSpacing.sm,
-                  vertical: GSpacing.xs,
+                padding: EdgeInsets.symmetric(
+                  horizontal: spacing.sm,
+                  vertical: spacing.xs,
                 ),
                 decoration: BoxDecoration(
                   color: colors.inverseSurface,
-                  borderRadius: GBorderRadius.allMd,
-                  boxShadow: GShadows.md,
+                  borderRadius: borderRadius.allMd,
+                  boxShadow: shadows.md,
                 ),
                 child: DefaultTextStyle(
                   style: TextStyle(

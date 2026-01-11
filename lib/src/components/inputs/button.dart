@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Button variants for GButton
@@ -115,10 +115,9 @@ class _GButtonState extends State<GButton> {
   @override
   Widget build(BuildContext context) {
     final theme = GTheme.of(context);
-    final colors = theme.colors;
 
-    final buttonColors = _getButtonColors(colors);
-    final dimensions = _getDimensions();
+    final buttonColors = _getButtonColors(theme);
+    final dimensions = _getDimensions(theme);
 
     final borderRadius = BorderRadius.circular(dimensions.borderRadius);
 
@@ -127,8 +126,8 @@ class _GButtonState extends State<GButton> {
       onExit: (_) => setState(() => _isHovered = false),
       cursor: _isEnabled ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
       child: AnimatedContainer(
-        duration: GDurations.fast,
-        curve: GEasing.easeOut,
+        duration: theme.durations.fast,
+        curve: theme.easing.easeOut,
         width: widget.isFullWidth ? double.infinity : null,
         height: dimensions.height,
         decoration: BoxDecoration(
@@ -138,8 +137,8 @@ class _GButtonState extends State<GButton> {
               ? Border.all(
                   color: _isEnabled
                       ? buttonColors.borderColor!
-                      : buttonColors.borderColor!.withValues(alpha: GOpacity.disabled),
-                  width: GBorderWidth.thin,
+                      : buttonColors.borderColor!.withValues(alpha: theme.opacity.disabled),
+                  width: theme.borderWidth.thin,
                 )
               : null,
           boxShadow: _isPressed || !_isEnabled ? null : buttonColors.shadow,
@@ -183,7 +182,7 @@ class _GButtonState extends State<GButton> {
                       size: dimensions.iconSize,
                       color: _isEnabled
                           ? buttonColors.foregroundColor
-                          : buttonColors.foregroundColor.withValues(alpha: GOpacity.disabled),
+                          : buttonColors.foregroundColor.withValues(alpha: buttonColors.disabledOpacity),
                     ),
                     if (widget.label != null || widget.child != null)
                       SizedBox(width: dimensions.iconSpacing),
@@ -196,7 +195,7 @@ class _GButtonState extends State<GButton> {
                       style: dimensions.textStyle.copyWith(
                         color: _isEnabled
                             ? buttonColors.foregroundColor
-                            : buttonColors.foregroundColor.withValues(alpha: GOpacity.disabled),
+                            : buttonColors.foregroundColor.withValues(alpha: buttonColors.disabledOpacity),
                       ),
                     ),
                   if (widget.trailingIcon != null && !widget.isLoading) ...[
@@ -207,7 +206,7 @@ class _GButtonState extends State<GButton> {
                       size: dimensions.iconSize,
                       color: _isEnabled
                           ? buttonColors.foregroundColor
-                          : buttonColors.foregroundColor.withValues(alpha: GOpacity.disabled),
+                          : buttonColors.foregroundColor.withValues(alpha: buttonColors.disabledOpacity),
                     ),
                   ],
                 ],
@@ -221,7 +220,7 @@ class _GButtonState extends State<GButton> {
 
   Color _getBackgroundColor(_ButtonColors buttonColors) {
     if (!_isEnabled) {
-      return buttonColors.backgroundColor.withValues(alpha: GOpacity.disabled);
+      return buttonColors.backgroundColor.withValues(alpha: buttonColors.disabledOpacity);
     }
     if (_isPressed) {
       return buttonColors.pressedColor ?? buttonColors.backgroundColor;
@@ -232,7 +231,11 @@ class _GButtonState extends State<GButton> {
     return buttonColors.backgroundColor;
   }
 
-  _ButtonColors _getButtonColors(GColorScheme colors) {
+  _ButtonColors _getButtonColors(GThemeData theme) {
+    final colors = theme.colors;
+    final opacity = theme.opacity;
+    final shadows = theme.shadows;
+
     switch (widget.variant) {
       case GButtonVariant.primary:
         return _ButtonColors(
@@ -240,7 +243,8 @@ class _GButtonState extends State<GButton> {
           foregroundColor: colors.onPrimary,
           hoverColor: _adjustBrightness(colors.primary, -0.1),
           pressedColor: _adjustBrightness(colors.primary, -0.2),
-          shadow: GShadows.sm,
+          shadow: shadows.sm,
+          disabledOpacity: opacity.disabled,
         );
       case GButtonVariant.secondary:
         return _ButtonColors(
@@ -248,7 +252,8 @@ class _GButtonState extends State<GButton> {
           foregroundColor: colors.onSecondary,
           hoverColor: _adjustBrightness(colors.secondary, -0.1),
           pressedColor: _adjustBrightness(colors.secondary, -0.2),
-          shadow: GShadows.sm,
+          shadow: shadows.sm,
+          disabledOpacity: opacity.disabled,
         );
       case GButtonVariant.tertiary:
         return _ButtonColors(
@@ -256,22 +261,25 @@ class _GButtonState extends State<GButton> {
           foregroundColor: colors.onTertiary,
           hoverColor: _adjustBrightness(colors.tertiary, -0.1),
           pressedColor: _adjustBrightness(colors.tertiary, -0.2),
-          shadow: GShadows.sm,
+          shadow: shadows.sm,
+          disabledOpacity: opacity.disabled,
         );
       case GButtonVariant.outlined:
         return _ButtonColors(
           backgroundColor: Colors.transparent,
           foregroundColor: colors.primary,
-          hoverColor: colors.primary.withValues(alpha: GOpacity.hover),
-          pressedColor: colors.primary.withValues(alpha: GOpacity.pressed),
+          hoverColor: colors.primary.withValues(alpha: opacity.hover),
+          pressedColor: colors.primary.withValues(alpha: opacity.pressed),
           borderColor: colors.outline,
+          disabledOpacity: opacity.disabled,
         );
       case GButtonVariant.ghost:
         return _ButtonColors(
           backgroundColor: Colors.transparent,
           foregroundColor: colors.primary,
-          hoverColor: colors.primary.withValues(alpha: GOpacity.hover),
-          pressedColor: colors.primary.withValues(alpha: GOpacity.pressed),
+          hoverColor: colors.primary.withValues(alpha: opacity.hover),
+          pressedColor: colors.primary.withValues(alpha: opacity.pressed),
+          disabledOpacity: opacity.disabled,
         );
       case GButtonVariant.destructive:
         return _ButtonColors(
@@ -279,7 +287,8 @@ class _GButtonState extends State<GButton> {
           foregroundColor: colors.onError,
           hoverColor: _adjustBrightness(colors.error, -0.1),
           pressedColor: _adjustBrightness(colors.error, -0.2),
-          shadow: GShadows.sm,
+          shadow: shadows.sm,
+          disabledOpacity: opacity.disabled,
         );
       case GButtonVariant.link:
         return _ButtonColors(
@@ -287,19 +296,24 @@ class _GButtonState extends State<GButton> {
           foregroundColor: colors.primary,
           hoverColor: Colors.transparent,
           pressedColor: Colors.transparent,
+          disabledOpacity: opacity.disabled,
         );
     }
   }
 
-  _ButtonDimensions _getDimensions() {
+  _ButtonDimensions _getDimensions(GThemeData theme) {
+    final spacing = theme.spacing;
+    final sizing = theme.sizing;
+    final borderRadius = theme.borderRadius;
+
     switch (widget.size) {
       case GButtonSize.xs:
         return _ButtonDimensions(
-          height: GSizing.buttonHeightXs,
-          horizontalPadding: GSpacing.sm,
-          iconSize: GSizing.iconXs,
-          iconSpacing: GSpacing.xs3,
-          borderRadius: GBorderRadius.sm,
+          height: sizing.buttonHeightXs,
+          horizontalPadding: spacing.sm,
+          iconSize: sizing.iconXs,
+          iconSpacing: spacing.xs3,
+          borderRadius: borderRadius.sm,
           textStyle: const TextStyle(
             fontSize: GTypography.fontSizeXs,
             fontWeight: GTypography.fontWeightMedium,
@@ -307,11 +321,11 @@ class _GButtonState extends State<GButton> {
         );
       case GButtonSize.sm:
         return _ButtonDimensions(
-          height: GSizing.buttonHeightSm,
-          horizontalPadding: GSpacing.sm,
-          iconSize: GSizing.iconSm,
-          iconSpacing: GSpacing.xs3,
-          borderRadius: GBorderRadius.md,
+          height: sizing.buttonHeightSm,
+          horizontalPadding: spacing.sm,
+          iconSize: sizing.iconSm,
+          iconSpacing: spacing.xs3,
+          borderRadius: borderRadius.md,
           textStyle: const TextStyle(
             fontSize: GTypography.fontSizeSm,
             fontWeight: GTypography.fontWeightMedium,
@@ -319,11 +333,11 @@ class _GButtonState extends State<GButton> {
         );
       case GButtonSize.md:
         return _ButtonDimensions(
-          height: GSizing.buttonHeightMd,
-          horizontalPadding: GSpacing.md,
-          iconSize: GSizing.iconMd,
-          iconSpacing: GSpacing.xs,
-          borderRadius: GBorderRadius.md,
+          height: sizing.buttonHeightMd,
+          horizontalPadding: spacing.md,
+          iconSize: sizing.iconMd,
+          iconSpacing: spacing.xs,
+          borderRadius: borderRadius.md,
           textStyle: const TextStyle(
             fontSize: GTypography.fontSizeSm,
             fontWeight: GTypography.fontWeightSemiBold,
@@ -331,11 +345,11 @@ class _GButtonState extends State<GButton> {
         );
       case GButtonSize.lg:
         return _ButtonDimensions(
-          height: GSizing.buttonHeightLg,
-          horizontalPadding: GSpacing.lg,
-          iconSize: GSizing.iconMd,
-          iconSpacing: GSpacing.sm,
-          borderRadius: GBorderRadius.lg,
+          height: sizing.buttonHeightLg,
+          horizontalPadding: spacing.lg,
+          iconSize: sizing.iconMd,
+          iconSpacing: spacing.sm,
+          borderRadius: borderRadius.lg,
           textStyle: const TextStyle(
             fontSize: GTypography.fontSizeBase,
             fontWeight: GTypography.fontWeightSemiBold,
@@ -343,11 +357,11 @@ class _GButtonState extends State<GButton> {
         );
       case GButtonSize.xl:
         return _ButtonDimensions(
-          height: GSizing.buttonHeightXl,
-          horizontalPadding: GSpacing.xl,
-          iconSize: GSizing.iconLg,
-          iconSpacing: GSpacing.sm,
-          borderRadius: GBorderRadius.lg,
+          height: sizing.buttonHeightXl,
+          horizontalPadding: spacing.xl,
+          iconSize: sizing.iconLg,
+          iconSpacing: spacing.sm,
+          borderRadius: borderRadius.lg,
           textStyle: const TextStyle(
             fontSize: GTypography.fontSizeLg,
             fontWeight: GTypography.fontWeightSemiBold,
@@ -371,6 +385,7 @@ class _ButtonColors {
     this.pressedColor,
     this.borderColor,
     this.shadow,
+    this.disabledOpacity = 0.5,
   });
 
   final Color backgroundColor;
@@ -379,6 +394,7 @@ class _ButtonColors {
   final Color? pressedColor;
   final Color? borderColor;
   final List<BoxShadow>? shadow;
+  final double disabledOpacity;
 }
 
 class _ButtonDimensions {

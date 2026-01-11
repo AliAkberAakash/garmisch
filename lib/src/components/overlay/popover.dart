@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/border_radius.dart';
+import '../../foundations/durations.dart';
+import '../../foundations/easing.dart';
 import '../../theme/theme.dart';
 
 /// Popover position relative to anchor

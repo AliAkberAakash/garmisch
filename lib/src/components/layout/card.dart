@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/spacing.dart';
+import '../../foundations/border_radius.dart';
+import '../../foundations/border_width.dart';
+import '../../foundations/shadows.dart';
+import '../../foundations/durations.dart';
+import '../../foundations/easing.dart';
 import '../../theme/theme.dart';
 
 /// Card variant options

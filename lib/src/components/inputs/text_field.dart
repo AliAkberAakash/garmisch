@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Text field variants
@@ -199,8 +199,10 @@ class _GTextFieldState extends State<GTextField> {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final opacity = theme.opacity;
+    final spacing = theme.spacing;
 
-    final dimensions = _getDimensions();
+    final dimensions = _getDimensions(theme);
     final fieldColors = _getFieldColors(colors);
 
     return Column(
@@ -215,7 +217,7 @@ class _GTextFieldState extends State<GTextField> {
                 widget.label!,
                 style: textTheme.labelMedium.copyWith(
                   color: widget.isDisabled
-                      ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                      ? colors.onSurface.withValues(alpha: opacity.disabled)
                       : colors.onSurface,
                 ),
               ),
@@ -228,7 +230,7 @@ class _GTextFieldState extends State<GTextField> {
                 ),
             ],
           ),
-          const SizedBox(height: GSpacing.xs),
+          SizedBox(height: spacing.xs),
         ],
 
         // Input field
@@ -236,13 +238,13 @@ class _GTextFieldState extends State<GTextField> {
           onEnter: (_) => setState(() => _isHovered = true),
           onExit: (_) => setState(() => _isHovered = false),
           child: AnimatedContainer(
-            duration: GDurations.fast,
-            curve: GEasing.easeOut,
+            duration: theme.durations.fast,
+            curve: theme.easing.easeOut,
             height: widget.maxLines > 1 ? null : dimensions.height,
             constraints: widget.maxLines > 1
                 ? BoxConstraints(minHeight: dimensions.height)
                 : null,
-            decoration: _buildDecoration(fieldColors, dimensions),
+            decoration: _buildDecoration(fieldColors, dimensions, theme),
             child: Row(
               children: [
                 // Prefix icon
@@ -250,13 +252,13 @@ class _GTextFieldState extends State<GTextField> {
                   Padding(
                     padding: EdgeInsets.only(
                       left: dimensions.horizontalPadding,
-                      right: GSpacing.xs,
+                      right: spacing.xs,
                     ),
                     child: Icon(
                       widget.prefixIcon,
                       size: dimensions.iconSize,
                       color: widget.isDisabled
-                          ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                          ? colors.onSurface.withValues(alpha: opacity.disabled)
                           : colors.onSurfaceVariant,
                     ),
                   ),
@@ -266,7 +268,7 @@ class _GTextFieldState extends State<GTextField> {
                   Padding(
                     padding: EdgeInsets.only(
                       left: dimensions.horizontalPadding,
-                      right: GSpacing.xs,
+                      right: spacing.xs,
                     ),
                     child: widget.prefix!,
                   ),
@@ -290,7 +292,7 @@ class _GTextFieldState extends State<GTextField> {
                     enableSuggestions: widget.enableSuggestions,
                     style: dimensions.textStyle.copyWith(
                       color: widget.isDisabled
-                          ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                          ? colors.onSurface.withValues(alpha: opacity.disabled)
                           : colors.onSurface,
                     ),
                     decoration: InputDecoration(
@@ -325,7 +327,7 @@ class _GTextFieldState extends State<GTextField> {
                 if (widget.suffix != null)
                   Padding(
                     padding: EdgeInsets.only(
-                      left: GSpacing.xs,
+                      left: spacing.xs,
                       right: dimensions.horizontalPadding,
                     ),
                     child: widget.suffix!,
@@ -335,14 +337,14 @@ class _GTextFieldState extends State<GTextField> {
                 if (widget.suffixIcon != null)
                   Padding(
                     padding: EdgeInsets.only(
-                      left: GSpacing.xs,
+                      left: spacing.xs,
                       right: dimensions.horizontalPadding,
                     ),
                     child: Icon(
                       widget.suffixIcon,
                       size: dimensions.iconSize,
                       color: widget.isDisabled
-                          ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                          ? colors.onSurface.withValues(alpha: opacity.disabled)
                           : colors.onSurfaceVariant,
                     ),
                   ),
@@ -353,7 +355,7 @@ class _GTextFieldState extends State<GTextField> {
 
         // Helper/Error text
         if (widget.helperText != null || _displayError != null) ...[
-          const SizedBox(height: GSpacing.xs3),
+          SizedBox(height: spacing.xs3),
           Text(
             _displayError ?? widget.helperText!,
             style: textTheme.bodySmall.copyWith(
@@ -367,10 +369,13 @@ class _GTextFieldState extends State<GTextField> {
     );
   }
 
-  BoxDecoration _buildDecoration(_FieldColors fieldColors, _FieldDimensions dimensions) {
+  BoxDecoration _buildDecoration(_FieldColors fieldColors, _FieldDimensions dimensions, GThemeData theme) {
+    final borderWidth = theme.borderWidth;
+    final opacity = theme.opacity;
+
     Color borderColor;
     if (widget.isDisabled) {
-      borderColor = fieldColors.borderColor.withValues(alpha: GOpacity.disabled);
+      borderColor = fieldColors.borderColor.withValues(alpha: opacity.disabled);
     } else if (_hasError) {
       borderColor = fieldColors.errorBorderColor;
     } else if (_isFocused) {
@@ -388,7 +393,7 @@ class _GTextFieldState extends State<GTextField> {
           borderRadius: BorderRadius.circular(dimensions.borderRadius),
           border: Border.all(
             color: borderColor,
-            width: _isFocused ? GBorderWidth.medium : GBorderWidth.thin,
+            width: _isFocused ? borderWidth.medium : borderWidth.thin,
           ),
         );
       case GTextFieldVariant.filled:
@@ -399,7 +404,7 @@ class _GTextFieldState extends State<GTextField> {
           borderRadius: BorderRadius.circular(dimensions.borderRadius),
           border: Border.all(
             color: _isFocused || _hasError ? borderColor : Colors.transparent,
-            width: _isFocused ? GBorderWidth.medium : GBorderWidth.thin,
+            width: _isFocused ? borderWidth.medium : borderWidth.thin,
           ),
         );
       case GTextFieldVariant.underlined:
@@ -408,7 +413,7 @@ class _GTextFieldState extends State<GTextField> {
           border: Border(
             bottom: BorderSide(
               color: borderColor,
-              width: _isFocused ? GBorderWidth.medium : GBorderWidth.thin,
+              width: _isFocused ? borderWidth.medium : borderWidth.thin,
             ),
           ),
         );
@@ -427,37 +432,41 @@ class _GTextFieldState extends State<GTextField> {
     );
   }
 
-  _FieldDimensions _getDimensions() {
+  _FieldDimensions _getDimensions(GThemeData theme) {
+    final spacing = theme.spacing;
+    final sizing = theme.sizing;
+    final borderRadius = theme.borderRadius;
+
     switch (widget.size) {
       case GTextFieldSize.sm:
         return _FieldDimensions(
-          height: GSizing.inputHeightSm,
-          horizontalPadding: GSpacing.sm,
-          verticalPadding: GSpacing.xs,
-          iconSize: GSizing.iconSm,
-          borderRadius: GBorderRadius.sm,
+          height: sizing.inputHeightSm,
+          horizontalPadding: spacing.sm,
+          verticalPadding: spacing.xs,
+          iconSize: sizing.iconSm,
+          borderRadius: borderRadius.sm,
           textStyle: const TextStyle(
             fontSize: GTypography.fontSizeSm,
           ),
         );
       case GTextFieldSize.md:
         return _FieldDimensions(
-          height: GSizing.inputHeightMd,
-          horizontalPadding: GSpacing.sm,
-          verticalPadding: GSpacing.sm,
-          iconSize: GSizing.iconMd,
-          borderRadius: GBorderRadius.md,
+          height: sizing.inputHeightMd,
+          horizontalPadding: spacing.sm,
+          verticalPadding: spacing.sm,
+          iconSize: sizing.iconMd,
+          borderRadius: borderRadius.md,
           textStyle: const TextStyle(
             fontSize: GTypography.fontSizeBase,
           ),
         );
       case GTextFieldSize.lg:
         return _FieldDimensions(
-          height: GSizing.inputHeightLg,
-          horizontalPadding: GSpacing.md,
-          verticalPadding: GSpacing.sm,
-          iconSize: GSizing.iconLg,
-          borderRadius: GBorderRadius.md,
+          height: sizing.inputHeightLg,
+          horizontalPadding: spacing.md,
+          verticalPadding: spacing.sm,
+          iconSize: sizing.iconLg,
+          borderRadius: borderRadius.md,
           textStyle: const TextStyle(
             fontSize: GTypography.fontSizeLg,
           ),

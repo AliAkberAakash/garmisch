@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/spacing.dart';
+import '../../foundations/breakpoints.dart';
 
 /// A fixed-size gap component.
 ///

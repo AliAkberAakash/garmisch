@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Chip variant options
@@ -94,9 +94,11 @@ class _GChipState extends State<GChip> {
   Widget build(BuildContext context) {
     final theme = GTheme.of(context);
     final colors = theme.colors;
+    final opacity = theme.opacity;
+    final borderWidth = theme.borderWidth;
 
     final dimensions = _getDimensions();
-    final chipColors = _getChipColors(colors);
+    final chipColors = _getChipColors(colors, opacity);
 
     return MouseRegion(
       onEnter: _isInteractive ? (_) => setState(() => _isHovered = true) : null,
@@ -105,8 +107,8 @@ class _GChipState extends State<GChip> {
       child: GestureDetector(
         onTap: _isInteractive ? widget.onTap : null,
         child: AnimatedContainer(
-          duration: GDurations.fast,
-          curve: GEasing.easeOut,
+          duration: theme.durations.fast,
+          curve: theme.easing.easeOut,
           padding: EdgeInsets.symmetric(
             horizontal: dimensions.horizontalPadding,
             vertical: dimensions.verticalPadding,
@@ -118,9 +120,9 @@ class _GChipState extends State<GChip> {
                     (widget.selected && widget.variant != GChipVariant.solid)
                 ? Border.all(
                     color: widget.disabled
-                        ? chipColors.borderColor.withValues(alpha: GOpacity.disabled)
+                        ? chipColors.borderColor.withValues(alpha: opacity.disabled)
                         : chipColors.borderColor,
-                    width: GBorderWidth.thin,
+                    width: borderWidth.thin,
                   )
                 : null,
           ),
@@ -140,7 +142,7 @@ class _GChipState extends State<GChip> {
                   widget.leadingIcon,
                   size: dimensions.iconSize,
                   color: widget.disabled
-                      ? chipColors.foregroundColor.withValues(alpha: GOpacity.disabled)
+                      ? chipColors.foregroundColor.withValues(alpha: opacity.disabled)
                       : chipColors.foregroundColor,
                 ),
                 SizedBox(width: dimensions.iconSpacing),
@@ -153,7 +155,7 @@ class _GChipState extends State<GChip> {
                   fontSize: dimensions.fontSize,
                   fontWeight: GTypography.fontWeightMedium,
                   color: widget.disabled
-                      ? chipColors.foregroundColor.withValues(alpha: GOpacity.disabled)
+                      ? chipColors.foregroundColor.withValues(alpha: opacity.disabled)
                       : chipColors.foregroundColor,
                 ),
               ),
@@ -171,7 +173,7 @@ class _GChipState extends State<GChip> {
                       Icons.close,
                       size: dimensions.iconSize,
                       color: widget.disabled
-                          ? chipColors.foregroundColor.withValues(alpha: GOpacity.disabled)
+                          ? chipColors.foregroundColor.withValues(alpha: opacity.disabled)
                           : chipColors.foregroundColor.withValues(alpha: 0.7),
                     ),
                   ),
@@ -186,7 +188,7 @@ class _GChipState extends State<GChip> {
 
   Color _getBackgroundColor(_ChipColors chipColors) {
     if (widget.disabled) {
-      return chipColors.backgroundColor.withValues(alpha: GOpacity.disabled);
+      return chipColors.backgroundColor.withValues(alpha: chipColors.disabledOpacity);
     }
     if (widget.selected) {
       return chipColors.selectedBackground;
@@ -197,7 +199,7 @@ class _GChipState extends State<GChip> {
     return chipColors.backgroundColor;
   }
 
-  _ChipColors _getChipColors(GColorScheme colors) {
+  _ChipColors _getChipColors(GColorScheme colors, GOpacityTokens opacity) {
     final baseColor = widget.color ?? colors.primary;
 
     switch (widget.variant) {
@@ -208,6 +210,7 @@ class _GChipState extends State<GChip> {
           hoverBackground: widget.selected ? baseColor : colors.surfaceContainerHigh,
           foregroundColor: widget.selected ? colors.onPrimary : colors.onSurfaceVariant,
           borderColor: baseColor,
+          disabledOpacity: opacity.disabled,
         );
       case GChipVariant.soft:
         return _ChipColors(
@@ -216,6 +219,7 @@ class _GChipState extends State<GChip> {
           hoverBackground: baseColor.withValues(alpha: 0.15),
           foregroundColor: baseColor,
           borderColor: baseColor,
+          disabledOpacity: opacity.disabled,
         );
       case GChipVariant.outlined:
         return _ChipColors(
@@ -224,6 +228,7 @@ class _GChipState extends State<GChip> {
           hoverBackground: baseColor.withValues(alpha: 0.05),
           foregroundColor: widget.selected ? baseColor : colors.onSurfaceVariant,
           borderColor: widget.selected ? baseColor : colors.outline,
+          disabledOpacity: opacity.disabled,
         );
     }
   }
@@ -232,7 +237,7 @@ class _GChipState extends State<GChip> {
     switch (widget.size) {
       case GChipSize.sm:
         return const _ChipDimensions(
-          horizontalPadding: GSpacing.xs,
+          horizontalPadding: 8,
           verticalPadding: 4,
           fontSize: 12,
           iconSize: 14,
@@ -242,7 +247,7 @@ class _GChipState extends State<GChip> {
         );
       case GChipSize.md:
         return const _ChipDimensions(
-          horizontalPadding: GSpacing.sm,
+          horizontalPadding: 12,
           verticalPadding: 6,
           fontSize: 13,
           iconSize: 16,
@@ -252,7 +257,7 @@ class _GChipState extends State<GChip> {
         );
       case GChipSize.lg:
         return const _ChipDimensions(
-          horizontalPadding: GSpacing.md,
+          horizontalPadding: 16,
           verticalPadding: 8,
           fontSize: 14,
           iconSize: 18,
@@ -271,6 +276,7 @@ class _ChipColors {
     required this.hoverBackground,
     required this.foregroundColor,
     required this.borderColor,
+    this.disabledOpacity = 0.5,
   });
 
   final Color backgroundColor;
@@ -278,6 +284,7 @@ class _ChipColors {
   final Color hoverBackground;
   final Color foregroundColor;
   final Color borderColor;
+  final double disabledOpacity;
 }
 
 class _ChipDimensions {
@@ -310,8 +317,8 @@ class GChipGroup extends StatelessWidget {
     this.variant = GChipVariant.soft,
     this.size = GChipSize.md,
     this.allowMultiple = true,
-    this.spacing = GSpacing.xs,
-    this.runSpacing = GSpacing.xs,
+    this.spacing = 8.0,
+    this.runSpacing = 8.0,
   });
 
   /// List of chip data

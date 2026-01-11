@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/spacing.dart';
+import '../../foundations/sizing.dart';
+import '../../foundations/border_radius.dart';
+import '../../foundations/shadows.dart';
+import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 import '../inputs/button.dart';
 

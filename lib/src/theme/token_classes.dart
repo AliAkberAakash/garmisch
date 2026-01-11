@@ -116,6 +116,35 @@ class GSizingTokens {
   double get xl19 => GSizing.xl19;
   double get xl20 => GSizing.xl20;
   double get xl21 => GSizing.xl21;
+
+  // Icon sizes
+  double get iconXs => GSizing.iconXs;
+  double get iconSm => GSizing.iconSm;
+  double get iconMd => GSizing.iconMd;
+  double get iconLg => GSizing.iconLg;
+  double get iconXl => GSizing.iconXl;
+  double get iconXl2 => GSizing.iconXl2;
+  double get iconXl3 => GSizing.iconXl3;
+
+  // Avatar sizes
+  double get avatarXs => GSizing.avatarXs;
+  double get avatarSm => GSizing.avatarSm;
+  double get avatarMd => GSizing.avatarMd;
+  double get avatarLg => GSizing.avatarLg;
+  double get avatarXl => GSizing.avatarXl;
+  double get avatarXl2 => GSizing.avatarXl2;
+
+  // Button heights
+  double get buttonHeightXs => GSizing.buttonHeightXs;
+  double get buttonHeightSm => GSizing.buttonHeightSm;
+  double get buttonHeightMd => GSizing.buttonHeightMd;
+  double get buttonHeightLg => GSizing.buttonHeightLg;
+  double get buttonHeightXl => GSizing.buttonHeightXl;
+
+  // Input heights
+  double get inputHeightSm => GSizing.inputHeightSm;
+  double get inputHeightMd => GSizing.inputHeightMd;
+  double get inputHeightLg => GSizing.inputHeightLg;
 }
 
 /// Border radius tokens accessible via theme
@@ -155,6 +184,42 @@ class GBorderRadiusTokens {
 
   /// Convenience: Returns BorderRadius.circular(full)
   BorderRadius get circularFull => BorderRadius.circular(full);
+
+  // All corners BorderRadius objects
+  BorderRadius get allNone => GBorderRadius.allNone;
+  BorderRadius get allXs => GBorderRadius.allXs;
+  BorderRadius get allSm => GBorderRadius.allSm;
+  BorderRadius get allMd => GBorderRadius.allMd;
+  BorderRadius get allLg => GBorderRadius.allLg;
+  BorderRadius get allXl => GBorderRadius.allXl;
+  BorderRadius get allXl2 => GBorderRadius.allXl2;
+  BorderRadius get allXl3 => GBorderRadius.allXl3;
+  BorderRadius get allXl4 => GBorderRadius.allXl4;
+  BorderRadius get allFull => GBorderRadius.allFull;
+
+  // Top corners only
+  BorderRadius get topSm => GBorderRadius.topSm;
+  BorderRadius get topMd => GBorderRadius.topMd;
+  BorderRadius get topLg => GBorderRadius.topLg;
+  BorderRadius get topXl => GBorderRadius.topXl;
+
+  // Bottom corners only
+  BorderRadius get bottomSm => GBorderRadius.bottomSm;
+  BorderRadius get bottomMd => GBorderRadius.bottomMd;
+  BorderRadius get bottomLg => GBorderRadius.bottomLg;
+  BorderRadius get bottomXl => GBorderRadius.bottomXl;
+
+  // Left corners only
+  BorderRadius get leftSm => GBorderRadius.leftSm;
+  BorderRadius get leftMd => GBorderRadius.leftMd;
+  BorderRadius get leftLg => GBorderRadius.leftLg;
+  BorderRadius get leftXl => GBorderRadius.leftXl;
+
+  // Right corners only
+  BorderRadius get rightSm => GBorderRadius.rightSm;
+  BorderRadius get rightMd => GBorderRadius.rightMd;
+  BorderRadius get rightLg => GBorderRadius.rightLg;
+  BorderRadius get rightXl => GBorderRadius.rightXl;
 }
 
 /// Border width tokens accessible via theme

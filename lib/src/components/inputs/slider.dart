@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Slider size options
@@ -90,6 +90,8 @@ class _GSliderState extends State<GSlider> {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final opacity = theme.opacity;
+    final spacing = theme.spacing;
 
     final dimensions = _getDimensions();
     final activeColor = widget.activeColor ?? colors.primary;
@@ -102,7 +104,7 @@ class _GSliderState extends State<GSlider> {
       children: [
         if (widget.label != null || widget.showValue)
           Padding(
-            padding: const EdgeInsets.only(bottom: GSpacing.xs),
+            padding: EdgeInsets.only(bottom: spacing.xs),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -111,7 +113,7 @@ class _GSliderState extends State<GSlider> {
                     widget.label!,
                     style: textTheme.labelMedium.copyWith(
                       color: widget.isDisabled
-                          ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                          ? colors.onSurface.withValues(alpha: opacity.disabled)
                           : colors.onSurface,
                     ),
                   ),
@@ -120,7 +122,7 @@ class _GSliderState extends State<GSlider> {
                     widget.value.toStringAsFixed(widget.divisions != null ? 0 : 1),
                     style: textTheme.labelMedium.copyWith(
                       color: widget.isDisabled
-                          ? colors.onSurfaceVariant.withValues(alpha: GOpacity.disabled)
+                          ? colors.onSurfaceVariant.withValues(alpha: opacity.disabled)
                           : colors.onSurfaceVariant,
                       fontFamily: GTypography.fontFamilyMono,
                     ),
@@ -142,13 +144,13 @@ class _GSliderState extends State<GSlider> {
                 overlayRadius: dimensions.thumbRadius * 2,
               ),
               activeTrackColor: widget.isDisabled
-                  ? activeColor.withValues(alpha: GOpacity.disabled)
+                  ? activeColor.withValues(alpha: opacity.disabled)
                   : activeColor,
               inactiveTrackColor: widget.isDisabled
-                  ? inactiveColor.withValues(alpha: GOpacity.disabled)
+                  ? inactiveColor.withValues(alpha: opacity.disabled)
                   : inactiveColor,
               thumbColor: widget.isDisabled
-                  ? thumbColor.withValues(alpha: GOpacity.disabled)
+                  ? thumbColor.withValues(alpha: opacity.disabled)
                   : thumbColor,
               overlayColor: activeColor.withValues(alpha: 0.12),
               tickMarkShape: widget.divisions != null
@@ -264,6 +266,8 @@ class _GRangeSliderState extends State<GRangeSlider> {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final opacity = theme.opacity;
+    final spacing = theme.spacing;
 
     final activeColor = widget.activeColor ?? colors.primary;
 
@@ -273,7 +277,7 @@ class _GRangeSliderState extends State<GRangeSlider> {
       children: [
         if (widget.label != null || widget.showValues)
           Padding(
-            padding: const EdgeInsets.only(bottom: GSpacing.xs),
+            padding: EdgeInsets.only(bottom: spacing.xs),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -282,7 +286,7 @@ class _GRangeSliderState extends State<GRangeSlider> {
                     widget.label!,
                     style: textTheme.labelMedium.copyWith(
                       color: widget.isDisabled
-                          ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                          ? colors.onSurface.withValues(alpha: opacity.disabled)
                           : colors.onSurface,
                     ),
                   ),
@@ -291,7 +295,7 @@ class _GRangeSliderState extends State<GRangeSlider> {
                     '${widget.values.start.toStringAsFixed(0)} - ${widget.values.end.toStringAsFixed(0)}',
                     style: textTheme.labelMedium.copyWith(
                       color: widget.isDisabled
-                          ? colors.onSurfaceVariant.withValues(alpha: GOpacity.disabled)
+                          ? colors.onSurfaceVariant.withValues(alpha: opacity.disabled)
                           : colors.onSurfaceVariant,
                       fontFamily: GTypography.fontFamilyMono,
                     ),
@@ -303,13 +307,13 @@ class _GRangeSliderState extends State<GRangeSlider> {
           data: SliderThemeData(
             trackHeight: 6,
             activeTrackColor: widget.isDisabled
-                ? activeColor.withValues(alpha: GOpacity.disabled)
+                ? activeColor.withValues(alpha: opacity.disabled)
                 : activeColor,
             inactiveTrackColor: widget.isDisabled
-                ? colors.surfaceVariant.withValues(alpha: GOpacity.disabled)
+                ? colors.surfaceVariant.withValues(alpha: opacity.disabled)
                 : colors.surfaceVariant,
             thumbColor: widget.isDisabled
-                ? activeColor.withValues(alpha: GOpacity.disabled)
+                ? activeColor.withValues(alpha: opacity.disabled)
                 : activeColor,
             overlayColor: activeColor.withValues(alpha: 0.12),
             rangeThumbShape: const RoundRangeSliderThumbShape(

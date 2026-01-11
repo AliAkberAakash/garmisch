@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Dropdown size options
@@ -162,8 +162,11 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final opacity = theme.opacity;
+    final spacing = theme.spacing;
+    final borderWidth = theme.borderWidth;
 
-    final dimensions = _getDimensions();
+    final dimensions = _getDimensions(theme);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +180,7 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
                 widget.label!,
                 style: textTheme.labelMedium.copyWith(
                   color: widget.isDisabled
-                      ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                      ? colors.onSurface.withValues(alpha: opacity.disabled)
                       : colors.onSurface,
                 ),
               ),
@@ -190,7 +193,7 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
                 ),
             ],
           ),
-          const SizedBox(height: GSpacing.xs),
+          SizedBox(height: spacing.xs),
         ],
 
         // Dropdown button
@@ -203,7 +206,7 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
               child: AnimatedContainer(
-                duration: GDurations.fast,
+                duration: theme.durations.fast,
                 height: dimensions.height,
                 width: widget.isFullWidth ? double.infinity : null,
                 padding: EdgeInsets.symmetric(
@@ -218,7 +221,7 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
                         : _isOpen
                             ? colors.primary
                             : colors.outline,
-                    width: _isOpen ? GBorderWidth.medium : GBorderWidth.thin,
+                    width: _isOpen ? borderWidth.medium : borderWidth.thin,
                   ),
                 ),
                 child: Row(
@@ -228,14 +231,14 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
                         widget.prefixIcon,
                         size: dimensions.iconSize,
                         color: widget.isDisabled
-                            ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                            ? colors.onSurface.withValues(alpha: opacity.disabled)
                             : colors.onSurfaceVariant,
                       ),
                       SizedBox(width: dimensions.iconSpacing),
                     ],
                     Expanded(
                       child: widget.value != null
-                          ? _buildSelectedValue(colors, textTheme, dimensions)
+                          ? _buildSelectedValue(colors, textTheme, dimensions, opacity)
                           : Text(
                               widget.hint ?? 'Select...',
                               style: TextStyle(
@@ -246,12 +249,12 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
                     ),
                     AnimatedRotation(
                       turns: _isOpen ? 0.5 : 0,
-                      duration: GDurations.fast,
+                      duration: theme.durations.fast,
                       child: Icon(
                         Icons.keyboard_arrow_down,
                         size: dimensions.iconSize,
                         color: widget.isDisabled
-                            ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                            ? colors.onSurface.withValues(alpha: opacity.disabled)
                             : colors.onSurfaceVariant,
                       ),
                     ),
@@ -264,7 +267,7 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
 
         // Helper/Error text
         if (widget.helperText != null || widget.errorText != null) ...[
-          const SizedBox(height: GSpacing.xs3),
+          SizedBox(height: spacing.xs3),
           Text(
             widget.errorText ?? widget.helperText!,
             style: textTheme.bodySmall.copyWith(
@@ -280,6 +283,7 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
     GColorScheme colors,
     GTextTheme textTheme,
     _DropdownDimensions dimensions,
+    GOpacityTokens opacity,
   ) {
     if (widget.itemBuilder != null) {
       return widget.itemBuilder!(widget.value as T);
@@ -291,41 +295,45 @@ class _GDropdownState<T> extends State<GDropdown<T>> {
       style: TextStyle(
         fontSize: dimensions.fontSize,
         color: widget.isDisabled
-            ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+            ? colors.onSurface.withValues(alpha: opacity.disabled)
             : colors.onSurface,
       ),
       overflow: TextOverflow.ellipsis,
     );
   }
 
-  _DropdownDimensions _getDimensions() {
+  _DropdownDimensions _getDimensions(GThemeData theme) {
+    final spacing = theme.spacing;
+    final sizing = theme.sizing;
+    final borderRadius = theme.borderRadius;
+
     switch (widget.size) {
       case GDropdownSize.sm:
-        return const _DropdownDimensions(
-          height: GSizing.inputHeightSm,
-          horizontalPadding: GSpacing.sm,
+        return _DropdownDimensions(
+          height: sizing.inputHeightSm,
+          horizontalPadding: spacing.sm,
           fontSize: GTypography.fontSizeSm,
           iconSize: 18,
-          iconSpacing: GSpacing.xs,
-          borderRadius: GBorderRadius.sm,
+          iconSpacing: spacing.xs,
+          borderRadius: borderRadius.sm,
         );
       case GDropdownSize.md:
-        return const _DropdownDimensions(
-          height: GSizing.inputHeightMd,
-          horizontalPadding: GSpacing.sm,
+        return _DropdownDimensions(
+          height: sizing.inputHeightMd,
+          horizontalPadding: spacing.sm,
           fontSize: GTypography.fontSizeBase,
           iconSize: 20,
-          iconSpacing: GSpacing.xs,
-          borderRadius: GBorderRadius.md,
+          iconSpacing: spacing.xs,
+          borderRadius: borderRadius.md,
         );
       case GDropdownSize.lg:
-        return const _DropdownDimensions(
-          height: GSizing.inputHeightLg,
-          horizontalPadding: GSpacing.md,
+        return _DropdownDimensions(
+          height: sizing.inputHeightLg,
+          horizontalPadding: spacing.md,
           fontSize: GTypography.fontSizeLg,
           iconSize: 24,
-          iconSpacing: GSpacing.sm,
-          borderRadius: GBorderRadius.md,
+          iconSpacing: spacing.sm,
+          borderRadius: borderRadius.md,
         );
     }
   }
@@ -369,20 +377,22 @@ class _DropdownMenu<T> extends StatelessWidget {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final borderRadius = theme.borderRadius;
+    final spacing = theme.spacing;
 
     return Material(
       color: colors.surface,
       elevation: 8,
-      borderRadius: GBorderRadius.allMd,
+      borderRadius: borderRadius.allMd,
       child: Container(
         constraints: const BoxConstraints(maxHeight: 250),
         decoration: BoxDecoration(
-          borderRadius: GBorderRadius.allMd,
+          borderRadius: borderRadius.allMd,
           border: Border.all(color: colors.outline.withValues(alpha: 0.2)),
         ),
         child: ListView.builder(
           shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(vertical: GSpacing.xs),
+          padding: EdgeInsets.symmetric(vertical: spacing.xs),
           itemCount: items.length,
           itemBuilder: (context, index) {
             final item = items[index];
@@ -391,9 +401,9 @@ class _DropdownMenu<T> extends StatelessWidget {
             return InkWell(
               onTap: () => onSelect(item),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: GSpacing.md,
-                  vertical: GSpacing.sm,
+                padding: EdgeInsets.symmetric(
+                  horizontal: spacing.md,
+                  vertical: spacing.sm,
                 ),
                 color: isSelected
                     ? colors.primary.withValues(alpha: 0.08)

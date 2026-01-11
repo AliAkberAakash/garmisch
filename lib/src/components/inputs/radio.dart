@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
 import '../../theme/theme.dart';
 
 /// Radio button size options
@@ -74,11 +73,21 @@ class _GRadioState<T> extends State<GRadio<T>> with SingleTickerProviderStateMix
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: GDurations.fast,
+      duration: const Duration(milliseconds: 150),
       vsync: this,
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
-      CurvedAnimation(parent: _controller, curve: GEasing.easeOut),
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final theme = GTheme.of(context);
+    _controller.duration = theme.durations.fast;
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
+      CurvedAnimation(parent: _controller, curve: theme.easing.easeOut),
     );
   }
 
@@ -100,8 +109,10 @@ class _GRadioState<T> extends State<GRadio<T>> with SingleTickerProviderStateMix
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final opacity = theme.opacity;
+    final borderWidth = theme.borderWidth;
 
-    final dimensions = _getDimensions();
+    final dimensions = _getDimensions(theme);
     final activeColor = widget.activeColor ?? colors.primary;
 
     return MouseRegion(
@@ -117,27 +128,27 @@ class _GRadioState<T> extends State<GRadio<T>> with SingleTickerProviderStateMix
             ScaleTransition(
               scale: _scaleAnimation,
               child: AnimatedContainer(
-                duration: GDurations.fast,
-                curve: GEasing.easeOut,
+                duration: theme.durations.fast,
+                curve: theme.easing.easeOut,
                 width: dimensions.size,
                 height: dimensions.size,
                 decoration: BoxDecoration(
-                  color: _getBackgroundColor(colors),
+                  color: _getBackgroundColor(colors, opacity),
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: _getBorderColor(colors, activeColor),
-                    width: _isSelected ? dimensions.size * 0.15 : GBorderWidth.thin,
+                    color: _getBorderColor(colors, activeColor, opacity),
+                    width: _isSelected ? dimensions.size * 0.15 : borderWidth.thin,
                   ),
                 ),
                 child: _isSelected
                     ? Center(
                         child: AnimatedContainer(
-                          duration: GDurations.fast,
+                          duration: theme.durations.fast,
                           width: dimensions.innerSize,
                           height: dimensions.innerSize,
                           decoration: BoxDecoration(
                             color: widget.isDisabled
-                                ? activeColor.withValues(alpha: GOpacity.disabled)
+                                ? activeColor.withValues(alpha: opacity.disabled)
                                 : activeColor,
                             shape: BoxShape.circle,
                           ),
@@ -154,7 +165,7 @@ class _GRadioState<T> extends State<GRadio<T>> with SingleTickerProviderStateMix
                 widget.label!,
                 style: textTheme.bodyMedium.copyWith(
                   color: widget.isDisabled
-                      ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                      ? colors.onSurface.withValues(alpha: opacity.disabled)
                       : colors.onSurface,
                 ),
               ),
@@ -165,22 +176,22 @@ class _GRadioState<T> extends State<GRadio<T>> with SingleTickerProviderStateMix
     );
   }
 
-  Color _getBackgroundColor(GColorScheme colors) {
+  Color _getBackgroundColor(GColorScheme colors, GOpacityTokens opacity) {
     if (_isHovered && _isEnabled && !_isSelected) {
-      return colors.onSurface.withValues(alpha: GOpacity.hover);
+      return colors.onSurface.withValues(alpha: opacity.hover);
     }
     return Colors.transparent;
   }
 
-  Color _getBorderColor(GColorScheme colors, Color activeColor) {
+  Color _getBorderColor(GColorScheme colors, Color activeColor, GOpacityTokens opacity) {
     if (_isSelected) {
       if (widget.isDisabled) {
-        return activeColor.withValues(alpha: GOpacity.disabled);
+        return activeColor.withValues(alpha: opacity.disabled);
       }
       return activeColor;
     }
     if (widget.isDisabled) {
-      return colors.outline.withValues(alpha: GOpacity.disabled);
+      return colors.outline.withValues(alpha: opacity.disabled);
     }
     if (_isHovered) {
       return colors.onSurface;
@@ -188,25 +199,27 @@ class _GRadioState<T> extends State<GRadio<T>> with SingleTickerProviderStateMix
     return colors.outline;
   }
 
-  _RadioDimensions _getDimensions() {
+  _RadioDimensions _getDimensions(GThemeData theme) {
+    final spacing = theme.spacing;
+
     switch (widget.size) {
       case GRadioSize.sm:
-        return const _RadioDimensions(
+        return _RadioDimensions(
           size: 16,
           innerSize: 6,
-          labelSpacing: GSpacing.xs,
+          labelSpacing: spacing.xs,
         );
       case GRadioSize.md:
-        return const _RadioDimensions(
+        return _RadioDimensions(
           size: 20,
           innerSize: 8,
-          labelSpacing: GSpacing.sm,
+          labelSpacing: spacing.sm,
         );
       case GRadioSize.lg:
-        return const _RadioDimensions(
+        return _RadioDimensions(
           size: 24,
           innerSize: 10,
-          labelSpacing: GSpacing.sm,
+          labelSpacing: spacing.sm,
         );
     }
   }

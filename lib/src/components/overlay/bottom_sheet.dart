@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/spacing.dart';
+import '../../foundations/border_radius.dart';
+import '../../foundations/durations.dart';
+import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Bottom sheet component for the Garmisch design system.

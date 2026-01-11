@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
 import '../../theme/theme.dart';
 
 /// Switch size options
@@ -72,14 +71,25 @@ class _GSwitchState extends State<GSwitch> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: GDurations.fast,
+      duration: const Duration(milliseconds: 150),
       vsync: this,
       value: widget.value ? 1.0 : 0.0,
     );
     _alignmentAnimation = AlignmentTween(
       begin: Alignment.centerLeft,
       end: Alignment.centerRight,
-    ).animate(CurvedAnimation(parent: _controller, curve: GEasing.easeOut));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final theme = GTheme.of(context);
+    _controller.duration = theme.durations.fast;
+    _alignmentAnimation = AlignmentTween(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+    ).animate(CurvedAnimation(parent: _controller, curve: theme.easing.easeOut));
   }
 
   @override
@@ -111,8 +121,11 @@ class _GSwitchState extends State<GSwitch> with SingleTickerProviderStateMixin {
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final opacity = theme.opacity;
+    final borderWidth = theme.borderWidth;
+    final shadows = theme.shadows;
 
-    final dimensions = _getDimensions();
+    final dimensions = _getDimensions(theme);
     final activeColor = widget.activeColor ?? colors.primary;
     final inactiveColor = widget.inactiveColor ?? colors.surfaceVariant;
 
@@ -131,10 +144,10 @@ class _GSwitchState extends State<GSwitch> with SingleTickerProviderStateMixin {
               builder: (context, child) {
                 final trackColor = ColorTween(
                   begin: widget.isDisabled
-                      ? inactiveColor.withValues(alpha: GOpacity.disabled)
+                      ? inactiveColor.withValues(alpha: opacity.disabled)
                       : inactiveColor,
                   end: widget.isDisabled
-                      ? activeColor.withValues(alpha: GOpacity.disabled)
+                      ? activeColor.withValues(alpha: opacity.disabled)
                       : activeColor,
                 ).evaluate(_controller)!;
 
@@ -150,7 +163,7 @@ class _GSwitchState extends State<GSwitch> with SingleTickerProviderStateMixin {
                           : (_isHovered && _isEnabled
                               ? colors.onSurface.withValues(alpha: 0.3)
                               : colors.outline.withValues(alpha: 0.3)),
-                      width: GBorderWidth.thin,
+                      width: borderWidth.thin,
                     ),
                   ),
                   padding: EdgeInsets.all(dimensions.thumbPadding),
@@ -161,10 +174,10 @@ class _GSwitchState extends State<GSwitch> with SingleTickerProviderStateMixin {
                       height: dimensions.thumbSize,
                       decoration: BoxDecoration(
                         color: widget.isDisabled
-                            ? colors.onPrimary.withValues(alpha: GOpacity.disabled)
+                            ? colors.onPrimary.withValues(alpha: opacity.disabled)
                             : colors.onPrimary,
                         shape: BoxShape.circle,
-                        boxShadow: widget.isDisabled ? null : GShadows.sm,
+                        boxShadow: widget.isDisabled ? null : shadows.sm,
                       ),
                     ),
                   ),
@@ -179,7 +192,7 @@ class _GSwitchState extends State<GSwitch> with SingleTickerProviderStateMixin {
                 widget.label!,
                 style: textTheme.bodyMedium.copyWith(
                   color: widget.isDisabled
-                      ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                      ? colors.onSurface.withValues(alpha: opacity.disabled)
                       : colors.onSurface,
                 ),
               ),
@@ -190,31 +203,33 @@ class _GSwitchState extends State<GSwitch> with SingleTickerProviderStateMixin {
     );
   }
 
-  _SwitchDimensions _getDimensions() {
+  _SwitchDimensions _getDimensions(GThemeData theme) {
+    final spacing = theme.spacing;
+
     switch (widget.size) {
       case GSwitchSize.sm:
-        return const _SwitchDimensions(
+        return _SwitchDimensions(
           trackWidth: 32,
           trackHeight: 18,
           thumbSize: 14,
           thumbPadding: 2,
-          labelSpacing: GSpacing.xs,
+          labelSpacing: spacing.xs,
         );
       case GSwitchSize.md:
-        return const _SwitchDimensions(
+        return _SwitchDimensions(
           trackWidth: 40,
           trackHeight: 22,
           thumbSize: 18,
           thumbPadding: 2,
-          labelSpacing: GSpacing.sm,
+          labelSpacing: spacing.sm,
         );
       case GSwitchSize.lg:
-        return const _SwitchDimensions(
+        return _SwitchDimensions(
           trackWidth: 48,
           trackHeight: 26,
           thumbSize: 22,
           thumbPadding: 2,
-          labelSpacing: GSpacing.sm,
+          labelSpacing: spacing.sm,
         );
     }
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
 import '../../theme/theme.dart';
 
 /// Checkbox size options
@@ -76,11 +75,21 @@ class _GCheckboxState extends State<GCheckbox> with SingleTickerProviderStateMix
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: GDurations.fast,
+      duration: const Duration(milliseconds: 150), // Will be updated in didChangeDependencies
       vsync: this,
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
-      CurvedAnimation(parent: _controller, curve: GEasing.easeOut),
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final theme = GTheme.of(context);
+    _controller.duration = theme.durations.fast;
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
+      CurvedAnimation(parent: _controller, curve: theme.easing.easeOut),
     );
   }
 
@@ -102,8 +111,10 @@ class _GCheckboxState extends State<GCheckbox> with SingleTickerProviderStateMix
     final theme = GTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.textTheme;
+    final opacity = theme.opacity;
+    final borderWidth = theme.borderWidth;
 
-    final dimensions = _getDimensions();
+    final dimensions = _getDimensions(theme);
     final activeColor = widget.activeColor ?? colors.primary;
     final checkColor = widget.checkColor ?? colors.onPrimary;
 
@@ -120,19 +131,19 @@ class _GCheckboxState extends State<GCheckbox> with SingleTickerProviderStateMix
             ScaleTransition(
               scale: _scaleAnimation,
               child: AnimatedContainer(
-                duration: GDurations.fast,
-                curve: GEasing.easeOut,
+                duration: theme.durations.fast,
+                curve: theme.easing.easeOut,
                 width: dimensions.size,
                 height: dimensions.size,
                 decoration: BoxDecoration(
-                  color: _getBackgroundColor(colors, activeColor),
+                  color: _getBackgroundColor(colors, activeColor, opacity),
                   borderRadius: BorderRadius.circular(dimensions.borderRadius),
                   border: Border.all(
-                    color: _getBorderColor(colors, activeColor),
-                    width: GBorderWidth.thin,
+                    color: _getBorderColor(colors, activeColor, opacity),
+                    width: borderWidth.thin,
                   ),
                 ),
-                child: _buildCheckIcon(checkColor, dimensions),
+                child: _buildCheckIcon(checkColor, dimensions, opacity),
               ),
             ),
 
@@ -143,7 +154,7 @@ class _GCheckboxState extends State<GCheckbox> with SingleTickerProviderStateMix
                 widget.label!,
                 style: textTheme.bodyMedium.copyWith(
                   color: widget.isDisabled
-                      ? colors.onSurface.withValues(alpha: GOpacity.disabled)
+                      ? colors.onSurface.withValues(alpha: opacity.disabled)
                       : colors.onSurface,
                 ),
               ),
@@ -154,7 +165,7 @@ class _GCheckboxState extends State<GCheckbox> with SingleTickerProviderStateMix
     );
   }
 
-  Widget? _buildCheckIcon(Color checkColor, _CheckboxDimensions dimensions) {
+  Widget? _buildCheckIcon(Color checkColor, _CheckboxDimensions dimensions, GOpacityTokens opacity) {
     if (widget.isIndeterminate) {
       return Center(
         child: Container(
@@ -162,7 +173,7 @@ class _GCheckboxState extends State<GCheckbox> with SingleTickerProviderStateMix
           height: 2,
           decoration: BoxDecoration(
             color: widget.isDisabled
-                ? checkColor.withValues(alpha: GOpacity.disabled)
+                ? checkColor.withValues(alpha: opacity.disabled)
                 : checkColor,
             borderRadius: BorderRadius.circular(1),
           ),
@@ -176,7 +187,7 @@ class _GCheckboxState extends State<GCheckbox> with SingleTickerProviderStateMix
           Icons.check,
           size: dimensions.iconSize,
           color: widget.isDisabled
-              ? checkColor.withValues(alpha: GOpacity.disabled)
+              ? checkColor.withValues(alpha: opacity.disabled)
               : checkColor,
         ),
       );
@@ -185,28 +196,28 @@ class _GCheckboxState extends State<GCheckbox> with SingleTickerProviderStateMix
     return null;
   }
 
-  Color _getBackgroundColor(GColorScheme colors, Color activeColor) {
+  Color _getBackgroundColor(GColorScheme colors, Color activeColor, GOpacityTokens opacity) {
     if (widget.value || widget.isIndeterminate) {
       if (widget.isDisabled) {
-        return activeColor.withValues(alpha: GOpacity.disabled);
+        return activeColor.withValues(alpha: opacity.disabled);
       }
       return activeColor;
     }
     if (_isHovered && _isEnabled) {
-      return colors.onSurface.withValues(alpha: GOpacity.hover);
+      return colors.onSurface.withValues(alpha: opacity.hover);
     }
     return Colors.transparent;
   }
 
-  Color _getBorderColor(GColorScheme colors, Color activeColor) {
+  Color _getBorderColor(GColorScheme colors, Color activeColor, GOpacityTokens opacity) {
     if (widget.value || widget.isIndeterminate) {
       if (widget.isDisabled) {
-        return activeColor.withValues(alpha: GOpacity.disabled);
+        return activeColor.withValues(alpha: opacity.disabled);
       }
       return activeColor;
     }
     if (widget.isDisabled) {
-      return colors.outline.withValues(alpha: GOpacity.disabled);
+      return colors.outline.withValues(alpha: opacity.disabled);
     }
     if (_isHovered) {
       return colors.onSurface;
@@ -214,28 +225,30 @@ class _GCheckboxState extends State<GCheckbox> with SingleTickerProviderStateMix
     return colors.outline;
   }
 
-  _CheckboxDimensions _getDimensions() {
+  _CheckboxDimensions _getDimensions(GThemeData theme) {
+    final spacing = theme.spacing;
+
     switch (widget.size) {
       case GCheckboxSize.sm:
-        return const _CheckboxDimensions(
+        return _CheckboxDimensions(
           size: 16,
           iconSize: 12,
           borderRadius: 3,
-          labelSpacing: GSpacing.xs,
+          labelSpacing: spacing.xs,
         );
       case GCheckboxSize.md:
-        return const _CheckboxDimensions(
+        return _CheckboxDimensions(
           size: 20,
           iconSize: 14,
           borderRadius: 4,
-          labelSpacing: GSpacing.sm,
+          labelSpacing: spacing.sm,
         );
       case GCheckboxSize.lg:
-        return const _CheckboxDimensions(
+        return _CheckboxDimensions(
           size: 24,
           iconSize: 16,
           borderRadius: 5,
-          labelSpacing: GSpacing.sm,
+          labelSpacing: spacing.sm,
         );
     }
   }

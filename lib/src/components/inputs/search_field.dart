@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// A search field component.
@@ -94,6 +94,9 @@ class _GSearchFieldState extends State<GSearchField> {
   Widget build(BuildContext context) {
     final theme = GTheme.of(context);
     final colors = theme.colors;
+    final spacing = theme.spacing;
+    final borderRadius = theme.borderRadius;
+    final borderWidth = theme.borderWidth;
 
     final dimensions = _getDimensions();
 
@@ -148,29 +151,34 @@ class _GSearchFieldState extends State<GSearchField> {
         filled: widget.variant == GSearchFieldVariant.filled,
         fillColor: colors.surfaceVariant.withValues(alpha: 0.5),
         contentPadding: EdgeInsets.symmetric(
-          horizontal: GSpacing.md,
+          horizontal: spacing.md,
           vertical: dimensions.verticalPadding,
         ),
-        border: _buildBorder(colors),
-        enabledBorder: _buildBorder(colors),
-        focusedBorder: _buildBorder(colors, focused: true),
+        border: _buildBorder(colors, borderRadius, borderWidth),
+        enabledBorder: _buildBorder(colors, borderRadius, borderWidth),
+        focusedBorder: _buildBorder(colors, borderRadius, borderWidth, focused: true),
       ),
     );
   }
 
-  InputBorder _buildBorder(GColorScheme colors, {bool focused = false}) {
+  InputBorder _buildBorder(
+    GColorScheme colors,
+    GBorderRadiusTokens borderRadius,
+    GBorderWidthTokens borderWidth, {
+    bool focused = false,
+  }) {
     switch (widget.variant) {
       case GSearchFieldVariant.outlined:
         return OutlineInputBorder(
-          borderRadius: GBorderRadius.allFull,
+          borderRadius: borderRadius.allFull,
           borderSide: BorderSide(
             color: focused ? colors.primary : colors.outline,
-            width: focused ? GBorderWidth.medium : GBorderWidth.thin,
+            width: focused ? borderWidth.medium : borderWidth.thin,
           ),
         );
       case GSearchFieldVariant.filled:
         return OutlineInputBorder(
-          borderRadius: GBorderRadius.allFull,
+          borderRadius: borderRadius.allFull,
           borderSide: BorderSide.none,
         );
     }
@@ -275,6 +283,7 @@ class _GLinkState extends State<GLink> {
   Widget build(BuildContext context) {
     final theme = GTheme.of(context);
     final colors = theme.colors;
+    final opacity = theme.opacity;
 
     final color = _getColor(colors);
     final fontSize = _getFontSize();
@@ -295,7 +304,7 @@ class _GLinkState extends State<GLink> {
               style: TextStyle(
                 fontSize: fontSize,
                 color: widget.isDisabled
-                    ? color.withValues(alpha: GOpacity.disabled)
+                    ? color.withValues(alpha: opacity.disabled)
                     : color,
                 decoration: _isHovered ? TextDecoration.underline : null,
                 decorationColor: color,
@@ -308,7 +317,7 @@ class _GLinkState extends State<GLink> {
                 Icons.open_in_new,
                 size: fontSize,
                 color: widget.isDisabled
-                    ? color.withValues(alpha: GOpacity.disabled)
+                    ? color.withValues(alpha: opacity.disabled)
                     : color,
               ),
             ],

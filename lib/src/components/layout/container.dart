@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/spacing.dart';
 import '../../theme/theme.dart';
 
 /// Container variant options

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/spacing.dart';
+import '../../foundations/border_width.dart';
+import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// Badge variant options

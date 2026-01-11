@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../foundations/foundations.dart';
+import '../../foundations/spacing.dart';
+import '../../foundations/border_radius.dart';
+import '../../foundations/durations.dart';
+import '../../foundations/easing.dart';
+import '../../foundations/opacity.dart';
+import '../../foundations/typography.dart';
 import '../../theme/theme.dart';
 
 /// An accordion/expandable panel component.
