@@ -55,6 +55,12 @@ final primaryColor = context.gColors.primary;
 // Get text styles
 final headlineStyle = context.gTextTheme.headlineLarge;
 
+// Get design tokens (all via theme)
+final spacing = context.gSpacing.md;           // 16px
+final fontSize = context.gTypography.fontSizeLg; // 18px
+final fontWeight = context.gTypography.fontWeightMedium;
+final radius = context.gBorderRadius.lg;       // 8px
+
 // Check screen size
 if (context.isMobile) {
   // Mobile layout
@@ -315,7 +321,7 @@ context.gColors       // GColorScheme
 context.gTextTheme    // GTextTheme
 context.isDarkMode    // bool
 
-// Design Tokens (via theme)
+// Design Tokens (via theme) — RECOMMENDED
 context.gSpacing      // GSpacingTokens - context.gSpacing.md
 context.gSizing       // GSizingTokens - context.gSizing.xl
 context.gBorderRadius // GBorderRadiusTokens - context.gBorderRadius.lg
@@ -325,6 +331,7 @@ context.gDurations    // GDurationTokens - context.gDurations.normal
 context.gEasing       // GEasingTokens - context.gEasing.easeOut
 context.gOpacity      // GOpacityTokens - context.gOpacity.o50
 context.gBreakpoints  // GBreakpointTokens - context.gBreakpoints.md
+context.gTypography   // GTypographyTokens - context.gTypography.fontSizeLg
 
 // Screen Info
 context.screenWidth   // double
@@ -335,12 +342,49 @@ context.isDesktop     // bool (>= 992px)
 context.isXs / isSm / isMd / isLg / isXl / isXl2  // Breakpoint checks
 ```
 
+### Typography Tokens (via theme)
+
+Access all typography values from the theme for consistent, themeable typography:
+
+```dart
+final typography = context.gTypography;
+
+// Font Sizes
+typography.fontSizeXs    // 12px
+typography.fontSizeSm    // 14px
+typography.fontSizeBase  // 16px
+typography.fontSizeLg    // 18px
+typography.fontSizeXl    // 20px
+typography.fontSizeXl2   // 24px (up to Xl9)
+
+// Font Weights
+typography.fontWeightRegular   // FontWeight.w400
+typography.fontWeightMedium    // FontWeight.w500
+typography.fontWeightSemiBold  // FontWeight.w600
+typography.fontWeightBold      // FontWeight.w700
+
+// Font Families
+typography.fontFamilySans   // Default sans-serif
+typography.fontFamilySerif  // Serif font
+typography.fontFamilyMono   // Monospace font
+
+// Line Heights
+typography.lineHeightSm     // 20px
+typography.lineHeightBase   // 24px
+typography.lineHeightLg     // 28px
+
+// Letter Spacing
+typography.letterSpacingTight   // -0.4px
+typography.letterSpacingNormal  // 0
+typography.letterSpacingWide    // 0.4px
+```
+
 ### Widget Extensions
 
 ```dart
-widget.padding(GSpacing.md)         // Static access
-widget.padding(context.gSpacing.md) // Theme-aware access (uses generated tokens if available)
-widget.margin(GSpacing.sm)
+widget.padding(context.gSpacing.md) // Theme-aware access (RECOMMENDED)
+widget.padding(GSpacing.md)         // Static/foundation access
+widget.margin(context.gSpacing.sm)
 widget.center()
 widget.expanded()
 widget.visible(condition)
@@ -351,7 +395,7 @@ widget.tooltip(message)
 ### Color Extensions
 
 ```dart
-color.withOpacity(GOpacity.50)
+color.withOpacity(context.gOpacity.o50) // Theme-aware
 color.lighten(0.1)
 color.darken(0.1)
 color.toHex()
@@ -383,21 +427,41 @@ When working with this codebase, AI agents should:
    import 'package:garmisch/garmisch.dart';
    ```
 
-2. **Use design tokens instead of raw values:**
+2. **Use theme-based tokens instead of raw values (RECOMMENDED):**
    ```dart
-   // ✅ Correct
-   padding: EdgeInsets.all(GSpacing.md),
-   color: GColors.blue500,
+   // ✅ Best - Theme-aware (supports custom tokens)
+   final theme = GTheme.of(context);
+   padding: EdgeInsets.all(theme.spacing.md),
+   fontSize: theme.typography.fontSizeLg,
+   fontWeight: theme.typography.fontWeightMedium,
    
-   // ❌ Avoid
+   // ✅ Good - Context extension shorthand
+   padding: EdgeInsets.all(context.gSpacing.md),
+   fontSize: context.gTypography.fontSizeLg,
+   
+   // ⚠️ Fallback - Foundation access (not theme-aware)
+   padding: EdgeInsets.all(GSpacing.md),
+   fontSize: GTypography.fontSizeLg,
+   
+   // ❌ Avoid - Raw values
    padding: EdgeInsets.all(16),
-   color: Color(0xFF3B82F6),
+   fontSize: 18,
    ```
 
-3. **Access theme via context:**
+3. **Access all tokens via theme:**
    ```dart
+   final theme = GTheme.of(context);
+   // Or use context extensions:
    final colors = context.gColors;
    final textTheme = context.gTextTheme;
+   final spacing = context.gSpacing;
+   final typography = context.gTypography;
+   final sizing = context.gSizing;
+   final borderRadius = context.gBorderRadius;
+   final shadows = context.gShadows;
+   final durations = context.gDurations;
+   final easing = context.gEasing;
+   final opacity = context.gOpacity;
    ```
 
 4. **Use G-prefixed components:**
@@ -417,7 +481,8 @@ When working with this codebase, AI agents should:
 |------|---------|
 | `lib/garmisch.dart` | Main export, usage examples |
 | `DESIGN_SYSTEM.md` | Complete API documentation |
-| `lib/src/foundations/` | All design tokens |
+| `lib/src/foundations/` | Design token definitions |
+| `lib/src/theme/token_classes.dart` | Theme-aware token wrappers |
 | `lib/src/components/` | All UI components |
 | `lib/src/theme/` | Theme system |
 | `lib/src/utilities/` | Extensions & helpers |
@@ -427,8 +492,10 @@ When working with this codebase, AI agents should:
 ```
 When generating Flutter code for this project:
 - Use Garmisch design system components (GButton, GTextField, GCard, etc.)
-- Apply design tokens: GSpacing, GColors, GTypography, GBorderRadius
-- Access theme via context: context.gColors, context.gTextTheme
+- Access ALL tokens via theme: context.gSpacing, context.gTypography, context.gColors, etc.
+- For typography: use context.gTypography.fontSizeLg, context.gTypography.fontWeightMedium
+- For spacing: use context.gSpacing.md, context.gSpacing.lg
+- For colors: use context.gColors.primary, context.gColors.onSurface
 - Use responsive helpers: context.isMobile, context.isDesktop
 - Refer to DESIGN_SYSTEM.md for complete component APIs
 ```
