@@ -13,7 +13,7 @@ import 'package:garmisch/src/generator/generator.dart';
 ///
 /// Options:
 ///   --input, -i     Path to the design tokens JSON file (default: design-tokens.json)
-///   --output, -o    Output directory for generated files (default: lib/generated/)
+///   --output, -o    Output directory for generated files (default: lib/<name>_tokens/)
 ///   --name, -n      Name prefix for generated classes and files (default: Generated)
 ///   --help, -h      Show this help message
 void main(List<String> arguments) {
@@ -164,7 +164,7 @@ class _Args {
 
 _Args _parseArgs(List<String> arguments) {
   var input = 'design-tokens.json';
-  var output = 'lib/generated';
+  String? output;
   var name = 'Generated';
   var showHelp = false;
 
@@ -211,14 +211,19 @@ _Args _parseArgs(List<String> arguments) {
     }
   }
 
-  // Normalize output path
-  if (!output.endsWith('/')) {
-    output = output;
-  }
+  // Compute output directory from name if not provided
+  final snakeName = name
+      .replaceAllMapped(
+        RegExp(r'([A-Z])'),
+        (match) => '_${match.group(1)!.toLowerCase()}',
+      )
+      .replaceFirst(RegExp(r'^_'), '')
+      .toLowerCase();
+  final effectiveOutput = output ?? 'lib/${snakeName}_tokens';
 
   return _Args(
     input: input,
-    output: output,
+    output: effectiveOutput,
     name: name,
     showHelp: showHelp,
   );
@@ -238,28 +243,32 @@ OPTIONS:
                         (default: design-tokens.json)
 
   --output, -o <path>   Output directory for generated files
-                        (default: lib/generated/)
+                        (default: lib/<name>_tokens, e.g., lib/generated_tokens)
 
   --name, -n <name>     Name prefix for generated classes and files
                         (default: Generated)
-                        Example: --name=MyDesign generates MyDesignColors, 
-                        MyDesignSpacing, etc. in files like my_design_colors.g.dart
+                        This affects both the output folder (if not specified)
+                        and the generated class/file names.
+                        Example: --name=Acme generates:
+                        - Folder: lib/acme_tokens/
+                        - Classes: AcmeColors, AcmeSpacing, AcmeTheme, etc.
+                        - Files: acme_colors.g.dart, acme_spacing.g.dart, etc.
+                        - Barrel: acme.dart
 
   --help, -h            Show this help message
 
 EXAMPLES:
-  # Generate with defaults
+  # Generate with defaults (lib/generated_tokens/)
   dart run garmisch:generate_tokens
 
   # Custom input and output
-  dart run garmisch:generate_tokens -i tokens/my-tokens.json -o lib/theme/generated
+  dart run garmisch:generate_tokens -i tokens/my-tokens.json -o lib/theme/tokens
 
-  # Custom name prefix
+  # Custom name prefix (generates to lib/acme_tokens/)
   dart run garmisch:generate_tokens --name=Acme
-  # This generates: AcmeColors, AcmeSpacing, etc. in acme_colors.g.dart, acme_spacing.g.dart, etc.
 
-  # Using long options
-  dart run garmisch:generate_tokens --input=design-tokens.json --output=lib/generated --name=MyBrand
+  # Custom name with custom output directory
+  dart run garmisch:generate_tokens --name=MyBrand --output=lib/design_system
 
 DTCG FORMAT:
   The input file should follow the Design Tokens Community Group format.

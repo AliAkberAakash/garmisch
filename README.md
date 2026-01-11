@@ -533,14 +533,16 @@ cp path/to/garmisch/tokens/design-tokens.json ./design-tokens.json
 3. **Run the generator**:
 
 ```bash
-dart run garmisch:generate_tokens --input design-tokens.json --output lib/generated/
+dart run garmisch:generate_tokens --input design-tokens.json
 ```
+
+This will generate files to `lib/generated_tokens/` by default.
 
 4. **Use the generated theme** (zero configuration):
 
 ```dart
 import 'package:garmisch/garmisch.dart';
-import 'package:your_app/generated/generated.dart';
+import 'package:your_app/generated_tokens/generated.dart';
 
 void main() {
   runApp(
@@ -552,24 +554,57 @@ void main() {
 }
 ```
 
+### Custom Design System Name
+
+You can customize the name of your design system, which affects folder names, file names, and class names:
+
+```bash
+# Generate with custom name "Acme"
+dart run garmisch:generate_tokens --name=Acme --input design-tokens.json
+```
+
+This generates:
+- **Folder**: `lib/acme_tokens/`
+- **Files**: `acme_colors.g.dart`, `acme_spacing.g.dart`, `acme_theme_integration.g.dart`, etc.
+- **Classes**: `AcmeColors`, `AcmeSpacing`, `AcmeTheme`, etc.
+- **Barrel export**: `acme.dart`
+
+Usage with custom name:
+
+```dart
+import 'package:your_app/acme_tokens/acme.dart';
+
+void main() {
+  runApp(
+    GTheme(
+      data: AcmeTheme.light(),
+      child: MyApp(),
+    ),
+  );
+}
+```
+
 ### Generated Files
 
-The generator creates 12 files:
+The generator creates 12 files with the prefix you specify (default: `generated`):
 
-| File | Description |
-|------|-------------|
-| `colors.g.dart` | `GColors` class with all color tokens |
-| `spacing.g.dart` | `GSpacing` class |
-| `sizing.g.dart` | `GSizing` class |
-| `typography.g.dart` | `GTypography` with fonts, sizes, weights |
-| `border_radius.g.dart` | `GBorderRadius` class |
-| `shadows.g.dart` | `GShadows` class |
-| `durations.g.dart` | `GDurations` class |
-| `easing.g.dart` | `GEasing` curves |
-| `opacity.g.dart` | `GOpacity` class |
-| `breakpoints.g.dart` | `GBreakpoints` class |
-| `theme_integration.g.dart` | `GeneratedTheme` with `light()`, `dark()`, `fromBrightness()` |
-| `generated.dart` | Barrel export for all files |
+| File (with default prefix) | Class | Description |
+|----------------------------|-------|-------------|
+| `generated_colors.g.dart` | `GeneratedSystemColors` | System color tokens |
+| `generated_spacing.g.dart` | `GeneratedSpacing` | Spacing tokens |
+| `generated_sizing.g.dart` | `GeneratedSizing` | Sizing tokens |
+| `generated_typography.g.dart` | `GeneratedTypography` | Fonts, sizes, weights |
+| `generated_border_radius.g.dart` | `GeneratedBorderRadius` | Border radius tokens |
+| `generated_border_width.g.dart` | `GeneratedBorderWidth` | Border width tokens |
+| `generated_shadows.g.dart` | `GeneratedShadows` | Shadow tokens |
+| `generated_durations.g.dart` | `GeneratedDurations` | Duration tokens |
+| `generated_easing.g.dart` | `GeneratedEasing` | Easing curves |
+| `generated_opacity.g.dart` | `GeneratedOpacity` | Opacity tokens |
+| `generated_breakpoints.g.dart` | `GeneratedBreakpoints` | Breakpoint tokens |
+| `generated_theme_integration.g.dart` | `GeneratedTheme` | Theme with `light()`, `dark()`, `fromBrightness()` |
+| `generated.dart` | - | Barrel export for all files |
+
+With `--name=Acme`, files become `acme_colors.g.dart`, classes become `AcmeColors`, etc.
 
 ### GeneratedTheme API
 
@@ -599,8 +634,25 @@ dart run garmisch:generate_tokens [options]
 
 Options:
   --input, -i <path>    Path to design tokens JSON (default: design-tokens.json)
-  --output, -o <path>   Output directory (default: lib/generated/)
+  --output, -o <path>   Output directory (default: lib/<name>_tokens/)
+  --name, -n <name>     Name prefix for classes and files (default: Generated)
   --help, -h            Show help message
+```
+
+**Examples:**
+
+```bash
+# Generate with defaults (lib/generated_tokens/)
+dart run garmisch:generate_tokens
+
+# Custom input file
+dart run garmisch:generate_tokens --input tokens/my-tokens.json
+
+# Custom name (generates to lib/acme_tokens/ with AcmeTheme, etc.)
+dart run garmisch:generate_tokens --name=Acme
+
+# Custom name and output directory
+dart run garmisch:generate_tokens --name=MyBrand --output=lib/design_system
 ```
 
 ### Custom Fonts
