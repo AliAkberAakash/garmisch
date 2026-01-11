@@ -6,8 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:garmisch/garmisch.dart';
 
 import 'editors/border_radius_editor.dart';
+import 'editors/border_width_editor.dart';
+import 'editors/breakpoint_editor.dart';
 import 'editors/color_editor.dart';
+import 'editors/duration_editor.dart';
+import 'editors/font_family_editor.dart';
+import 'editors/opacity_editor.dart';
 import 'editors/shadow_editor.dart';
+import 'editors/sizing_editor.dart';
 import 'editors/spacing_editor.dart';
 import 'editors/system_colors_editor.dart';
 import 'editors/typography_editor.dart';
@@ -37,8 +43,14 @@ class _TokenGeneratorScreenState extends State<TokenGeneratorScreen>
     _TabInfo('Colors', Icons.palette_outlined),
     _TabInfo('System', Icons.tune_outlined),
     _TabInfo('Spacing', Icons.space_bar_outlined),
+    _TabInfo('Sizing', Icons.straighten_outlined),
     _TabInfo('Radius', Icons.rounded_corner_outlined),
+    _TabInfo('Border', Icons.border_style_outlined),
+    _TabInfo('Opacity', Icons.opacity_outlined),
+    _TabInfo('Duration', Icons.timer_outlined),
     _TabInfo('Shadows', Icons.layers_outlined),
+    _TabInfo('Breakpoints', Icons.devices_outlined),
+    _TabInfo('Fonts', Icons.font_download_outlined),
     _TabInfo('Typography', Icons.text_fields_outlined),
   ];
 
@@ -163,8 +175,14 @@ class _TokenGeneratorScreenState extends State<TokenGeneratorScreen>
                       ColorEditor(tokenState: _tokenState),
                       SystemColorsEditor(tokenState: _tokenState),
                       SpacingEditor(tokenState: _tokenState),
+                      SizingEditor(tokenState: _tokenState),
                       BorderRadiusEditor(tokenState: _tokenState),
+                      BorderWidthEditor(tokenState: _tokenState),
+                      OpacityEditor(tokenState: _tokenState),
+                      DurationEditor(tokenState: _tokenState),
                       ShadowEditor(tokenState: _tokenState),
+                      BreakpointEditor(tokenState: _tokenState),
+                      FontFamilyEditor(tokenState: _tokenState),
                       TypographyEditor(tokenState: _tokenState),
                     ],
                   ),
@@ -189,8 +207,14 @@ class _TokenGeneratorScreenState extends State<TokenGeneratorScreen>
                       ColorEditor(tokenState: _tokenState),
                       SystemColorsEditor(tokenState: _tokenState),
                       SpacingEditor(tokenState: _tokenState),
+                      SizingEditor(tokenState: _tokenState),
                       BorderRadiusEditor(tokenState: _tokenState),
+                      BorderWidthEditor(tokenState: _tokenState),
+                      OpacityEditor(tokenState: _tokenState),
+                      DurationEditor(tokenState: _tokenState),
                       ShadowEditor(tokenState: _tokenState),
+                      BreakpointEditor(tokenState: _tokenState),
+                      FontFamilyEditor(tokenState: _tokenState),
                       TypographyEditor(tokenState: _tokenState),
                     ],
                   ),

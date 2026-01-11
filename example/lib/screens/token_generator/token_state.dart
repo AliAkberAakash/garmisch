@@ -143,6 +143,168 @@ class BorderRadiusState {
   }
 }
 
+/// Sizing token values (similar to spacing but with extended values)
+class SizingState {
+  final Map<String, double> values;
+
+  SizingState(this.values);
+
+  factory SizingState.defaults() {
+    return SizingState({
+      'none': 0,
+      'px': 1,
+      'xs4': 2,
+      'xs3': 4,
+      'xs2': 6,
+      'xs': 8,
+      'sm': 12,
+      'md': 16,
+      'lg': 20,
+      'xl': 24,
+      'xl2': 32,
+      'xl3': 40,
+      'xl4': 48,
+      'xl5': 56,
+      'xl6': 64,
+      'xl7': 80,
+      'xl8': 96,
+      'xl9': 112,
+      'xl10': 128,
+      'xl11': 144,
+      'xl12': 160,
+      'xl13': 176,
+      'xl14': 192,
+      'xl15': 208,
+      'xl16': 224,
+      'xl17': 240,
+      'xl18': 256,
+      'xl19': 288,
+      'xl20': 320,
+      'xl21': 384,
+    });
+  }
+
+  SizingState copyWith({Map<String, double>? values}) {
+    return SizingState(values ?? Map.from(this.values));
+  }
+}
+
+/// Border width token values
+class BorderWidthState {
+  final Map<String, double> values;
+
+  BorderWidthState(this.values);
+
+  factory BorderWidthState.defaults() {
+    return BorderWidthState({
+      'none': 0,
+      'thin': 1,
+      'medium': 2,
+      'thick': 4,
+    });
+  }
+
+  BorderWidthState copyWith({Map<String, double>? values}) {
+    return BorderWidthState(values ?? Map.from(this.values));
+  }
+}
+
+/// Opacity token values
+class OpacityState {
+  final Map<String, double> values;
+
+  OpacityState(this.values);
+
+  factory OpacityState.defaults() {
+    return OpacityState({
+      'transparent': 0,
+      'o5': 0.05,
+      'o10': 0.10,
+      'o20': 0.20,
+      'o25': 0.25,
+      'o30': 0.30,
+      'o40': 0.40,
+      'o50': 0.50,
+      'o60': 0.60,
+      'o70': 0.70,
+      'o75': 0.75,
+      'o80': 0.80,
+      'o90': 0.90,
+      'o95': 0.95,
+      'opaque': 1.0,
+    });
+  }
+
+  OpacityState copyWith({Map<String, double>? values}) {
+    return OpacityState(values ?? Map.from(this.values));
+  }
+}
+
+/// Duration token values (in milliseconds)
+class DurationState {
+  final Map<String, int> values;
+
+  DurationState(this.values);
+
+  factory DurationState.defaults() {
+    return DurationState({
+      'instant': 0,
+      'fastest': 50,
+      'faster': 100,
+      'fast': 150,
+      'normal': 200,
+      'slow': 300,
+      'slower': 400,
+      'slowest': 500,
+    });
+  }
+
+  DurationState copyWith({Map<String, int>? values}) {
+    return DurationState(values ?? Map.from(this.values));
+  }
+}
+
+/// Breakpoint token values
+class BreakpointState {
+  final Map<String, double> values;
+
+  BreakpointState(this.values);
+
+  factory BreakpointState.defaults() {
+    return BreakpointState({
+      'xs': 0,
+      'sm': 576,
+      'md': 768,
+      'lg': 992,
+      'xl': 1200,
+      'xl2': 1400,
+    });
+  }
+
+  BreakpointState copyWith({Map<String, double>? values}) {
+    return BreakpointState(values ?? Map.from(this.values));
+  }
+}
+
+/// Font family token values
+class FontFamilyState {
+  final Map<String, String> values;
+
+  FontFamilyState(this.values);
+
+  factory FontFamilyState.defaults() {
+    return FontFamilyState({
+      'sans': 'Inter',
+      'serif': 'Georgia',
+      'mono': 'JetBrains Mono',
+    });
+  }
+
+  FontFamilyState copyWith({Map<String, String>? values}) {
+    return FontFamilyState(values ?? Map.from(this.values));
+  }
+}
+
 /// Shadow token values
 class ShadowValue {
   final Color color;
@@ -373,7 +535,13 @@ class TokenState extends ChangeNotifier {
   Map<String, ColorPaletteState> colorPalettes;
   SystemColorsState systemColors;
   SpacingState spacing;
+  SizingState sizing;
   BorderRadiusState borderRadius;
+  BorderWidthState borderWidth;
+  OpacityState opacity;
+  DurationState duration;
+  BreakpointState breakpoints;
+  FontFamilyState fontFamily;
   ShadowState shadows;
   TypographyState typography;
 
@@ -381,7 +549,13 @@ class TokenState extends ChangeNotifier {
     required this.colorPalettes,
     required this.systemColors,
     required this.spacing,
+    required this.sizing,
     required this.borderRadius,
+    required this.borderWidth,
+    required this.opacity,
+    required this.duration,
+    required this.breakpoints,
+    required this.fontFamily,
     required this.shadows,
     required this.typography,
   });
@@ -391,7 +565,13 @@ class TokenState extends ChangeNotifier {
       colorPalettes: _defaultColorPalettes(),
       systemColors: SystemColorsState(),
       spacing: SpacingState.defaults(),
+      sizing: SizingState.defaults(),
       borderRadius: BorderRadiusState.defaults(),
+      borderWidth: BorderWidthState.defaults(),
+      opacity: OpacityState.defaults(),
+      duration: DurationState.defaults(),
+      breakpoints: BreakpointState.defaults(),
+      fontFamily: FontFamilyState.defaults(),
       shadows: ShadowState.defaults(),
       typography: TypographyState.defaults(),
     );
@@ -681,9 +861,45 @@ class TokenState extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Updates a sizing value
+  void updateSizing(String key, double value) {
+    sizing.values[key] = value;
+    notifyListeners();
+  }
+
   /// Updates a border radius value
   void updateBorderRadius(String key, double value) {
     borderRadius.values[key] = value;
+    notifyListeners();
+  }
+
+  /// Updates a border width value
+  void updateBorderWidth(String key, double value) {
+    borderWidth.values[key] = value;
+    notifyListeners();
+  }
+
+  /// Updates an opacity value
+  void updateOpacity(String key, double value) {
+    opacity.values[key] = value;
+    notifyListeners();
+  }
+
+  /// Updates a duration value
+  void updateDuration(String key, int value) {
+    duration.values[key] = value;
+    notifyListeners();
+  }
+
+  /// Updates a breakpoint value
+  void updateBreakpoint(String key, double value) {
+    breakpoints.values[key] = value;
+    notifyListeners();
+  }
+
+  /// Updates a font family value
+  void updateFontFamily(String key, String value) {
+    fontFamily.values[key] = value;
     notifyListeners();
   }
 
@@ -721,7 +937,13 @@ class TokenState extends ChangeNotifier {
     colorPalettes = _defaultColorPalettes();
     systemColors = SystemColorsState();
     spacing = SpacingState.defaults();
+    sizing = SizingState.defaults();
     borderRadius = BorderRadiusState.defaults();
+    borderWidth = BorderWidthState.defaults();
+    opacity = OpacityState.defaults();
+    duration = DurationState.defaults();
+    breakpoints = BreakpointState.defaults();
+    fontFamily = FontFamilyState.defaults();
     shadows = ShadowState.defaults();
     typography = TypographyState.defaults();
     notifyListeners();
@@ -793,32 +1015,13 @@ class TokenState extends ChangeNotifier {
   }
 
   Map<String, dynamic> _exportSizing() {
-    // Sizing uses same values as spacing plus extended values
     final result = <String, dynamic>{
       '\$description': 'Size tokens for widths, heights, and dimensions',
     };
-    for (final entry in spacing.values.entries) {
+    for (final entry in sizing.values.entries) {
       result[entry.key] = {
         '\$type': 'dimension',
         '\$value': '${entry.value.toInt()}px',
-      };
-    }
-    // Add extended sizing tokens
-    final extendedSizes = {
-      'xl13': 176,
-      'xl14': 192,
-      'xl15': 208,
-      'xl16': 224,
-      'xl17': 240,
-      'xl18': 256,
-      'xl19': 288,
-      'xl20': 320,
-      'xl21': 384,
-    };
-    for (final entry in extendedSizes.entries) {
-      result[entry.key] = {
-        '\$type': 'dimension',
-        '\$value': '${entry.value}px',
       };
     }
     return result;
@@ -838,48 +1041,42 @@ class TokenState extends ChangeNotifier {
   }
 
   Map<String, dynamic> _exportBorderWidth() {
-    return {
+    final result = <String, dynamic>{
       '\$description': 'Border width tokens',
-      'none': {'\$type': 'dimension', '\$value': '0px'},
-      'thin': {'\$type': 'dimension', '\$value': '1px'},
-      'medium': {'\$type': 'dimension', '\$value': '2px'},
-      'thick': {'\$type': 'dimension', '\$value': '4px'},
     };
+    for (final entry in borderWidth.values.entries) {
+      result[entry.key] = {
+        '\$type': 'dimension',
+        '\$value': '${entry.value.toInt()}px',
+      };
+    }
+    return result;
   }
 
   Map<String, dynamic> _exportOpacity() {
-    return {
+    final result = <String, dynamic>{
       '\$description': 'Opacity tokens for transparency levels',
-      'transparent': {'\$type': 'number', '\$value': 0},
-      'o5': {'\$type': 'number', '\$value': 0.05},
-      'o10': {'\$type': 'number', '\$value': 0.10},
-      'o20': {'\$type': 'number', '\$value': 0.20},
-      'o25': {'\$type': 'number', '\$value': 0.25},
-      'o30': {'\$type': 'number', '\$value': 0.30},
-      'o40': {'\$type': 'number', '\$value': 0.40},
-      'o50': {'\$type': 'number', '\$value': 0.50},
-      'o60': {'\$type': 'number', '\$value': 0.60},
-      'o70': {'\$type': 'number', '\$value': 0.70},
-      'o75': {'\$type': 'number', '\$value': 0.75},
-      'o80': {'\$type': 'number', '\$value': 0.80},
-      'o90': {'\$type': 'number', '\$value': 0.90},
-      'o95': {'\$type': 'number', '\$value': 0.95},
-      'opaque': {'\$type': 'number', '\$value': 1.0},
     };
+    for (final entry in opacity.values.entries) {
+      result[entry.key] = {
+        '\$type': 'number',
+        '\$value': entry.value,
+      };
+    }
+    return result;
   }
 
   Map<String, dynamic> _exportDuration() {
-    return {
+    final result = <String, dynamic>{
       '\$description': 'Animation and transition duration tokens',
-      'instant': {'\$type': 'duration', '\$value': '0ms'},
-      'fastest': {'\$type': 'duration', '\$value': '50ms'},
-      'faster': {'\$type': 'duration', '\$value': '100ms'},
-      'fast': {'\$type': 'duration', '\$value': '150ms'},
-      'normal': {'\$type': 'duration', '\$value': '200ms'},
-      'slow': {'\$type': 'duration', '\$value': '300ms'},
-      'slower': {'\$type': 'duration', '\$value': '400ms'},
-      'slowest': {'\$type': 'duration', '\$value': '500ms'},
     };
+    for (final entry in duration.values.entries) {
+      result[entry.key] = {
+        '\$type': 'duration',
+        '\$value': '${entry.value}ms',
+      };
+    }
+    return result;
   }
 
   Map<String, dynamic> _exportEasing() {
@@ -962,24 +1159,29 @@ class TokenState extends ChangeNotifier {
   }
 
   Map<String, dynamic> _exportBreakpoints() {
-    return {
+    final result = <String, dynamic>{
       '\$description': 'Responsive breakpoint tokens',
-      'xs': {'\$type': 'dimension', '\$value': '0px'},
-      'sm': {'\$type': 'dimension', '\$value': '576px'},
-      'md': {'\$type': 'dimension', '\$value': '768px'},
-      'lg': {'\$type': 'dimension', '\$value': '992px'},
-      'xl': {'\$type': 'dimension', '\$value': '1200px'},
-      'xl2': {'\$type': 'dimension', '\$value': '1400px'},
     };
+    for (final entry in breakpoints.values.entries) {
+      result[entry.key] = {
+        '\$type': 'dimension',
+        '\$value': '${entry.value.toInt()}px',
+      };
+    }
+    return result;
   }
 
   Map<String, dynamic> _exportFontFamily() {
-    return {
+    final result = <String, dynamic>{
       '\$description': 'Font family tokens',
-      'sans': {'\$type': 'fontFamily', '\$value': 'Inter'},
-      'serif': {'\$type': 'fontFamily', '\$value': 'Georgia'},
-      'mono': {'\$type': 'fontFamily', '\$value': 'JetBrains Mono'},
     };
+    for (final entry in fontFamily.values.entries) {
+      result[entry.key] = {
+        '\$type': 'fontFamily',
+        '\$value': entry.value,
+      };
+    }
+    return result;
   }
 
   Map<String, dynamic> _exportFontFamilyFallback() {
