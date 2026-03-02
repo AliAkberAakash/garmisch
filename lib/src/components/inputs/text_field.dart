@@ -68,6 +68,7 @@ class GTextField extends StatefulWidget {
     this.autofocus = false,
     this.autocorrect = true,
     this.enableSuggestions = true,
+    this.scrollPadding = const EdgeInsets.all(20.0),
   });
 
   /// Text editing controller
@@ -156,6 +157,9 @@ class GTextField extends StatefulWidget {
 
   /// Whether to enable suggestions
   final bool enableSuggestions;
+
+  /// Padding around the field when scrolled into view
+  final EdgeInsets scrollPadding;
 
   @override
   State<GTextField> createState() => _GTextFieldState();
@@ -289,6 +293,7 @@ class _GTextFieldState extends State<GTextField> {
                     autofocus: widget.autofocus,
                     autocorrect: widget.autocorrect,
                     enableSuggestions: widget.enableSuggestions,
+                    scrollPadding: widget.scrollPadding,
                     style: dimensions.textStyle.copyWith(
                       color: widget.isDisabled
                           ? colors.onSurface.withValues(alpha: opacity.disabled)
